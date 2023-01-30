@@ -4,6 +4,7 @@ import {
 import { router } from './routes'
 
 const App = () => {
+  console.log(router)
   return (
         <RouterProvider router={ router } />
   )

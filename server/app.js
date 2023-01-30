@@ -6,6 +6,6 @@ const PORT = 5000;
 
 app.listen(
     PORT,
-    console.log("servet is running")
+    console.log("server is running")
 )
 

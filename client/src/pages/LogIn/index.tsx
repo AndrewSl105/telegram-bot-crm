@@ -1,20 +1,38 @@
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import AuthContainer from '../../containers/AuthContainer'
 import AuthCardContainer from '../../containers/AuthCardContainer'
 import AuthInput from '../../components/AuthInput'
+import bot from '../../media/images/bot.png'
+import { Outlet } from 'react-router-dom'
 
 const styles = {
-  h3: {
+  h4: {
     color: 'rgb(103, 58, 183)',
-    marginBottom: '2rem'
+    marginBottom: '1rem',
+    marginTop: '2rem'
+  },
+  imageCont: {
+    borderRadius: '50%',
+    width: '240px',
+    height: '240px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: 'rgb(103, 58, 183)',
+    img: {
+      width: 'inherit'
+    }
   }
 }
 
 const Index = () => {
   return (
         <AuthContainer>
-            <Typography variant="h3" sx={styles.h3}>
-                Create new account
+            <Box sx={styles.imageCont}>
+                <img alt="bot" src={bot} />
+            </Box>
+            <Typography variant="h4" sx={styles.h4}>
+                Registration
             </Typography>
             <AuthCardContainer>
                 <AuthInput label='Username' type="text"/>
