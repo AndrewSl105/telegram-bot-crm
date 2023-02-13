@@ -63,11 +63,11 @@ const DashBoard = (props: Props) => {
             <List>
                 {links.map((el, index) => (
                     <ListItem sx={{
-                        a: {
-                            textDecoration: "none",
-                            width: '100%',
-                            color: 'black'
-                        }
+                      a: {
+                        textDecoration: 'none',
+                        width: '100%',
+                        color: 'black'
+                      }
                     }} key={el.title} disablePadding>
                         <Link to={el.path}>
                             <ListItemButton>
