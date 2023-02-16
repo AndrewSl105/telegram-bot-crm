@@ -1,45 +1,21 @@
-import React, {useState} from "react";
-import {Box} from "@mui/material";
-import KanbanColumn from "../../../../components/KanbanColumn";
-import setTaskColorState from "../../../../utils";
+import React, { useEffect, useState } from 'react'
+import { Box } from '@mui/material'
+import KanbanColumn from '../../../../components/KanbanColumn'
+import { columnsData } from '../data'
 
 const styles = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    border: '1.5px solid #1976d2',
-    height: 'calc(100vh - 120px)',
-    borderRadius: '10px'
+  display: 'flex',
+  justifyContent: 'space-between',
+  height: 'calc(100vh - 120px)'
 }
 
-const MainBoard = () => {
-    const [columns, setColumns] = useState([
-        {
-            name: 'new',
-            items: [
-                {
-                    title: 'Task1',
-                    description: 'firstOne',
-                    assignee: 'Me',
-                    estimate: 3
-                }
-            ],
-        },
-        {
-            name: 'in progress',
-            items: [],
-        },
-        {
-            name: 'resolved',
-            items: [],
-        },
-    ])
+const MainBoard = (): React.ReactElement => {
+  const [columns, setColumns] = useState(columnsData)
 
-    console.log(setTaskColorState(2))
-
-    return (
+  return (
       <Box sx={styles}>
           {columns.map(item => {
-              return <KanbanColumn key={item.name} column={item} />
+            return <KanbanColumn columns={columns} setColumns={setColumns} key={item.name} column={item} />
           })}
       </Box>
   )

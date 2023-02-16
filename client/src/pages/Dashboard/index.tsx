@@ -18,7 +18,6 @@ import Typography from '@mui/material/Typography'
 import {
   Link, Outlet
 } from 'react-router-dom'
-import Team from './DashBoardPages/Team'
 
 const drawerWidth = 240
 

@@ -1,67 +1,41 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import * as React from 'react'
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
+import Avatar from '@mui/material/Avatar'
+import Typography from '@mui/material/Typography'
+import { red } from '@mui/material/colors'
+import { styles } from './styles'
+import { type TaskCartProps } from '../../interfaces'
 
-const styles = {
-    main: {
-        padding: '1rem',
-        borderRadius: '5px',
+const TaskCart = (props: TaskCartProps): React.ReactElement => {
+  const { title, description, assignee, estimate, id } = props
 
-    }
-}
-interface TaskCartProps {
-    title: string,
-    description: string,
-    assignee: string,
-    estimate: number
-}
-const TaskCart = (props: TaskCartProps) => {
-    const {title, description, assignee, estimate} = props;
+  const onDragStart = (event: React.DragEvent<HTMLDivElement>): void => {
+    event.dataTransfer.setData('id', id)
+  }
 
-    return (
-        <Card sx={{ maxWidth: 345 }}>
+  return (
+        <Card draggable="true" onDragStart={onDragStart} sx={styles.main}>
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                         R
                     </Avatar>
                 }
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                }
                 title={assignee}
                 subheader={estimate}
             />
             <CardContent>
-                <Typography variant="h5" >
+                <Typography sx={styles.title} variant="h5" >
                     {title}
                 </Typography>
-                <Typography variant="body2" color="text.secondary2">
+                <Typography sx={styles.description} variant="body2" color="text.secondary2">
                     {description}
                 </Typography>
             </CardContent>
-            <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="share">
-                    <ShareIcon />
-                </IconButton>
-            </CardActions>
         </Card>
-    )
+  )
 }
 
-export default TaskCart;
+export default TaskCart
