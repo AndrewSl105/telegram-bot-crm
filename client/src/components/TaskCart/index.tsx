@@ -6,9 +6,9 @@ import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
 import { styles } from './styles'
-import { type TaskCartProps } from '../../interfaces'
+import { type TaskCartInterface } from '../../interfaces'
 
-const TaskCart = (props: TaskCartProps): React.ReactElement => {
+const TaskCart = (props: TaskCartInterface): React.ReactElement => {
   const { title, description, assignee, estimate, id } = props
 
   const onDragStart = (event: React.DragEvent<HTMLDivElement>): void => {

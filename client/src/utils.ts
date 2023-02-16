@@ -1,6 +1,5 @@
-const a: string = 'Hello function!'
+import { type ColumnInterface } from './interfaces'
 
-const setTaskColorState = (time: number): string => {
-  return time < 1 ? 'red' : 'white'
+export const findDropColumn = (columns: ColumnInterface[], id: string): ColumnInterface | undefined => {
+  return columns.find((el) => el.id === id)
 }
-export default setTaskColorState

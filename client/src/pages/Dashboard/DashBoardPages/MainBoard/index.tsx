@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Box } from '@mui/material'
 import KanbanColumn from '../../../../components/KanbanColumn'
 import { columnsData } from '../data'
@@ -15,7 +15,7 @@ const MainBoard = (): React.ReactElement => {
   return (
       <Box sx={styles}>
           {columns.map(item => {
-            return <KanbanColumn columns={columns} setColumns={setColumns} key={item.name} column={item} />
+            return <KanbanColumn setColumns={setColumns} key={item.name} column={item} />
           })}
       </Box>
   )

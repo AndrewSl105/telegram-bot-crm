@@ -2,48 +2,35 @@ import { Box, Typography } from '@mui/material'
 import TaskCart from '../TaskCart'
 import { styles } from './styles'
 import * as React from 'react'
+import {
+  type ColumnInterface,
+  type KanbanColumnInterface,
+  type TaskCartInterface
+} from '../../interfaces'
+import { findDropColumn } from '../../utils'
 
-interface KanbanColumnProps {
-  column: {
-    name: string
-    id: string
-    items: Array<{
-      title: string
-      description: string
-      assignee: string
-      estimate: number
-      id: string
-    }>
-  }
-  setColumns: (value: []) => []
-}
-
-const KanbanColumn = (props: KanbanColumnProps): React.ReactElement => {
-  const enableDropping = (event: React.DragEvent<HTMLDivElement>) => {
+const KanbanColumn = (props: KanbanColumnInterface): React.ReactElement => {
+  const enableDropping = (event: React.DragEvent<HTMLDivElement>): any => {
     event.preventDefault()
   }
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>): any => {
     const id = event.dataTransfer.getData('id')
-    props.setColumns((prevColumns) => {
-
-      const dragedColumn = prevColumns.filter(column => {
-        return column.items.some(el => {
+    props.setColumns((prevColumns: any) => {
+      const dragedColumn = prevColumns.filter((column: ColumnInterface) => {
+        return column.items.some((el: TaskCartInterface) => {
           return el.id === id
         })
       })
 
-      console.log(props.column.name)
-
-      const dragedTask = dragedColumn[0].items.find(el => el.id === id)
-
+      const dragTask = dragedColumn[0].items.find((el: TaskCartInterface) => el.id === id)
 
       const newColumns = prevColumns
 
-      const dropdColumn = newColumns.find(el => el.id === props.column.id)
+      const dropColumn = findDropColumn(newColumns, props.column.id)
 
-      dropdColumn.items.push(dragedTask)
-      dragedColumn[0].items.pop(dragedTask)
+      dropColumn?.items.push(dragTask)
+      dragedColumn[0].items.pop(dragTask)
 
       return [...newColumns]
     })
