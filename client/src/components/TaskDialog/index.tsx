@@ -11,7 +11,7 @@ interface DialogProps {
 export default function TaskDialog (props: DialogProps): React.ReactElement {
   console.log(props)
 
-  const handleClose = (e): void => {
+  const handleClose = (e: React.MouseEvent): void => {
     e.preventDefault()
     e.stopPropagation()
     props.dispatch(hide())

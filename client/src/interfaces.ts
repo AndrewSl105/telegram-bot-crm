@@ -22,5 +22,4 @@ export interface ColumnInterface {
 
 export interface KanbanColumnInterface {
   column: ColumnInterface
-  setColumns: (value: (prevColumns: any) => any[]) => any
 }

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import React from 'react'
+import React, { type ReactElement } from 'react'
 import { type SxProps, type Theme } from '@mui/material/styles'
 
 const styles = {
@@ -16,7 +16,7 @@ interface AuthContainerProps {
   sx?: SxProps<Theme>
 }
 
-const AuthContainer = (props: AuthContainerProps) => {
+const AuthContainer = (props: AuthContainerProps): ReactElement => {
   return (
         <Box sx={styles}>
             { props.children }

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { dialogSlice } from './slices/dialog'
+import { reducers } from './rootReducer'
 
 export const store = configureStore({
-  reducer: dialogSlice.reducer
+  reducer: reducers
 })

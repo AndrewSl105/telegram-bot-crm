@@ -3,38 +3,25 @@ import TaskCart from '../TaskCart'
 import { styles } from './styles'
 import * as React from 'react'
 import {
-  type ColumnInterface,
-  type KanbanColumnInterface,
-  type TaskCartInterface
+  type KanbanColumnInterface
 } from '../../interfaces'
-import { findDropColumn } from '../../utils'
+import { useDispatch } from 'react-redux'
+import { updateKanban } from '../../slices/kanbanTask'
 
 const KanbanColumn = (props: KanbanColumnInterface): React.ReactElement => {
   const enableDropping = (event: React.DragEvent<HTMLDivElement>): any => {
     event.preventDefault()
   }
 
+  const dispatch = useDispatch()
+
   const handleDrop = (event: React.DragEvent<HTMLDivElement>): any => {
     const id = event.dataTransfer.getData('id')
-    props.setColumns((prevColumns: any) => {
-      const dragedColumn = prevColumns.filter((column: ColumnInterface) => {
-        return column.items.some((el: TaskCartInterface) => {
-          return el.id === id
-        })
-      })
-
-      const dragTask = dragedColumn[0].items.find((el: TaskCartInterface) => el.id === id)
-
-      const newColumns = prevColumns
-
-      const dropColumn = findDropColumn(newColumns, props.column.id)
-
-      dropColumn?.items.push(dragTask)
-      dragedColumn[0].items.pop(dragTask)
-
-      return [...newColumns]
-    })
-
+    console.log(props.column.id, props.column.name)
+    dispatch(updateKanban({
+      id,
+      columnId: props.column.id
+    }))
     console.log(`Somebody dropped an element with id: ${id}`)
   }
 

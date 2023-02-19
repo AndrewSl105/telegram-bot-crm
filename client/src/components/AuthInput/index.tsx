@@ -1,5 +1,5 @@
 import { Box, TextField } from '@mui/material'
-import React from 'react'
+import React, { type ReactElement } from 'react'
 import { type SxProps, type Theme } from '@mui/material/styles'
 
 const styles = {
@@ -16,7 +16,7 @@ interface AuthInputProps {
   type: string
 }
 
-const AuthInput = (props: AuthInputProps) => {
+const AuthInput = (props: AuthInputProps): ReactElement => {
   console.log(props)
   return (
         <Box sx={{

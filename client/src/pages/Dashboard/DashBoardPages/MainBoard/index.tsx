@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Box } from '@mui/material'
 import KanbanColumn from '../../../../components/KanbanColumn'
-import { columnsData } from '../data'
+import { useDispatch, useSelector } from 'react-redux'
+import { getKanban, type KanbanDataState } from '../../../../slices/kanbanTask'
 
 const styles = {
   display: 'flex',
@@ -10,12 +11,19 @@ const styles = {
 }
 
 const MainBoard = (): React.ReactElement => {
-  const [columns, setColumns] = useState(columnsData)
+  const columns = useSelector((state: KanbanDataState) => state.kanban.data)
+  const dispatch = useDispatch()
+
+  console.log(columns)
+
+  useEffect(() => {
+    dispatch(getKanban())
+  }, [dispatch])
 
   return (
       <Box sx={styles}>
-          {columns.map(item => {
-            return <KanbanColumn setColumns={setColumns} key={item.name} column={item} />
+          {columns?.map(item => {
+            return <KanbanColumn key={item.name} column={item} />
           })}
       </Box>
   )

@@ -45,7 +45,6 @@ const TaskCart = (props: TaskCartInterface): React.ReactElement => {
                 <Typography sx={styles.description} variant="body2" color="text.secondary2">
                     {description}
                 </Typography>
-                <DialogRoot />
             </CardContent>
         </Card>
   )

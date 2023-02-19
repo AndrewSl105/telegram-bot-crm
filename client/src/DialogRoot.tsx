@@ -16,15 +16,15 @@ const DialogRoot = (): ReactElement => {
   const SpecificDialog = DIALOG_COMPONENTS[dialogType]
 
   return (
-        <div>
+        <>
             {
-                SpecificDialog
+                SpecificDialog !== undefined
                   ? (
                     <SpecificDialog open={open} dispatch={dispatch} />
                     )
                   : null
             }
-        </div>
+        </>
   )
 }
 

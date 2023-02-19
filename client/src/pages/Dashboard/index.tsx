@@ -18,6 +18,7 @@ import Typography from '@mui/material/Typography'
 import {
   Link, Outlet
 } from 'react-router-dom'
+import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 
 const drawerWidth = 240
 
@@ -25,7 +26,7 @@ interface Props {
   window?: () => Window
 }
 
-const DashBoard = (props: Props) => {
+const DashBoard = (props: Props): ReactJSXElement => {
   const { window } = props
   const [mobileOpen, setMobileOpen] = React.useState(false)
 
