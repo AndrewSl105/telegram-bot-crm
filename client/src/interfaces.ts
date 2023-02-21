@@ -1,12 +1,4 @@
-export interface TaskCartInterface {
-  title: string
-  description: string
-  assignee: string
-  estimate: number
-  id: string
-}
-
-export interface ColumnItemsInterface {
+export interface CardInterface {
   title: string
   description: string
   assignee: string
@@ -17,9 +9,18 @@ export interface ColumnItemsInterface {
 export interface ColumnInterface {
   name: string
   id: string
-  items: ColumnItemsInterface[]
+  items: CardInterface[]
 }
 
-export interface KanbanColumnInterface {
-  column: ColumnInterface
+export interface BoardInterface {
+  kanban: {
+    board: {
+      environmentName: string
+      columns: ColumnInterface[]
+    }
+  }
+}
+
+export interface getBoardActionInterface {
+  type: 'kanban'
 }

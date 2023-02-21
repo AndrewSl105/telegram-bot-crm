@@ -6,13 +6,12 @@ import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
 import { styles } from './styles'
-import { type TaskCartInterface } from '../../interfaces'
 import { useDispatch } from 'react-redux'
-import { show } from '../../slices/dialog'
-import { TASK_DIALOG } from '../../constants'
-import DialogRoot from '../../DialogRoot'
+import { show } from '../../../../slices/dialog'
+import { TASK_DIALOG } from '../../../../constants'
+import { type CardInterface } from '../../../../interfaces'
 
-const TaskCart = (props: TaskCartInterface): React.ReactElement => {
+const BoardCard = (props: CardInterface): React.ReactElement => {
   const { title, description, assignee, estimate, id } = props
 
   const dispatch = useDispatch()
@@ -24,8 +23,6 @@ const TaskCart = (props: TaskCartInterface): React.ReactElement => {
   const showTaskModal = (): void => {
     dispatch(show(TASK_DIALOG))
   }
-
-  console.log(DialogRoot)
 
   return (
         <Card onClick={showTaskModal} draggable="true" onDragStart={onDragStart} sx={styles.main}>
@@ -50,4 +47,4 @@ const TaskCart = (props: TaskCartInterface): React.ReactElement => {
   )
 }
 
-export default TaskCart
+export default BoardCard

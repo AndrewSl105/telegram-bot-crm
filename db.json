@@ -6,7 +6,10 @@
       "assignee": "Me",
       "estimate": 3,
       "id": "1",
-      "status": "new"
+      "status": "new",
+      "user": "and",
+      "phoneNumber": "099978780",
+      "till": "04.06.2023"
     },
     {
       "title": "Task4",
@@ -14,7 +17,43 @@
       "assignee": "Me",
       "estimate": 3,
       "id": "2",
-      "status": "new"
+      "status": "new",
+      "user": "and",
+      "phoneNumber": "099978780",
+      "till": "04.06.2023"
+    },
+    {
+      "title": "Task4",
+      "description": "Name were we at hope. Remainder household direction zealously the unwilling bed sex. Lose and gay ham sake met that. Stood her place one ten spoke yet. Head case knew ever set why over. Marianne returned of peculiar replying in moderate. Roused get enable garret estate old county. Entreaties you devonshire law dissimilar terminated.",
+      "assignee": "Me",
+      "estimate": 3,
+      "id": "2",
+      "status": "in progress",
+      "user": "and",
+      "phoneNumber": "099978780",
+      "till": "04.06.2023"
+    },
+    {
+      "title": "Task4",
+      "description": "Name were we at hope. Remainder household direction zealously the unwilling bed sex. Lose and gay ham sake met that. Stood her place one ten spoke yet. Head case knew ever set why over. Marianne returned of peculiar replying in moderate. Roused get enable garret estate old county. Entreaties you devonshire law dissimilar terminated.",
+      "assignee": "Me",
+      "estimate": 3,
+      "id": "2",
+      "status": "resolved",
+      "user": "and",
+      "phoneNumber": "099978780",
+      "till": "04.06.2023"
+    },
+    {
+      "title": "Task4",
+      "description": "Name were we at hope. Remainder household direction zealously the unwilling bed sex. Lose and gay ham sake met that. Stood her place one ten spoke yet. Head case knew ever set why over. Marianne returned of peculiar replying in moderate. Roused get enable garret estate old county. Entreaties you devonshire law dissimilar terminated.",
+      "assignee": "Me",
+      "estimate": 3,
+      "id": "2",
+      "status": "closed",
+      "user": "and",
+      "phoneNumber": "099978780",
+      "till": "04.06.2023"
     }
   ]
 }
