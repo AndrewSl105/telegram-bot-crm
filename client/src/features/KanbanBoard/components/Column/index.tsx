@@ -3,18 +3,20 @@ import { styles } from './styles'
 import * as React from 'react'
 import { type ColumnInterface } from '../../../../interfaces'
 import BoardCard from '../Card'
+import { useDispatch } from 'react-redux'
+import { updateCardStatus } from '../../../../slices/kanban'
 
 const Column = (props: ColumnInterface): React.ReactElement => {
+  const dispatch = useDispatch()
   const enableDropping = (event: React.DragEvent<HTMLDivElement>): any => {
     event.preventDefault()
   }
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>): any => {
     const id = event.dataTransfer.getData('id')
+    // dispatch(updateCardStatus(id, props.name))
     console.log(`Somebody dropped an element with id: ${id}`)
   }
-
-  console.log(props.items)
 
   return (
         <Box onDragOver={enableDropping} onDrop={handleDrop} sx={styles.main}>
@@ -30,8 +32,9 @@ const Column = (props: ColumnInterface): React.ReactElement => {
                         description={item.description}
                         assignee={item.assignee}
                         estimate={item.estimate}
-                        id={item.id}
-                        key={item.id}
+                        _id={item._id}
+                        key={item._id}
+                        dropColumnId={props._id}
                     />
                 })}
             </Box>

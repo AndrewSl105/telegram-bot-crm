@@ -18,10 +18,13 @@ const CardSchema = mongoose.Schema(
         },
         user: {
             type: String,
-        }
-    },
-    {
-        timestamps: true,
+        },
+        phoneNumber: {
+            type: String,
+        },
+        till: {
+            type: String,
+        },
     }
 )
 

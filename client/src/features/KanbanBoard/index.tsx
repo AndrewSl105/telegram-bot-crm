@@ -16,8 +16,6 @@ const KanbanBoard = (): React.ReactElement => {
   const board = useSelector((state: BoardInterface) => state.kanban.board)
   const dispatch = useAppDispatch()
 
-  console.log(board)
-
   useEffect(() => {
     void dispatch(getBoardAction())
   }, [dispatch])
@@ -28,7 +26,11 @@ const KanbanBoard = (): React.ReactElement => {
             board !== undefined
               ? (
                   board.columns?.map(column => {
-                    return <Column key={column.id} name={column.name} id={column.id} items={column.items} />
+                    return <Column
+                        key={column._id}
+                        name={column.name}
+                        _id={column._id}
+                        items={column.items} />
                   })
                 )
               : null

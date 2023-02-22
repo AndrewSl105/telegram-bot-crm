@@ -12,12 +12,12 @@ import { TASK_DIALOG } from '../../../../constants'
 import { type CardInterface } from '../../../../interfaces'
 
 const BoardCard = (props: CardInterface): React.ReactElement => {
-  const { title, description, assignee, estimate, id } = props
+  const { title, description, assignee, estimate, _id } = props
 
   const dispatch = useDispatch()
 
   const onDragStart = (event: React.DragEvent<HTMLDivElement>): void => {
-    event.dataTransfer.setData('id', id)
+    event.dataTransfer.setData('id', _id)
   }
 
   const showTaskModal = (): void => {

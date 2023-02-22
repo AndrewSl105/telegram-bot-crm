@@ -3,12 +3,14 @@ export interface CardInterface {
   description: string
   assignee: string
   estimate: number
-  id: string
+  _id: string
+  dropColumnId: string
+  status: string
 }
 
 export interface ColumnInterface {
   name: string
-  id: string
+  _id: string
   items: CardInterface[]
 }
 
@@ -17,10 +19,7 @@ export interface BoardInterface {
     board: {
       environmentName: string
       columns: ColumnInterface[]
+      cards: CardInterface[]
     }
   }
-}
-
-export interface getBoardActionInterface {
-  type: 'kanban'
 }

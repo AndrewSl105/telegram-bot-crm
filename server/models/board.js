@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import Column from "./column.js";
+import Card from "./card.js";
 
 const BoardSchema = mongoose.Schema(
     {
@@ -7,7 +8,8 @@ const BoardSchema = mongoose.Schema(
            type: String,
            required: true,
         },
-        columns: [Column.schema]
+        columns: [Column.schema],
+        cards: [Card.schema]
     },
     {
         timestamps: true,
