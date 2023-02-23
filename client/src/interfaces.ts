@@ -4,8 +4,8 @@ export interface CardInterface {
   assignee: string
   estimate: number
   _id: string
-  dropColumnId: string
   status: string
+  index: number
 }
 
 export interface ColumnInterface {
@@ -22,4 +22,10 @@ export interface BoardInterface {
       cards: CardInterface[]
     }
   }
+}
+
+export interface Board {
+  environmentName: string
+  columns: ColumnInterface[]
+  cards: CardInterface[]
 }

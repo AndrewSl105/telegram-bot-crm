@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { Box } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { getBoardAction } from '../../slices/kanban'
+import { getBoardAction, updateCard } from '../../slices/kanban'
 import Column from './components/Column'
 import { type BoardInterface } from '../../interfaces'
 import { useAppDispatch } from '../../hook'
+import { DragDropContext } from 'react-beautiful-dnd'
 
 const styles = {
   display: 'flex',
@@ -20,22 +21,29 @@ const KanbanBoard = (): React.ReactElement => {
     void dispatch(getBoardAction())
   }, [dispatch])
 
+  const onDragEnd = (result): void => {
+    const { draggableId } = result
+    dispatch(updateCard(draggableId))
+  }
+
   return (
+      <DragDropContext onDragEnd={onDragEnd}>
         <Box sx={styles}>
           {
             board !== undefined
               ? (
                   board.columns?.map(column => {
                     return <Column
-                        key={column._id}
-                        name={column.name}
-                        _id={column._id}
-                        items={column.items} />
+                          key={column._id}
+                          name={column.name}
+                          _id={column._id}
+                          items={column.items} />
                   })
                 )
               : null
           }
-      </Box>
+        </Box>
+      </DragDropContext>
   )
 }
 
