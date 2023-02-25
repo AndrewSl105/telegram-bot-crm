@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import Card from "./card.js";
 
 const ColumnSchema = mongoose.Schema(
     {

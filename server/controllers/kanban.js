@@ -7,8 +7,21 @@ const getKanbanData = asyncHandler(async (req, res) => {
 })
 
 const updateTaskStatus = asyncHandler(async (req, res) => {
+    const { draggableId, destinationColumnId } = req.body
     const board = await Board.findOne({ environmentName: 'uma' })
-    console.log(req.body, board.columns)
+    const destinationColumn = board.columns.find((el) => el._id.toString() === destinationColumnId)
+    console.log(destinationColumn.name)
+
+    board.cards.map((el) => {
+        if (el._id.toString() === draggableId) {
+            el.status = destinationColumn.name
+        }
+        return el
+    })
+
+    console.log(board.cards)
+
+    res.status(200)
 
 })
 

@@ -15,17 +15,15 @@ export interface ColumnInterface {
 }
 
 export interface BoardInterface {
-  kanban: {
-    board: {
-      environmentName: string
-      columns: ColumnInterface[]
-      cards: CardInterface[]
-    }
-  }
-}
-
-export interface Board {
   environmentName: string
   columns: ColumnInterface[]
   cards: CardInterface[]
+}
+
+export interface Board {
+  kanban: {
+    environmentName: string
+    columns: ColumnInterface[]
+    cards: CardInterface[]
+  }
 }

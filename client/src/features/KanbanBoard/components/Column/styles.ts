@@ -5,6 +5,7 @@ export const styles = {
     flexFlow: 'column',
     border: '1px dashed rgba(145, 158, 171, 0.24)',
     borderRadius: '8px',
+    alignItems: 'center',
     marginLeft: '16px',
     marginRight: '16px',
     fontFamily: 'Public Sans, sans-serif !important',
@@ -27,6 +28,9 @@ export const styles = {
   list: {
     width: '100%',
     height: 'inherit',
-    padding: '0.5rem'
+    padding: '0.5rem',
+    flexFlow: 'column',
+    display: 'flex',
+    alignItems: 'center'
   }
 }

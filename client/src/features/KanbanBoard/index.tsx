@@ -1,29 +1,37 @@
 import React, { useEffect } from 'react'
 import { Box } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { getBoardAction, updateCard } from '../../slices/kanban'
+import {getBoardAction, updateCardStatus } from '../../slices/kanban'
 import Column from './components/Column'
-import { type BoardInterface } from '../../interfaces'
+import { type Board } from '../../interfaces'
 import { useAppDispatch } from '../../hook'
 import { DragDropContext } from 'react-beautiful-dnd'
 
 const styles = {
-  display: 'flex',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(4, 1fr)',
+  gridGap: '1rem',
   justifyContent: 'space-between',
   height: 'calc(100vh - 120px)'
 }
 
 const KanbanBoard = (): React.ReactElement => {
-  const board = useSelector((state: BoardInterface) => state.kanban.board)
+  const board = useSelector((state: Board) => state.kanban)
   const dispatch = useAppDispatch()
+
+  console.log(board)
 
   useEffect(() => {
     void dispatch(getBoardAction())
   }, [dispatch])
 
-  const onDragEnd = (result): void => {
+  const onDragEnd = (result: any): void => {
     const { draggableId } = result
-    dispatch(updateCard(draggableId))
+    const destinationColumnId = result.destination.droppableId
+
+    dispatch(updateCardStatus({
+      draggableId, destinationColumnId
+    }))
   }
 
   return (
