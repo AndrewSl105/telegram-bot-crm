@@ -1,4 +1,4 @@
-import {type Board, BoardInterface, type ColumnInterface} from './interfaces'
+import { type Board, type BoardInterface, type ColumnInterface } from './interfaces'
 import { CLOSED, IN_PROGRESS, NEW, RESOLVED } from './constants'
 
 export const findDropColumn = (columns: ColumnInterface[], id: string): ColumnInterface | undefined => {

@@ -23,7 +23,7 @@ app.use('/api/kanban', router)
 
 
 app.listen(
-    PORT,
+    process.env.DEFAULT_PORT,
     console.log("server is running")
 )
 

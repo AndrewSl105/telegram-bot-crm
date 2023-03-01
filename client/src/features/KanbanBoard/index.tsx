@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { Box } from '@mui/material'
 import { useSelector } from 'react-redux'
-import {getBoardAction, updateCardStatus } from '../../slices/kanban'
+import { getBoardAction, updateCardStatusAction } from '../../slices/kanban'
 import Column from './components/Column'
 import { type Board } from '../../interfaces'
 import { useAppDispatch } from '../../hook'
 import { DragDropContext } from 'react-beautiful-dnd'
+import DialogRoot from "../../DialogRoot";
 
 const styles = {
   display: 'grid',
@@ -19,8 +20,6 @@ const KanbanBoard = (): React.ReactElement => {
   const board = useSelector((state: Board) => state.kanban)
   const dispatch = useAppDispatch()
 
-  console.log(board)
-
   useEffect(() => {
     void dispatch(getBoardAction())
   }, [dispatch])
@@ -29,9 +28,9 @@ const KanbanBoard = (): React.ReactElement => {
     const { draggableId } = result
     const destinationColumnId = result.destination.droppableId
 
-    dispatch(updateCardStatus({
+    dispatch(updateCardStatusAction(
       draggableId, destinationColumnId
-    }))
+    ))
   }
 
   return (
@@ -51,6 +50,7 @@ const KanbanBoard = (): React.ReactElement => {
               : null
           }
         </Box>
+        <DialogRoot />
       </DragDropContext>
   )
 }

@@ -2,15 +2,22 @@ import { type ReactElement } from 'react'
 import { TASK_DIALOG } from './constants'
 import TaskDialog from './components/TaskDialog'
 import { useDispatch, useSelector } from 'react-redux'
-import { type DialogState } from './slices/dialog'
 
 const DIALOG_COMPONENTS = {
   [TASK_DIALOG]: TaskDialog
 }
 
+export interface Dialog {
+  dialogSlice: {
+    open: boolean
+    dialogType: string
+    dialogProps: []
+  }
+}
+
 const DialogRoot = (): ReactElement => {
-  const open = useSelector((state: DialogState) => state.open)
-  const dialogType = useSelector((state: DialogState) => state.dialogType)
+  const open = useSelector((state: Dialog) => state.dialogSlice.open)
+  const dialogType = useSelector((state: Dialog) => state.dialogSlice.dialogType)
   const dispatch = useDispatch()
 
   const SpecificDialog = DIALOG_COMPONENTS[dialogType]

@@ -13,8 +13,6 @@ export const kanbanBoardSlice = createSlice({
       const newState = state
       const { draggableId, destinationColumnId } = action.payload
 
-      console.log(draggableId, destinationColumnId)
-
       updateCardState(draggableId, destinationColumnId, newState)
       return buildBoard(newState)
     }
@@ -37,17 +35,15 @@ export function getBoardAction () {
   }
 }
 
-export function updateCardStatusAction (draggableId, destinationColumnId) {
+export function updateCardStatusAction (draggableId: string, destinationColumnId: string) {
   return async (dispatch: any) => {
     try {
-      console.log(true)
-      await axios.post('http://localhost:5000/api/kanban', {
-        draggableId, destinationColumnId
-      })
-      console.log(true)
       dispatch(kanbanBoardSlice.actions.updateCardStatus({
         draggableId, destinationColumnId
       }))
+      await axios.post('http://localhost:5000/api/kanban', {
+        draggableId, destinationColumnId
+      })
     } catch (error) {
       console.log(error)
     }

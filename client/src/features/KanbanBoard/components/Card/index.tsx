@@ -18,7 +18,7 @@ const BoardCard = (props: CardInterface): React.ReactElement => {
   const dispatch = useDispatch()
 
   const showTaskModal = (): void => {
-    dispatch(show(TASK_DIALOG))
+    dispatch(show({ type: TASK_DIALOG, props }))
   }
 
   return (

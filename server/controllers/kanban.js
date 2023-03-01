@@ -8,21 +8,17 @@ const getKanbanData = asyncHandler(async (req, res) => {
 
 const updateTaskStatus = asyncHandler(async (req, res) => {
     const { draggableId, destinationColumnId } = req.body
-    const board = await Board.findOne({ environmentName: 'uma' })
+    const query = { environmentName: 'uma' }
+    const board = await Board.findOne(query)
     const destinationColumn = board.columns.find((el) => el._id.toString() === destinationColumnId)
-    console.log(destinationColumn.name)
-
-    board.cards.map((el) => {
+    const newCards = board.cards.map((el) => {
         if (el._id.toString() === draggableId) {
             el.status = destinationColumn.name
         }
         return el
     })
 
-    console.log(board.cards)
-
-    res.status(200)
-
+    await Board.updateMany(query, {cards: newCards})
 })
 
 export { getKanbanData, updateTaskStatus}
