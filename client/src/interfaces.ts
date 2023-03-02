@@ -22,8 +22,12 @@ export interface BoardInterface {
 
 export interface Board {
   kanban: {
-    environmentName: string
-    columns: ColumnInterface[]
-    cards: CardInterface[]
+    board: {
+      environmentName: string
+      columns: ColumnInterface[]
+      cards: CardInterface[]
+    }
+    loading: boolean
+    card: CardInterface
   }
 }

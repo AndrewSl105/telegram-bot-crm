@@ -1,4 +1,4 @@
-const AdminBoard = () => {
+const AdminBoard = (): any => {
   return (
         <div>
             Admin Board

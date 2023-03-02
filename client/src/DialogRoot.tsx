@@ -1,17 +1,16 @@
 import { type ReactElement } from 'react'
 import { TASK_DIALOG } from './constants'
-import TaskDialog from './components/TaskDialog'
 import { useDispatch, useSelector } from 'react-redux'
+import CardDialog from './components/CardDialog'
 
 const DIALOG_COMPONENTS = {
-  [TASK_DIALOG]: TaskDialog
+  [TASK_DIALOG]: CardDialog
 }
 
 export interface Dialog {
   dialogSlice: {
     open: boolean
     dialogType: string
-    dialogProps: []
   }
 }
 
@@ -27,7 +26,7 @@ const DialogRoot = (): ReactElement => {
             {
                 SpecificDialog !== undefined
                   ? (
-                    <SpecificDialog open={open} dispatch={dispatch} />
+                    <SpecificDialog open={open} dispatch={dispatch}/>
                     )
                   : null
             }

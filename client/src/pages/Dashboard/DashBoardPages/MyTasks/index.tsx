@@ -1,4 +1,4 @@
-const MyTasks = () => {
+const MyTasks = (): any => {
   return (
         <div>
             My Tasks

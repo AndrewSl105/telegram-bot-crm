@@ -3,13 +3,17 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { hide } from '../../slices/dialog'
 import { type Action, type Dispatch } from 'redux'
 import { useSelector } from 'react-redux'
-import { type CardInterface } from '../../interfaces'
-import { updateCardStatusAction } from '../../slices/kanban'
+import { type Board, type CardInterface } from '../../interfaces'
+import { editCardAction, getCardById } from '../../slices/kanban'
 import { useAppDispatch } from '../../hook'
+import { IN_PROGRESS } from '../../constants'
+import { useEffect } from 'react'
+import { updateCardStatusOnly } from '../../utils'
 
 interface DialogProps {
   dispatch: Dispatch<Action>
   open: boolean
+  _id: string
 }
 
 export interface DialogState {
@@ -20,18 +24,28 @@ export interface DialogState {
   }
 }
 
-export default function TaskDialog (props: DialogProps): React.ReactElement {
+export default function CardDialog (props: DialogProps): React.ReactElement {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(getCardById(dialogProps._id))
+  }, [dispatch])
+
+  const card = useSelector((state: Board) => state.kanban.card)
+  const dialogProps = useSelector((state: DialogState) => state.dialogSlice.dialogProps)
+
   const handleClose = (e: React.MouseEvent): void => {
     e.preventDefault()
     e.stopPropagation()
     props.dispatch(hide())
   }
 
-  const dispatch = useAppDispatch()
+  const changeStatusHandler = (e: React.MouseEvent): void => {
+    const newCard = updateCardStatusOnly(IN_PROGRESS, card)
 
-  const dialogProps = useSelector((state: DialogState) => state.dialogSlice.dialogProps)
-
-  const chageStatusHandler = () => {}
+    void dispatch(editCardAction(newCard))
+    handleClose(e)
+  }
 
   return (
         <Dialog
@@ -40,6 +54,7 @@ export default function TaskDialog (props: DialogProps): React.ReactElement {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
+
             <DialogTitle id="alert-dialog-title">
                 {dialogProps.title}
             </DialogTitle>
@@ -50,7 +65,7 @@ export default function TaskDialog (props: DialogProps): React.ReactElement {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>CLOSE</Button>
-                <Button color="success" onClick={chageStatusHandler} autoFocus>
+                <Button color="success" onClick={changeStatusHandler} autoFocus>
                     Take it!
                 </Button>
             </DialogActions>

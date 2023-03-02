@@ -1,7 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from "./config/db.js";
-import {getKanbanData, updateTaskStatus} from "./controllers/kanban.js";
+import {editCard, getKanbanData} from "./controllers/kanban.js";
 import cors from "cors";
 
 dotenv.config()
@@ -17,7 +17,7 @@ app.use(express.json())
 
 const router = express.Router()
 
-router.route('/').get(getKanbanData).post(updateTaskStatus)
+router.route('/').get(getKanbanData).post(editCard)
 
 app.use('/api/kanban', router)
 

@@ -1,4 +1,4 @@
-const Team = () => {
+const Team = (): any => {
   return (
         <div>
             Team

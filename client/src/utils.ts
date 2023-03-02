@@ -1,11 +1,7 @@
-import { type Board, type BoardInterface, type ColumnInterface } from './interfaces'
+import { type BoardInterface, type CardInterface, type ColumnInterface } from './interfaces'
 import { CLOSED, IN_PROGRESS, NEW, RESOLVED } from './constants'
 
-export const findDropColumn = (columns: ColumnInterface[], id: string): ColumnInterface | undefined => {
-  return columns.find((el) => el.id === id)
-}
-
-export const buildBoard = (board: Board | []): [] => {
+export const buildBoard = (board: BoardInterface): BoardInterface => {
   const newBoard = board
   const columns = newBoard.columns
   const cards = newBoard.cards
@@ -25,13 +21,19 @@ export const buildBoard = (board: Board | []): [] => {
   return newBoard
 }
 
-export const updateCardState = (draggableId: string, destinationColumnId: string, state: BoardInterface) => {
-  const destinationColumn: ColumnInterface | undefined = state.columns.find((el: ColumnInterface) => el._id === destinationColumnId)
+export const getDestinationColumn = (columns: ColumnInterface[], destinationColumnId: string): ColumnInterface | undefined =>
+  columns.find((el: ColumnInterface) => el._id === destinationColumnId)
 
-  return state.cards.map((el) => {
-    if (el._id === draggableId) {
-      el.status = destinationColumn.name
+export const updateCardStatusOnly = (newStatus: any, card: any): CardInterface => {
+  return (
+    {
+      title: card.title,
+      description: card.description,
+      assignee: card.assignee,
+      estimate: 3,
+      status: newStatus,
+      _id: card._id,
+      index: card.index
     }
-    return el
-  })
+  )
 }

@@ -1,49 +1,75 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { buildBoard, updateCardState } from '../utils'
+import { buildBoard } from '../utils'
+import { showNotification } from './notistack'
+import { CARD_UPDATE_SUCCESS } from '../constants'
+import { type CardInterface } from '../interfaces'
+
+const state = {
+  loading: false,
+  board: [],
+  error: '',
+  card: {}
+}
 
 export const kanbanBoardSlice = createSlice({
   name: 'kanban',
-  initialState: [],
+  initialState: state,
   reducers: {
     getBoard (state, action) {
-      return buildBoard(action.payload)
+      const board = buildBoard(action.payload)
+      state.board = board
     },
-    updateCardStatus (state, action) {
-      const newState = state
-      const { draggableId, destinationColumnId } = action.payload
+    startLoading (state) {
+      state.error = ''
+      state.loading = true
+    },
+    endLoading (state) {
+      state.loading = false
+    },
+    getError (state, action) {
+      state.error = action.payload
+    },
+    getCardById (state, action) {
+      const cardId = action.payload
+      const card = state.board.cards.find(el => el._id === cardId)
+      state.card = card
+    },
+    editCardSuccess (state, action) {
 
-      updateCardState(draggableId, destinationColumnId, newState)
-      return buildBoard(newState)
     }
   }
 })
 
-export const { updateCardStatus } = kanbanBoardSlice.actions
+export const { getCardById } = kanbanBoardSlice.actions
 export default kanbanBoardSlice.reducer
 
 export function getBoardAction () {
-  return async (dispatch: any) => {
+  return async (dispatch: any, state: any) => {
+    dispatch(kanbanBoardSlice.actions.startLoading(state))
+    let response
     try {
-      const response = await axios.get('http://localhost:5000/api/kanban', {
+      response = await axios.get('http://localhost:5000/api/kanban', {
         headers: { 'Access-Control-Allow-Origin': '*' }
       })
       dispatch(kanbanBoardSlice.actions.getBoard(response.data))
+      dispatch(kanbanBoardSlice.actions.endLoading(state))
     } catch (error) {
+      dispatch(kanbanBoardSlice.actions.getError(error))
       console.log(error)
     }
   }
 }
 
-export function updateCardStatusAction (draggableId: string, destinationColumnId: string) {
+export function editCardAction (newCard: CardInterface) {
   return async (dispatch: any) => {
+    let response
     try {
-      dispatch(kanbanBoardSlice.actions.updateCardStatus({
-        draggableId, destinationColumnId
-      }))
-      await axios.post('http://localhost:5000/api/kanban', {
-        draggableId, destinationColumnId
+      response = await axios.post('http://localhost:5000/api/kanban', {
+        newCard
       })
+      dispatch(kanbanBoardSlice.actions.editCardSuccess(response.data))
+      dispatch(showNotification(CARD_UPDATE_SUCCESS))
     } catch (error) {
       console.log(error)
     }

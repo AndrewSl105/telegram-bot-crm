@@ -6,3 +6,5 @@ export const RESOLVED = 'resolved'
 export const CLOSED = 'closed'
 
 export const statuses = [NEW, IN_PROGRESS, RESOLVED, CLOSED]
+
+export const CARD_UPDATE_SUCCESS = 'Card successfully updated!'

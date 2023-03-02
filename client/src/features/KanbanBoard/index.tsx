@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
 import { Box } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { getBoardAction, updateCardStatusAction } from '../../slices/kanban'
+import { editCardAction, getBoardAction } from '../../slices/kanban'
 import Column from './components/Column'
-import { type Board } from '../../interfaces'
+import { type Board, type ColumnInterface } from '../../interfaces'
 import { useAppDispatch } from '../../hook'
 import { DragDropContext } from 'react-beautiful-dnd'
-import DialogRoot from "../../DialogRoot";
+import DialogRoot from '../../DialogRoot'
+import { getDestinationColumn, updateCardStatusOnly } from '../../utils'
+import SkeletonBoard from '../SkeletonBoard'
 
 const styles = {
   display: 'grid',
@@ -17,7 +19,7 @@ const styles = {
 }
 
 const KanbanBoard = (): React.ReactElement => {
-  const board = useSelector((state: Board) => state.kanban)
+  const kanban = useSelector((state: Board) => state.kanban)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -27,19 +29,34 @@ const KanbanBoard = (): React.ReactElement => {
   const onDragEnd = (result: any): void => {
     const { draggableId } = result
     const destinationColumnId = result.destination.droppableId
+    const sourceColumnId = result.source.droppableId
 
-    dispatch(updateCardStatusAction(
-      draggableId, destinationColumnId
-    ))
+    if (result.destination === false) return
+    if (destinationColumnId === sourceColumnId) return
+
+    const destinationColumn = getDestinationColumn(kanban.board.columns, destinationColumnId)
+    const newStatus = destinationColumn?.name
+    const card = kanban.board.cards.find(el => el._id === draggableId)
+
+    const newCard = updateCardStatusOnly(newStatus, card)
+
+    void dispatch(editCardAction(newCard))
   }
 
   return (
       <DragDropContext onDragEnd={onDragEnd}>
         <Box sx={styles}>
           {
-            board !== undefined
+            kanban.loading
               ? (
-                  board.columns?.map(column => {
+                <SkeletonBoard />
+                )
+              : null
+          }
+          {
+            kanban.board !== undefined && !kanban.loading
+              ? (
+                  kanban.board.columns?.map((column: ColumnInterface) => {
                     return <Column
                           key={column._id}
                           name={column.name}
@@ -49,6 +66,7 @@ const KanbanBoard = (): React.ReactElement => {
                 )
               : null
           }
+
         </Box>
         <DialogRoot />
       </DragDropContext>
