@@ -5,5 +5,14 @@ export const theme = createTheme({
     fontFamily: [
       'Public Sans, sans-serif'
     ].join(',')
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 480,
+      md: 900,
+      lg: 1336,
+      xl: 1600
+    }
   }
 })

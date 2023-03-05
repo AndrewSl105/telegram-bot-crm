@@ -2,8 +2,25 @@ import asyncHandler from 'express-async-handler'
 import Board from "../models/board.js";
 
 const getKanbanData = asyncHandler(async (req, res) => {
-    const board = await Board.findOne({ environmentName: 'uma' })
+    const { passCode } = req.query
+    const board = await Board.findOne({passCode: passCode})
     res.json(board)
+})
+
+const getKanbanBoardsList = asyncHandler(async (req, res) => {
+    const { passCodes } = req.query
+    const boards = await Board.find()
+    const selectedBoards = boards.filter(el => passCodes.includes(el.passCode))
+    const list = selectedBoards.map(el => {
+        return (
+            {
+                environmentName: el.environmentName,
+                passCode: el.passCode
+            }
+        )
+    })
+    res.json(list)
+
 })
 
 const editCard = asyncHandler(async (req, res) => {
@@ -22,4 +39,4 @@ const editCard = asyncHandler(async (req, res) => {
     res.json(newCard)
 })
 
-export { getKanbanData, editCard}
+export { getKanbanData, editCard, getKanbanBoardsList}

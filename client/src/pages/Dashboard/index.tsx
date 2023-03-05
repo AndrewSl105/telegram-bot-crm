@@ -5,20 +5,29 @@ import CssBaseline from '@mui/material/CssBaseline'
 import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
-import InboxIcon from '@mui/icons-material/MoveToInbox'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import MailIcon from '@mui/icons-material/Mail'
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded'
 import MenuIcon from '@mui/icons-material/Menu'
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import Diversity2RoundedIcon from '@mui/icons-material/Diversity2Rounded'
+import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded'
+
+import StyleRoundedIcon from '@mui/icons-material/StyleRounded'
 import {
   Link, Outlet
 } from 'react-router-dom'
 import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
+import { useDispatch, useSelector } from 'react-redux'
+import { type Board } from '../../interfaces'
+import { useEffect } from 'react'
+import { changeEnvironmentAction, getKanbanBoardsListAction } from '../../slices/kanban'
+import BoardItem from '../../patterns/BoardItem'
 
 const drawerWidth = 240
 
@@ -29,32 +38,48 @@ interface Props {
 const DashBoard = (props: Props): ReactJSXElement => {
   const { window } = props
   const [mobileOpen, setMobileOpen] = React.useState(false)
+  const dispatch = useDispatch()
+  const boardsList = useSelector((state: Board) => state.kanban.boardsList)
+  const passCodes = ['1234567', '12345']
 
-  const handleDrawerToggle = () => {
+  useEffect(() => {
+    dispatch(getKanbanBoardsListAction(passCodes))
+  }, [dispatch])
+
+  const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen)
   }
 
   const links = [
     {
       title: 'Board',
-      path: '/'
+      path: '/',
+      icon: <DashboardRoundedIcon />
     },
     {
-      title: 'Team',
-      path: '/team'
+      title: 'My team',
+      path: '/team',
+      icon: <Diversity2RoundedIcon />
     }, {
-      title: 'My tasks',
-      path: 'my-tasks'
+      title: 'My cards',
+      path: 'my-tasks',
+      icon: <StyleRoundedIcon />
     },
     {
-      title: 'Admin Board',
-      path: 'admin-board'
+      title: 'Administration',
+      path: 'admin-board',
+      icon: <AdminPanelSettingsRoundedIcon />
     },
     {
-      title: 'Log In',
-      path: 'login'
+      title: 'Log out',
+      path: 'login',
+      icon: <LogoutRoundedIcon />
     }
   ]
+
+  const changeEnvironmentHandler = (passCode: string): void => {
+    dispatch(changeEnvironmentAction(passCode))
+  }
 
   const drawer = (
         <div>
@@ -72,7 +97,7 @@ const DashBoard = (props: Props): ReactJSXElement => {
                         <Link to={el.path}>
                             <ListItemButton>
                                 <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                    {el.icon}
                                 </ListItemIcon>
                                 <ListItemText primary={el.title} />
                             </ListItemButton>
@@ -81,13 +106,22 @@ const DashBoard = (props: Props): ReactJSXElement => {
                 ))}
             </List>
             <Divider />
+            <List>
+                {boardsList.map(el => (
+                    <ListItem key={el.environmentName}>
+                        <BoardItem title={el.environmentName} onClick={() => { changeEnvironmentHandler(el.passCode) }} />
+                    </ListItem>
+                ))}
+            </List>
         </div>
   )
 
   const container = window !== undefined ? () => window().document.body : undefined
+  const kanban = useSelector((state: Board) => state.kanban)
+  const envName = kanban.board.environmentName
 
   return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', overflowX: 'hidden' }}>
             <CssBaseline />
             <AppBar
                 position="fixed"
@@ -107,7 +141,7 @@ const DashBoard = (props: Props): ReactJSXElement => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Main Board
+                        {envName}
                     </Typography>
                 </Toolbar>
             </AppBar>

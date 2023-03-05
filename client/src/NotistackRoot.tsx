@@ -7,6 +7,7 @@ interface NotistackState {
   notistack: {
     show: boolean
     text: string
+    variant: string
   }
 }
 const NotistackRoot = (): ReactElement => {
@@ -14,9 +15,13 @@ const NotistackRoot = (): ReactElement => {
   const notistack = useSelector((state: NotistackState) => state.notistack)
   const dispatch = useDispatch()
 
+  console.log(notistack)
+
   useEffect(() => {
     if (notistack.show) {
-      enqueueSnackbar(notistack.text)
+      enqueueSnackbar(notistack.text, {
+        variant: notistack.variant
+      })
       dispatch(hideNotification())
     }
   }, [notistack.show])

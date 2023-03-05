@@ -4,12 +4,15 @@ export const notistackSlice = createSlice({
   name: 'notistack',
   initialState: {
     show: false,
-    text: ''
+    text: '',
+    variant: 'default'
   },
   reducers: {
     showNotification (state, action) {
+      const { text, variant } = action.payload
       state.show = true
-      state.text = action.payload
+      state.text = text
+      state.variant = variant
     },
     hideNotification (state) {
       state.show = false

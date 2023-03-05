@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import connectDB from "./config/db.js";
 import Board from "./models/board.js";
-import {board} from "./data.js";
+import { boards } from "./data.js";
 
 dotenv.config()
 
@@ -10,7 +10,7 @@ connectDB()
 const importData = async () => {
     try {
         await Board.deleteMany()
-        await Board.insertMany(board)
+        await Board.insertMany(boards)
 
         process.exit()
     } catch (error) {

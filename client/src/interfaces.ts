@@ -31,3 +31,13 @@ export interface Board {
     card: CardInterface
   }
 }
+
+export interface SourceInterface {
+  index: number
+  droppableId: string
+}
+
+export interface DestinationInterface {
+  index: number
+  droppableId: string
+}

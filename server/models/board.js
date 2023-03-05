@@ -9,7 +9,11 @@ const BoardSchema = mongoose.Schema(
            required: true,
         },
         columns: [Column.schema],
-        cards: [Card.schema]
+        cards: [Card.schema],
+        passCode: {
+            type: String,
+            required: true,
+        }
     },
     {
         timestamps: true,

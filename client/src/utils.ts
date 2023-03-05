@@ -1,4 +1,10 @@
-import { type BoardInterface, type CardInterface, type ColumnInterface } from './interfaces'
+import {
+  type BoardInterface,
+  type CardInterface,
+  type ColumnInterface,
+  type DestinationInterface,
+  type SourceInterface
+} from './interfaces'
 import { CLOSED, IN_PROGRESS, NEW, RESOLVED } from './constants'
 
 export const buildBoard = (board: BoardInterface): BoardInterface => {
@@ -36,4 +42,21 @@ export const updateCardStatusOnly = (newStatus: any, card: any): CardInterface =
       index: card.index
     }
   )
+}
+
+export const updateColumns = (
+  draggableId: string,
+  source: SourceInterface,
+  destination: DestinationInterface,
+  columns: ColumnInterface[],
+  cards: CardInterface[]
+): void => {
+  const draggableCard = cards.find((el: CardInterface) => el._id === draggableId)
+  const sourceColumn = columns.find((el: ColumnInterface) => el._id === source.droppableId)
+  const destinationColumn = columns.find((el: ColumnInterface) => el._id === destination.droppableId)
+
+  draggableCard.status = destinationColumn?.name
+
+  sourceColumn?.items.splice(source.index, 1)
+  destinationColumn?.items.splice(destination.index, 0, draggableCard)
 }
