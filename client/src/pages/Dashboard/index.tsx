@@ -40,10 +40,9 @@ const DashBoard = (props: Props): ReactJSXElement => {
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const dispatch = useDispatch()
   const boardsList = useSelector((state: Board) => state.kanban.boardsList)
-  const passCodes = ['1234567', '12345']
 
   useEffect(() => {
-    dispatch(getKanbanBoardsListAction(passCodes))
+    dispatch(getKanbanBoardsListAction())
   }, [dispatch])
 
   const handleDrawerToggle = (): void => {
@@ -109,7 +108,12 @@ const DashBoard = (props: Props): ReactJSXElement => {
             <List>
                 {boardsList.map(el => (
                     <ListItem key={el.environmentName}>
-                        <BoardItem title={el.environmentName} onClick={() => { changeEnvironmentHandler(el.passCode) }} />
+                        <BoardItem
+                            dipatch={dispatch}
+                            _id={el._id}
+                            style={el.style}
+                            title={el.environmentName}
+                            onChangeBoard={() => { changeEnvironmentHandler(el.passCode) }} />
                     </ListItem>
                 ))}
             </List>
@@ -119,6 +123,7 @@ const DashBoard = (props: Props): ReactJSXElement => {
   const container = window !== undefined ? () => window().document.body : undefined
   const kanban = useSelector((state: Board) => state.kanban)
   const envName = kanban.board.environmentName
+  const bardColor = kanban.board.style?.color
 
   return (
         <Box sx={{ display: 'flex', overflowX: 'hidden' }}>
@@ -127,7 +132,8 @@ const DashBoard = (props: Props): ReactJSXElement => {
                 position="fixed"
                 sx={{
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
-                  ml: { sm: `${drawerWidth}px` }
+                  ml: { sm: `${drawerWidth}px` },
+                  background: bardColor
                 }}
             >
                 <Toolbar>

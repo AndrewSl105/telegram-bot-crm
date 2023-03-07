@@ -5,7 +5,8 @@ import {
   type DestinationInterface,
   type SourceInterface
 } from './interfaces'
-import { CLOSED, IN_PROGRESS, NEW, RESOLVED } from './constants'
+import {BOT, CLOSED, IN_PROGRESS, NEW, RESOLVED} from './constants'
+import bot from "*.png";
 
 export const buildBoard = (board: BoardInterface): BoardInterface => {
   const newBoard = board
@@ -39,7 +40,8 @@ export const updateCardStatusOnly = (newStatus: any, card: any): CardInterface =
       estimate: 3,
       status: newStatus,
       _id: card._id,
-      index: card.index
+      index: card.index,
+      createdBy: card.createdBy
     }
   )
 }
@@ -59,4 +61,8 @@ export const updateColumns = (
 
   sourceColumn?.items.splice(source.index, 1)
   destinationColumn?.items.splice(destination.index, 0, draggableCard)
+}
+
+export const getAvatar = (createdBy: string, bot: string): string => {
+  return createdBy === BOT ? bot : ''
 }

@@ -2,6 +2,10 @@ export const boards = [
     {
         environmentName: 'uma',
         passCode: '1234567',
+        style: {
+            color: '#F44611',
+            image: '',
+        },
         columns: [
             {
                 name: 'new',
@@ -29,7 +33,8 @@ export const boards = [
                 status: "new",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task3",
@@ -39,7 +44,8 @@ export const boards = [
                 status: "new",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task1",
@@ -49,7 +55,8 @@ export const boards = [
                 status: "in progress",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task6",
@@ -59,7 +66,8 @@ export const boards = [
                 status: "new",
                 userName: "resolved",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task5",
@@ -69,7 +77,8 @@ export const boards = [
                 status: "closed",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task7",
@@ -79,7 +88,8 @@ export const boards = [
                 status: "in progress",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task8",
@@ -89,13 +99,18 @@ export const boards = [
                 status: "in progress",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
         ]
     },
     {
         environmentName: 'Aim',
         passCode: '12345',
+        style: {
+            color: '#7E7B52',
+            image: '',
+        },
         columns: [
             {
                 name: 'new',
@@ -123,7 +138,8 @@ export const boards = [
                 status: "new",
                 userName: "resolved",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task5",
@@ -133,7 +149,8 @@ export const boards = [
                 status: "closed",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task7",
@@ -143,7 +160,8 @@ export const boards = [
                 status: "in progress",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task8",
@@ -153,7 +171,8 @@ export const boards = [
                 status: "in progress",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
         ]
     },
@@ -187,7 +206,8 @@ export const boards = [
                 status: "new",
                 userName: "resolved",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task5",
@@ -197,7 +217,8 @@ export const boards = [
                 status: "closed",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task7",
@@ -207,7 +228,8 @@ export const boards = [
                 status: "in progress",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
             {
                 title: "Task8",
@@ -217,7 +239,8 @@ export const boards = [
                 status: "in progress",
                 userName: "and",
                 phoneNumber: "099978780",
-                till: "04.06.2023"
+                till: "04.06.2023",
+                createdBy: 'bot',
             },
         ]
     }

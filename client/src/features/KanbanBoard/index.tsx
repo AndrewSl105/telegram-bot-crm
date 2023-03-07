@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box } from '@mui/material'
+import { Box, LinearProgress } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { editCardAction, getBoardAction, onDragAction } from '../../slices/kanban'
 import Column from './components/Column'
@@ -8,7 +8,6 @@ import { useAppDispatch } from '../../hook'
 import { DragDropContext } from 'react-beautiful-dnd'
 import DialogRoot from '../../DialogRoot'
 import { getDestinationColumn, updateCardStatusOnly } from '../../utils'
-import SkeletonBoard from '../SkeletonBoard'
 import { styles } from './styles'
 
 const KanbanBoard = (): React.ReactElement => {
@@ -44,7 +43,9 @@ const KanbanBoard = (): React.ReactElement => {
             {
               kanban.loading
                 ? (
-                      <SkeletonBoard />
+                      <Box sx={{ width: '100%', position: 'absolute', top: '0px', left: '0' }}>
+                        <LinearProgress />
+                      </Box>
                   )
                 : null
             }

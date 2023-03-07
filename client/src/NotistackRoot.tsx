@@ -15,8 +15,6 @@ const NotistackRoot = (): ReactElement => {
   const notistack = useSelector((state: NotistackState) => state.notistack)
   const dispatch = useDispatch()
 
-  console.log(notistack)
-
   useEffect(() => {
     if (notistack.show) {
       enqueueSnackbar(notistack.text, {

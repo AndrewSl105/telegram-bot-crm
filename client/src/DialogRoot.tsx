@@ -1,10 +1,14 @@
 import { type ReactElement } from 'react'
-import { TASK_DIALOG } from './constants'
+import { CREATE_BOARD_DIALOG, CREATE_CARD_DIALOG, TASK_DIALOG } from './constants'
 import { useDispatch, useSelector } from 'react-redux'
 import CardDialog from './components/CardDialog'
+import CreateBoardDialog from './components/CreateBoardDialog'
+import CreateCardDialog from './features/dialogs/CreateCardDilaog'
 
 const DIALOG_COMPONENTS = {
-  [TASK_DIALOG]: CardDialog
+  [TASK_DIALOG]: CardDialog,
+  [CREATE_BOARD_DIALOG]: CreateBoardDialog,
+  [CREATE_CARD_DIALOG]: CreateCardDialog
 }
 
 export interface Dialog {

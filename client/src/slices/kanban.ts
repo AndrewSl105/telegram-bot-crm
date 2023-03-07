@@ -1,8 +1,17 @@
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { buildBoard, updateColumns } from '../utils'
 import { showNotification } from './notistack'
-import { CARD_UPDATE_SUCCESS, SUCCESS } from '../constants'
+import {
+  BOARD_CREATED,
+  BOARD_DELETED,
+  CARD_ADDED_SUCCESS,
+  CARD_UPDATE_SUCCESS,
+  DEFAULT,
+  ERROR,
+  INFO,
+  SUCCESS
+} from '../constants'
 import { type CardInterface } from '../interfaces'
 
 const state = {
@@ -40,6 +49,22 @@ export const kanbanBoardSlice = createSlice({
     editCardSuccess (state, action) {
 
     },
+    addCard (state, action) {
+
+    },
+    addToBoardList (state, action) {
+      const list = state.boardsList
+      const item = action.payload
+      console.log(list, item)
+      const newList = list.concat(item)
+      state.boardsList = newList
+    },
+    deleteFromBoardList (state, action) {
+      const boardId = action.payload
+      const list = state.boardsList
+      const newList = list.filter(el => el._id !== boardId)
+      state.boardsList = newList
+    },
     onDrag (state, action) {
       const { draggableId, source, destination } = action.payload
 
@@ -60,7 +85,7 @@ export const { getCardById, changeEnvironment } = kanbanBoardSlice.actions
 export default kanbanBoardSlice.reducer
 
 export function getBoardAction () {
-  return async (dispatch: any, state) => {
+  return async (dispatch: any, state: any) => {
     dispatch(kanbanBoardSlice.actions.startLoading(state))
     let response
     const passCode = state().kanban.passCode
@@ -94,15 +119,11 @@ export function editCardAction (newCard: CardInterface) {
   }
 }
 
-export function getKanbanBoardsListAction (passCodes: string[]) {
+export function getKanbanBoardsListAction () {
   return async (dispatch: any) => {
     let response
     try {
-      response = await axios.get('http://localhost:5000/api/kanban/getList', {
-        params: {
-          passCodes
-        }
-      })
+      response = await axios.get('http://localhost:5000/api/kanban/getList')
       dispatch(kanbanBoardSlice.actions.getKanbanBoardsList(response.data))
     } catch (error) {
       console.log(error)
@@ -120,5 +141,64 @@ export function changeEnvironmentAction (passCode: string) {
 export function onDragAction (result: any) {
   return async (dispatch: any) => {
     dispatch(kanbanBoardSlice.actions.onDrag(result))
+  }
+}
+
+export function createNewBoardAction (boardName: string) {
+  return async (dispatch: any, state: any) => {
+    dispatch(kanbanBoardSlice.actions.startLoading(state))
+    let response
+    try {
+      response = await axios.post('http://localhost:5000/api/kanban/addBoard', {
+        boardName
+      })
+      dispatch(kanbanBoardSlice.actions.addToBoardList(response.data))
+      dispatch(kanbanBoardSlice.actions.endLoading(state))
+      dispatch(showNotification({ text: BOARD_CREATED, variant: SUCCESS }))
+    } catch (error) {
+      dispatch(kanbanBoardSlice.actions.getError(error))
+      dispatch(showNotification({ text: error, variant: ERROR }))
+      console.log(error)
+    }
+  }
+}
+
+export function deleteBoardAction (boardId: string) {
+  return async (dispatch: any, state: any) => {
+    dispatch(kanbanBoardSlice.actions.startLoading(state))
+    let response
+    try {
+      response = await axios.delete('http://localhost:5000/api/kanban/deleteBoard', {
+        data: {
+          boardId
+        }
+      })
+      dispatch(kanbanBoardSlice.actions.deleteFromBoardList(response.data))
+      dispatch(kanbanBoardSlice.actions.endLoading(state))
+      dispatch(showNotification({ text: BOARD_DELETED, variant: DEFAULT }))
+    } catch (error) {
+      dispatch(kanbanBoardSlice.actions.getError(error))
+      dispatch(showNotification({ text: error, variant: ERROR }))
+      console.log(error)
+    }
+  }
+}
+
+export function addCardAction (card: any, boardId: string) {
+  return async (dispatch: any, state: any) => {
+    dispatch(kanbanBoardSlice.actions.startLoading(state))
+    let response
+    try {
+      response = await axios.post('http://localhost:5000/api/kanban/addCard', {
+        card, boardId
+      })
+      dispatch(kanbanBoardSlice.actions.addCard(response.data))
+      dispatch(kanbanBoardSlice.actions.endLoading(state))
+      dispatch(showNotification({ text: CARD_ADDED_SUCCESS, variant: SUCCESS }))
+    } catch (error) {
+      dispatch(kanbanBoardSlice.actions.getError(error))
+      dispatch(showNotification({ text: error, variant: ERROR }))
+      console.log(error)
+    }
   }
 }

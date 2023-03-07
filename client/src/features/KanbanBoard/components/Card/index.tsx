@@ -11,15 +11,19 @@ import { useDispatch } from 'react-redux'
 import { show } from '../../../../slices/dialog'
 import { TASK_DIALOG } from '../../../../constants'
 import { type CardInterface } from '../../../../interfaces'
+import bot from '../../../../media/images/bot.png'
+import { getAvatar } from '../../../../utils'
 
 const BoardCard = (props: CardInterface): React.ReactElement => {
-  const { title, description, assignee, estimate, _id, index } = props
+  const { title, description, assignee, estimate, _id, index, createdBy } = props
 
   const dispatch = useDispatch()
 
   const showTaskModal = (): void => {
     dispatch(show({ type: TASK_DIALOG, props }))
   }
+
+  const avatarSrc = getAvatar(createdBy, bot)
 
   return (
       <Draggable key={_id} draggableId={_id} index={index}>
@@ -32,7 +36,7 @@ const BoardCard = (props: CardInterface): React.ReactElement => {
                           {...provided.dragHandleProps} onClick={showTaskModal} sx={styles.main}>
                           <CardHeader
                               avatar={
-                                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                                  <Avatar sx={{ bgcolor: 'gray' }} src={avatarSrc} aria-label="recipe">
                                       R
                                   </Avatar>
                               }

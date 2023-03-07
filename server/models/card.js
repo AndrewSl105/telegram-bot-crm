@@ -16,7 +16,8 @@ const CardSchema = mongoose.Schema(
         status: {
             type: String,
         },
-        user: {
+        userName: String,
+        assignee: {
             type: String,
         },
         phoneNumber: {
@@ -25,6 +26,10 @@ const CardSchema = mongoose.Schema(
         till: {
             type: String,
         },
+        createdBy: {
+            type: String,
+            required: true
+        }
     }
 )
 

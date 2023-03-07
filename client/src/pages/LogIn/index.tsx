@@ -3,7 +3,7 @@ import AuthContainer from '../../containers/AuthContainer'
 import AuthCardContainer from '../../containers/AuthCardContainer'
 import AuthInput from '../../components/AuthInput'
 import bot from '../../media/images/bot.png'
-import { Outlet } from 'react-router-dom'
+import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 
 const styles = {
   h4: {
@@ -25,7 +25,7 @@ const styles = {
   }
 }
 
-const Index = () => {
+const Index = (): ReactJSXElement => {
   return (
         <AuthContainer>
             <Box sx={styles.imageCont}>

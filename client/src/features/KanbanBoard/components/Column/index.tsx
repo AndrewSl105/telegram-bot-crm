@@ -31,6 +31,7 @@ const Column = (props: ColumnInterface): React.ReactElement => {
                                         key={item._id}
                                         status={item.status}
                                         index={index}
+                                        createdBy={item.createdBy}
                                     />
                                 })}
                             </Box>

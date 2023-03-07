@@ -10,6 +10,10 @@ const BoardSchema = mongoose.Schema(
         },
         columns: [Column.schema],
         cards: [Card.schema],
+        style: {
+            image: String,
+            color: String
+        },
         passCode: {
             type: String,
             required: true,

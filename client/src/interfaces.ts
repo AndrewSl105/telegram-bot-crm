@@ -6,6 +6,7 @@ export interface CardInterface {
   _id: string
   status: string
   index: number
+  createdBy: string
 }
 
 export interface ColumnInterface {
@@ -26,6 +27,10 @@ export interface Board {
       environmentName: string
       columns: ColumnInterface[]
       cards: CardInterface[]
+      style: {
+        color: string
+        image: string
+      }
     }
     loading: boolean
     card: CardInterface
@@ -40,4 +45,25 @@ export interface SourceInterface {
 export interface DestinationInterface {
   index: number
   droppableId: string
+}
+
+export interface BoardListItem {
+  _id: string
+  environmentName: string
+  style: {
+    color: string
+    image: string
+  }
+}
+
+export interface newCardState {
+  title: string
+  assignee: string
+  description: string
+  estimate: number
+  phoneNumber: string
+  userName: string
+  till: string
+  status: string
+  createdBy: string
 }

@@ -3,8 +3,8 @@ import LogIn from './pages/LogIn'
 import DashBoard from './pages/Dashboard'
 import Team from './pages/Dashboard/DashBoardPages/Team'
 import MyTasks from './pages/Dashboard/DashBoardPages/MyTasks'
-import AdminBoard from './pages/Dashboard/DashBoardPages/AdminBoard'
 import KanbanBoard from './features/KanbanBoard'
+import AdminBoard from './features/AdminBoard'
 
 export const router = createBrowserRouter([
   {
