@@ -2,32 +2,21 @@ import * as React from 'react'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import CssBaseline from '@mui/material/CssBaseline'
-import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded'
 import MenuIcon from '@mui/icons-material/Menu'
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import Diversity2RoundedIcon from '@mui/icons-material/Diversity2Rounded'
-import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded'
-
-import StyleRoundedIcon from '@mui/icons-material/StyleRounded'
 import {
-  Link, Outlet
+  Outlet
 } from 'react-router-dom'
 import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
-import { useDispatch, useSelector } from 'react-redux'
-import { type Board } from '../../interfaces'
+import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { changeEnvironmentAction, getKanbanBoardsListAction } from '../../slices/kanban'
-import BoardItem from '../../patterns/BoardItem'
+import { getKanbanBoardsListAction } from '../../redux/slices/kanban'
+import { useAppDispatch } from '../../hook'
+import { type Board } from '../../interfaces/props'
+import DrawerList from './components/Drawer'
 
 const drawerWidth = 240
 
@@ -38,87 +27,15 @@ interface Props {
 const DashBoard = (props: Props): ReactJSXElement => {
   const { window } = props
   const [mobileOpen, setMobileOpen] = React.useState(false)
-  const dispatch = useDispatch()
-  const boardsList = useSelector((state: Board) => state.kanban.boardsList)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getKanbanBoardsListAction())
+    void dispatch(getKanbanBoardsListAction())
   }, [dispatch])
 
   const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen)
   }
-
-  const links = [
-    {
-      title: 'Board',
-      path: '/',
-      icon: <DashboardRoundedIcon />
-    },
-    {
-      title: 'My team',
-      path: '/team',
-      icon: <Diversity2RoundedIcon />
-    }, {
-      title: 'My cards',
-      path: 'my-tasks',
-      icon: <StyleRoundedIcon />
-    },
-    {
-      title: 'Administration',
-      path: 'admin-board',
-      icon: <AdminPanelSettingsRoundedIcon />
-    },
-    {
-      title: 'Log out',
-      path: 'login',
-      icon: <LogoutRoundedIcon />
-    }
-  ]
-
-  const changeEnvironmentHandler = (passCode: string): void => {
-    dispatch(changeEnvironmentAction(passCode))
-  }
-
-  const drawer = (
-        <div>
-            <Toolbar />
-            <Divider />
-            <List>
-                {links.map((el, index) => (
-                    <ListItem sx={{
-                      a: {
-                        textDecoration: 'none',
-                        width: '100%',
-                        color: 'black'
-                      }
-                    }} key={el.title} disablePadding>
-                        <Link to={el.path}>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {el.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={el.title} />
-                            </ListItemButton>
-                        </Link>
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {boardsList.map(el => (
-                    <ListItem key={el.environmentName}>
-                        <BoardItem
-                            dipatch={dispatch}
-                            _id={el._id}
-                            style={el.style}
-                            title={el.environmentName}
-                            onChangeBoard={() => { changeEnvironmentHandler(el.passCode) }} />
-                    </ListItem>
-                ))}
-            </List>
-        </div>
-  )
 
   const container = window !== undefined ? () => window().document.body : undefined
   const kanban = useSelector((state: Board) => state.kanban)
@@ -156,7 +73,6 @@ const DashBoard = (props: Props): ReactJSXElement => {
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
                 aria-label="mailbox folders"
             >
-                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Drawer
                     container={container}
                     variant="temporary"
@@ -170,7 +86,7 @@ const DashBoard = (props: Props): ReactJSXElement => {
                       '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
                     }}
                 >
-                    {drawer}
+                    <DrawerList />
                 </Drawer>
                 <Drawer
                     variant="permanent"
@@ -180,7 +96,7 @@ const DashBoard = (props: Props): ReactJSXElement => {
                     }}
                     open
                 >
-                    {drawer}
+                    <DrawerList />
                 </Drawer>
             </Box>
             <Box

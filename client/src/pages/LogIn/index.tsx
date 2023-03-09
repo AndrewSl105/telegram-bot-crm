@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import AuthContainer from '../../containers/AuthContainer'
 import AuthCardContainer from '../../containers/AuthCardContainer'
-import AuthInput from '../../components/AuthInput'
+import AuthInput from '../../patterns/AuthInput'
 import bot from '../../media/images/bot.png'
 import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 

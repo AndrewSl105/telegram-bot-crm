@@ -6,22 +6,14 @@ import {
   DialogContent,
   DialogTitle
 } from '@mui/material'
-import { type Action, type Dispatch } from 'redux'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { addCardAction, getKanbanBoardsListAction } from '../../../slices/kanban'
-import { hide } from '../../../slices/dialog'
+import { addCardAction, getKanbanBoardsListAction } from '../../../redux/slices/kanban'
+import { hide } from '../../../redux/slices/dialog'
 import { useAppDispatch } from '../../../hook'
-import { type Board } from '../../../interfaces'
 import AddCardForm from './components/AddCardForm'
 import { getInitialState, getNewCardObject } from './utils'
-
-interface DialogProps {
-  dispatch: Dispatch<Action>
-
-  open: boolean
-  _id: string
-}
+import { type Board, type DialogProps } from '../../../interfaces/props'
 
 export default function CreateCardDialog (props: DialogProps): React.ReactElement {
   const dispatch = useAppDispatch()
@@ -29,11 +21,11 @@ export default function CreateCardDialog (props: DialogProps): React.ReactElemen
   const boardsList = useSelector((state: Board) => state.kanban.boardsList)
 
   useEffect(() => {
-    dispatch(getKanbanBoardsListAction())
+    void dispatch(getKanbanBoardsListAction())
   }, [dispatch])
 
   const [cardState, setCardState] = useState(getInitialState())
-  const [boardId, setBoardId] = React.useState([])
+  const [boardId, setBoardId] = React.useState<string>('')
 
   const handleClose = (e: React.MouseEvent): void => {
     e.preventDefault()

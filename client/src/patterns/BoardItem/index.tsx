@@ -1,28 +1,15 @@
 import { Box, IconButton } from '@mui/material'
 import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
-import { deleteBoardAction } from '../../slices/kanban'
-import { useDispatch } from 'react-redux'
+import { deleteBoardAction } from '../../redux/slices/kanban'
+import { styles } from './styles'
+import { useAppDispatch } from '../../hook'
+import { type BoardItemProps } from '../../interfaces/props'
 
-const styles = {
-  width: '100%',
-  padding: '0.5rem',
-  cursor: 'pointer',
-  position: 'relative',
-  borderRadius: '10px',
-  fontSize: '1rem',
-  color: 'white',
-  zIndex: '1',
-  transition: 'opacity 0.5s',
-  ':hover': {
-    opacity: '0.8'
-  }
-}
-
-const BoardItem = (props): ReactJSXElement => {
-  const dispatch = useDispatch()
-  const deleteBoardHandler = (_id: string): void => {
-    dispatch(deleteBoardAction(props._id))
+const BoardItem = (props: BoardItemProps): ReactJSXElement => {
+  const dispatch = useAppDispatch()
+  const deleteBoardHandler = (): void => {
+    void dispatch(deleteBoardAction(props._id))
   }
 
   return (

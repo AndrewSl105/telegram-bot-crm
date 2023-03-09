@@ -3,13 +3,13 @@ import {
   RouterProvider
 } from 'react-router-dom'
 import { router } from './routes'
-import { theme } from './theme'
+import { theme } from './MUI/theme'
 import { Provider } from 'react-redux'
 import * as React from 'react'
-import { store } from './store'
+import { store } from './redux/store'
 import { SnackbarProvider } from 'notistack'
-import DialogRoot from './DialogRoot'
-import NotistackRoot from './NotistackRoot'
+import DialogRoot from './features/dialogs/DialogRoot'
+import NotistackRoot from './features/common/NotistackRoot'
 
 const App = (): React.ReactElement => {
   return (

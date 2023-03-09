@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom'
 import LogIn from './pages/LogIn'
 import DashBoard from './pages/Dashboard'
-import Team from './pages/Dashboard/DashBoardPages/Team'
-import MyTasks from './pages/Dashboard/DashBoardPages/MyTasks'
-import KanbanBoard from './features/KanbanBoard'
-import AdminBoard from './features/AdminBoard'
+import AdminTab from './features/tabs/AdminTab'
+import KanbanTab from './features/tabs/KanbanTab'
+import MyCardsTab from './features/tabs/MyCardsTab'
+import MyTeamTab from './features/tabs/MyTeamTab'
 
 export const router = createBrowserRouter([
   {
@@ -13,19 +13,19 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <KanbanBoard />
+        element: <KanbanTab />
       },
       {
         path: 'team',
-        element: <Team />
+        element: <MyTeamTab />
       },
       {
-        path: 'my-tasks',
-        element: <MyTasks />
+        path: 'my-cards',
+        element: <MyCardsTab />
       },
       {
         path: 'admin-board',
-        element: <AdminBoard />
+        element: <AdminTab />
       }
     ]
   },

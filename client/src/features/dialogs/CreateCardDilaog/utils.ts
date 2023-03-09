@@ -1,7 +1,7 @@
-import { type newCardState } from '../../../interfaces'
 import { NEW } from '../../../constants'
+import { type newCardState } from '../../../interfaces/state'
 
-export const getInitialState = () => {
+export const getInitialState = (): any => {
   return (
     {
       title: '',

@@ -6,32 +6,24 @@ import {
   ListItemText,
   MenuItem,
   OutlinedInput,
-  Select
+  Select, type SelectChangeEvent
 } from '@mui/material'
 import RegularInput from '../../../../../patterns/RegularInput'
 import * as React from 'react'
 import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
-import { type BoardListItem, type newCardState } from '../../../../../interfaces'
-
-interface AddCardFormProps {
-  cardState: newCardState
-  boardsList: BoardListItem[]
-  boardId: string
-  setCardState: any
-  setBoardId: any
-}
+import { type AddCardFormProps } from '../../../../../interfaces/props'
 
 const AddCardForm = (props: AddCardFormProps): ReactJSXElement => {
   const { cardState, boardsList, setCardState, setBoardId, boardId } = props
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setCardState({
       ...cardState,
       [e.target.name]: e.target.value
     })
   }
 
-  const addBoardIdHandler = (e) => {
+  const addBoardIdHandler = (e: SelectChangeEvent<string>): void => {
     const {
       target: { value }
     } = e

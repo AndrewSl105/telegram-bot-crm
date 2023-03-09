@@ -27,8 +27,8 @@ const getKanbanBoardsList = asyncHandler(async (req, res) => {
 })
 
 const editCard = asyncHandler(async (req, res) => {
-    const { newCard } = req.body
-    const query = { environmentName: 'uma' }
+    const { newCard, boardId } = req.body
+    const query = { _id: boardId }
     const board = await Board.findOne(query)
 
     const newCards = board.cards.map((el) => {

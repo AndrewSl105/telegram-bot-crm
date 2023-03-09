@@ -1,12 +1,12 @@
+
+import { BOT, CLOSED, IN_PROGRESS, NEW, RESOLVED } from './constants'
 import {
   type BoardInterface,
   type CardInterface,
   type ColumnInterface,
   type DestinationInterface,
   type SourceInterface
-} from './interfaces'
-import {BOT, CLOSED, IN_PROGRESS, NEW, RESOLVED} from './constants'
-import bot from "*.png";
+} from './interfaces/state'
 
 export const buildBoard = (board: BoardInterface): BoardInterface => {
   const newBoard = board
@@ -51,7 +51,7 @@ export const updateColumns = (
   source: SourceInterface,
   destination: DestinationInterface,
   columns: ColumnInterface[],
-  cards: CardInterface[]
+  cards: CardInterface[] | any
 ): void => {
   const draggableCard = cards.find((el: CardInterface) => el._id === draggableId)
   const sourceColumn = columns.find((el: ColumnInterface) => el._id === source.droppableId)
