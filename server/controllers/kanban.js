@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Board from "../models/board.js";
-import {generatePassCode} from "../utils.js";
+import {generatePassCode, getBoardListItem, getBoardsList, getNewBoardObject, updateCards} from "../utils.js";
 import randomcolor from "randomcolor";
 import Card from "../models/card.js";
 
@@ -12,18 +12,8 @@ const getKanbanData = asyncHandler(async (req, res) => {
 
 const getKanbanBoardsList = asyncHandler(async (req, res) => {
     const boards = await Board.find()
-    const list = boards.map(el => {
-        return (
-            {
-                environmentName: el.environmentName,
-                passCode: el.passCode,
-                style: el.style,
-                _id: el._id
-            }
-        )
-    })
+    const list = getBoardsList(boards)
     res.json(list)
-
 })
 
 const editCard = asyncHandler(async (req, res) => {
@@ -31,12 +21,7 @@ const editCard = asyncHandler(async (req, res) => {
     const query = { _id: boardId }
     const board = await Board.findOne(query)
 
-    const newCards = board.cards.map((el) => {
-        if (el._id.toString() === newCard._id) {
-            el = newCard
-        }
-        return el
-    })
+    const newCards = updateCards(board.cards, newCard)
 
     await Board.updateMany(query, {cards: newCards})
     res.json(newCard)
@@ -47,43 +32,13 @@ const addNewBoard = asyncHandler(async (req, res) => {
     const passCode = generatePassCode()
     const colorStyle = randomcolor()
 
-    const newBoard = {
-        environmentName: boardName,
-        passCode: passCode,
-        style: {
-            image: '',
-            color: colorStyle
-        },
-        columns: [
-            {
-                name: 'new',
-                items: []
-            },
-            {
-                name: 'in progress',
-                items: []
-            },
-            {
-                name: 'resolved',
-                items: []
-            },
-            {
-                name: 'closed',
-                items: []
-            }
-        ],
-        cards: []
-    }
+    const newBoard = getNewBoardObject(boardName, passCode, colorStyle)
 
     try {
         await Board.create(newBoard)
         const board = await Board.findOne({ environmentName: boardName })
-        const boardListItem = {
-            _id: board._id.toString(),
-            environmentName: board?.environmentName,
-            passCode: board?.passCode,
-            style: board.style
-        }
+        const boardListItem = getBoardListItem(board)
+
         res.json(boardListItem)
     } catch (error) {
         console.error(error)
