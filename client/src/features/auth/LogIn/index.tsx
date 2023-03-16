@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { navigateToRoot } from '../../../utils'
+import { logInSchema } from './validation'
 
 const LogIn = (): ReactJSXElement => {
   const dispatch = useAppDispatch()
@@ -25,6 +26,7 @@ const LogIn = (): ReactJSXElement => {
 
   const formik = useFormik({
     enableReinitialize: true,
+    validationSchema: logInSchema,
     initialValues: {
       email: '',
       password: ''
@@ -33,7 +35,7 @@ const LogIn = (): ReactJSXElement => {
   })
 
   const {
-    getFieldProps, values
+    getFieldProps, values, errors, isValid
   } = formik
 
   const submitHandler = (): void => {
@@ -53,17 +55,21 @@ const LogIn = (): ReactJSXElement => {
                     {...getFieldProps('email')}
                     label='Email'
                     type="text"
+                    error={Boolean(errors.email)}
+                    helperText={errors.email}
                 />
                 <AuthInput
                     {...getFieldProps('password')}
                     label='Password'
                     type="password"
+                    error={Boolean(errors.password)}
+                    helperText={errors.password}
                 />
             </AuthCardContainer>
-            <Button variant="contained" onClick={submitHandler}>
+            <Button disabled={!isValid} variant="contained" onClick={submitHandler}>
                 Log In
             </Button>
-            <Typography sx={{ mt: '1rem' }}>
+            <Typography sx={styles.helpText}>
                 Not registered yet? <Link to="/sign-up">Create an account</Link>
             </Typography>
         </AuthContainer>

@@ -2,13 +2,10 @@ import User from "../models/user.js";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 import Board from "../models/board.js";
-import board from "../models/board.js";
+import bcrypt from "bcryptjs";
 
 const registerUser = asyncHandler(async (req, res) => {
-    console.log(req.body)
-
-    const { userName, email, password, passCodes, role } = req.body.userData
-
+    const { userName, email, password, passCodes } = req.body.userData
 
     const userExists = await User.findOne({ email })
 
@@ -17,12 +14,15 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error('User already exists')
     }
 
+    const salt = await bcrypt.genSalt(10)
+    const bcryptPassword = await bcrypt.hash(password, salt)
+
     const user = await User.create({
         userName,
         email,
-        password,
+        password: bcryptPassword,
         passCodes,
-        role
+        role: 'user'
     })
 
     if (user) {
@@ -32,7 +32,7 @@ const registerUser = asyncHandler(async (req, res) => {
                 userName: user.userName,
                 email: user.email,
                 passCodes: user.passCodes,
-                role: user.role,
+                role: 'user'
             },
             token: generateToken(user._id)
         })
@@ -47,14 +47,14 @@ const logIn = asyncHandler(async (req, res) => {
 
     const user = await User.findOne({ email })
 
-    if (user && (user.password === password)) {
+    if (user && (bcrypt.compare(user.password, password))) {
         res.json({
             userData: {
                 _id: user._id,
                 userName: user.userName,
                 email: user.email,
                 passCodes: user.passCodes,
-                role: user.role,
+                role: 'user'
             },
             token: generateToken(user._id)
         })

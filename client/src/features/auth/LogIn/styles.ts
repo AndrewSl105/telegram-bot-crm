@@ -1,3 +1,5 @@
+import { theme } from '../../../MUI/theme'
+
 export const styles = {
   h4: {
     marginBottom: '1rem',
@@ -13,6 +15,13 @@ export const styles = {
     background: '#1976d2',
     img: {
       width: 'inherit'
+    }
+  },
+  helpText: {
+    mt: '1rem',
+    a: {
+      textDecoration: 'none',
+      color: theme.palette.primary.main
     }
   }
 }

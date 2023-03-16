@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { navigateToRoot } from '../../../utils'
 import { useSelector } from 'react-redux'
+import { signUpSchema } from './validation'
 
 const SignUp = (): ReactJSXElement => {
   const dispatch = useAppDispatch()
@@ -19,27 +20,34 @@ const SignUp = (): ReactJSXElement => {
 
   const userState = useSelector((state: any) => state.user)
 
+  console.log(userState)
+
   useEffect(() => {
     navigateToRoot(navigate)
   }, [userState])
 
   const formik = useFormik({
     enableReinitialize: true,
+    validationSchema: signUpSchema,
     initialValues: {
       userName: '',
       email: '',
       password: '',
-      role: 'user'
+      passwordConfirmation: ''
     },
     onSubmit: (): any => {}
   })
 
   const {
-    getFieldProps, values
+    getFieldProps, values, errors, isValid
   } = formik
 
   const submitHandler = (): void => {
-    void dispatch(userSignUpAction(values))
+    void dispatch(userSignUpAction({
+      userName: values.userName,
+      email: values.email,
+      password: values.password
+    }))
   }
 
   return (
@@ -55,23 +63,35 @@ const SignUp = (): ReactJSXElement => {
                             {...getFieldProps('userName')}
                             label='Username'
                             type="text"
+                            error={Boolean(errors.userName)}
+                            helperText={errors.userName}
                         />
                         <AuthInput
                             {...getFieldProps('email')}
                             label='Email'
-                            type="text"/>
+                            type="text"
+                            error={Boolean(errors.email)}
+                            helperText={errors.email}
+                        />
                         <AuthInput
                             {...getFieldProps('password')}
                             label='Password'
-                            type="password"/>
+                            type="password"
+                            error={Boolean(errors.password)}
+                            helperText={errors.password}
+                        />
                         <AuthInput
+                            {...getFieldProps('passwordConfirmation')}
                             label='Confirm password'
-                            type="password"/>
+                            type="password"
+                            error={Boolean(errors.passwordConfirmation)}
+                            helperText={errors.passwordConfirmation}
+                        />
                     </AuthCardContainer>
-                    <Button variant="contained" onClick={submitHandler}>
+                    <Button disabled={!isValid} variant="contained" onClick={submitHandler}>
                         Submit
                     </Button>
-                    <Typography sx={{ mt: '1rem' }}>
+                    <Typography sx={styles.helpText}>
                         Already have an account? <Link to="/log-in">Log in</Link>
                     </Typography>
         </AuthContainer>

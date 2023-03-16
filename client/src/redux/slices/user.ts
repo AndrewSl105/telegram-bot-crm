@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { showNotification } from './notistack'
-import { DEFAULT, SUCCESS } from '../../constants'
+import { DEFAULT, ERROR, SUCCESS } from '../../constants'
 import { USER_CREATED, USER_LOGGED_IN, USER_LOGGED_OUT } from '../../constants/user'
 
 export interface UserData {
@@ -14,11 +14,13 @@ export interface UserData {
 export interface UserState {
   loading: boolean
   logIn: boolean | null
+  error: string
 }
 
 const initialState: UserState = {
   loading: false,
-  logIn: null
+  logIn: null,
+  error: ''
 }
 
 export const userSlice = createSlice({
@@ -42,6 +44,9 @@ export const userSlice = createSlice({
     addPassCodeSuccess (state, action) {
       const passCode = action.payload
       console.log(passCode)
+    },
+    getError (state, action) {
+      state.error = action.payload
     }
   }
 })
@@ -52,6 +57,7 @@ export function userSignUpAction (userData: {
   password: string
 }) {
   return async (dispatch: any) => {
+    console.log(userData)
     let response
     try {
       response = await axios.post('http://localhost:5000/api/user/sign-up', {
@@ -60,7 +66,8 @@ export function userSignUpAction (userData: {
       dispatch(userSlice.actions.signUpSuccess(response.data))
       dispatch(showNotification({ text: USER_CREATED, variant: SUCCESS }))
     } catch (error) {
-      console.log(error)
+      dispatch(userSlice.actions.getError(error))
+      dispatch(showNotification({ text: error, variant: ERROR }))
     }
   }
 }
@@ -75,7 +82,8 @@ export function userLogInAction (userData: { email: string, password: string }) 
       dispatch(userSlice.actions.logInSuccess(response.data))
       dispatch(showNotification({ text: USER_LOGGED_IN, variant: SUCCESS }))
     } catch (error) {
-      console.log(error)
+      dispatch(userSlice.actions.getError(error))
+      dispatch(showNotification({ text: error, variant: ERROR }))
     }
   }
 }
@@ -97,7 +105,8 @@ export function addPassCodeAction (passCode: string, _id: string | null) {
       })
       dispatch(userSlice.actions.addPassCodeSuccess(response.data))
     } catch (error) {
-      console.log(error)
+      dispatch(userSlice.actions.getError(error))
+      dispatch(showNotification({ text: error, variant: ERROR }))
     }
   }
 }

@@ -14,6 +14,8 @@ interface AuthInputProps {
   customStyle?: object
   label: string
   type: string
+  error: boolean
+  helperText: string | undefined
 }
 
 const AuthInput = (props: AuthInputProps): ReactElement => {
