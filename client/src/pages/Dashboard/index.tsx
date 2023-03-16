@@ -13,7 +13,7 @@ import {
 import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { getKanbanBoardsListAction } from '../../redux/slices/kanban'
+import { getBoardAction, getKanbanBoardsListAction } from '../../redux/slices/kanban'
 import { useAppDispatch } from '../../hook'
 import { type Board } from '../../interfaces/props'
 import DrawerList from './components/Drawer'

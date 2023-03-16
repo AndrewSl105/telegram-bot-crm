@@ -17,15 +17,15 @@ interface AuthInputProps {
 }
 
 const AuthInput = (props: AuthInputProps): ReactElement => {
-  console.log(props)
   return (
         <Box sx={{
           ...styles,
           ...props.customStyle
         }}>
             <TextField
-                label={props.label}
-                type={props.type}
+                size="small"
+                variant="filled"
+                {...props}
             />
         </Box>
   )

@@ -3,7 +3,8 @@ import dotenv from 'dotenv'
 import connectDB from "./config/db.js";
 import {editCard, getKanbanData, getKanbanBoardsList, addNewBoard, deleteBoard, addCard} from "./controllers/kanban.js";
 import cors from "cors";
-import {registerUser, logIn} from "./controllers/user.js";
+import {registerUser, logIn, addPassCode} from "./controllers/user.js";
+import {protect} from "./middleware/authMiddleware.js";
 
 dotenv.config()
 
@@ -19,6 +20,8 @@ app.use(express.json())
 const kanbanRoutes = express.Router()
 const userRoutes = express.Router()
 
+kanbanRoutes.use(protect)
+
 kanbanRoutes.route('/').get(getKanbanData).post(editCard)
 kanbanRoutes.route('/getList').get(getKanbanBoardsList)
 kanbanRoutes.route('/addBoard').post(addNewBoard)
@@ -29,6 +32,7 @@ app.use('/api/kanban', kanbanRoutes)
 
 userRoutes.route('/sign-up').post(registerUser)
 userRoutes.route('/log-in').post(logIn)
+userRoutes.route('/add-passcode').post(addPassCode)
 
 app.use('/api/user', userRoutes)
 

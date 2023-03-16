@@ -2,7 +2,6 @@ import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded'
 import Diversity2RoundedIcon from '@mui/icons-material/Diversity2Rounded'
 import StyleRoundedIcon from '@mui/icons-material/StyleRounded'
 import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded'
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 
 export const links = [
   {
@@ -24,9 +23,4 @@ export const links = [
     path: 'admin-board',
     icon: <AdminPanelSettingsRoundedIcon />
   },
-  {
-    title: 'Log out',
-    path: 'login',
-    icon: <LogoutRoundedIcon />
-  }
 ]

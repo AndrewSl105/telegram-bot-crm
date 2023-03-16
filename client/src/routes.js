@@ -1,15 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom'
-import LogIn from './pages/LogIn'
-import DashBoard from './pages/Dashboard'
 import AdminTab from './features/tabs/AdminTab'
 import KanbanTab from './features/tabs/KanbanTab'
 import MyCardsTab from './features/tabs/MyCardsTab'
 import MyTeamTab from './features/tabs/MyTeamTab'
+import SignUp from './features/auth/SignUp'
+import LogIn from './features/auth/LogIn'
+import PrivateRoutes from './guard/PrivateRoute'
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <DashBoard />,
+    element: <PrivateRoutes />,
     children: [
       {
         path: '/',
@@ -34,7 +35,11 @@ export const router = createBrowserRouter([
     element: <div>About</div>
   },
   {
-    path: 'login',
+    path: 'sign-up',
+    element: <SignUp />
+  },
+  {
+    path: 'log-in',
     element: <LogIn />
   }
 ])

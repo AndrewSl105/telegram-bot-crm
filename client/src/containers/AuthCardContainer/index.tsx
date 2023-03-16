@@ -5,7 +5,7 @@ import { type SxProps, type Theme } from '@mui/material/styles'
 const styles = {
   display: 'flex',
   flexFlow: 'column',
-  maxWidth: '30vw',
+  maxWidth: '360px',
   width: '100%'
 }
 interface AuthCardContainerProps {

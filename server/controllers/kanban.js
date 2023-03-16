@@ -3,6 +3,7 @@ import Board from "../models/board.js";
 import {generatePassCode, getBoardListItem, getBoardsList, getNewBoardObject, updateCards} from "../utils.js";
 import randomcolor from "randomcolor";
 import Card from "../models/card.js";
+import User from "../models/user.js";
 
 const getKanbanData = asyncHandler(async (req, res) => {
     const { passCode } = req.query
@@ -11,7 +12,14 @@ const getKanbanData = asyncHandler(async (req, res) => {
 })
 
 const getKanbanBoardsList = asyncHandler(async (req, res) => {
-    const boards = await Board.find()
+    const { userId } = req.query
+    const _id = userId.replace(/['"]+/g, '')
+    const user = await User.findOne({ _id: _id })
+    const passCodesList = user.passCodes
+
+    console.log(passCodesList)
+    const boards = await Board.find({ passCode: { $all: passCodesList }})
+    console.log(boards)
     const list = getBoardsList(boards)
     res.json(list)
 })

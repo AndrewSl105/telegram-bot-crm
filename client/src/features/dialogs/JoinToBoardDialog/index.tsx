@@ -10,13 +10,13 @@ import {
 import { hide } from '../../../redux/slices/dialog'
 import { useAppDispatch } from '../../../hook'
 import { useState } from 'react'
-import { createNewBoardAction } from '../../../redux/slices/kanban'
 import { type DialogProps } from '../../../interfaces/props'
+import { addPassCodeAction } from '../../../redux/slices/user'
 
-export default function CreateBoardDialog (props: DialogProps): React.ReactElement {
+export default function JoinToBoardDialog (props: DialogProps): React.ReactElement {
   const dispatch = useAppDispatch()
 
-  const [boardName, setBoardName] = useState('')
+  const [boardPassCode, setBoardPassCode] = useState('')
 
   const handleClose = (e: React.MouseEvent): void => {
     e.preventDefault()
@@ -25,12 +25,13 @@ export default function CreateBoardDialog (props: DialogProps): React.ReactEleme
   }
 
   const changeBoardNameHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setBoardName(e.target.value)
+    setBoardPassCode(e.target.value)
   }
 
-  const addBoardHandler = (): void => {
-    void dispatch(createNewBoardAction(boardName))
-    props.dispatch(hide())
+  const joinToBoardHandler = (): void => {
+    const _id = localStorage.getItem('_id')
+    void dispatch(addPassCodeAction(boardPassCode, _id))
+    // props.dispatch(hide())
   }
 
   return (
@@ -43,23 +44,23 @@ export default function CreateBoardDialog (props: DialogProps): React.ReactEleme
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                Create new board
+                Join to board
             </DialogTitle>
             <DialogContent>
-                    <TextField
-                        autoFocus
-                        onChange={changeBoardNameHandler}
-                        margin="dense"
-                        fullWidth
-                        id="outlined-basic"
-                        label="Board name"
-                        variant="outlined"
-                    />
+                <TextField
+                    autoFocus
+                    onChange={changeBoardNameHandler}
+                    margin="dense"
+                    fullWidth
+                    id="outlined-basic"
+                    label="Board Passcode"
+                    variant="outlined"
+                />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>CLOSE</Button>
-                <Button onClick={addBoardHandler} color="success" autoFocus>
-                    Create
+                <Button onClick={joinToBoardHandler} color="success" autoFocus>
+                    Join
                 </Button>
             </DialogActions>
         </Dialog>

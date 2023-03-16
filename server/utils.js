@@ -1,3 +1,7 @@
+
+
+
+
 export const generateRandomSixDigits = () => {
     let minM = 100000;
     let maxM = 999999;

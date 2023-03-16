@@ -8,7 +8,8 @@ const styles = {
   justifyContent: 'center',
   height: '100vh',
   alignItems: 'center',
-  flexFlow: 'column'
+  flexFlow: 'column',
+  position: 'relative'
 }
 
 interface AuthContainerProps {

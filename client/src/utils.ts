@@ -7,6 +7,7 @@ import {
   type DestinationInterface,
   type SourceInterface
 } from './interfaces/state'
+import { type UserData } from './redux/slices/user'
 
 export const buildBoard = (board: BoardInterface): BoardInterface => {
   const newBoard = board
@@ -65,4 +66,19 @@ export const updateColumns = (
 
 export const getAvatar = (createdBy: string, bot: string): string => {
   return createdBy === BOT ? bot : ''
+}
+
+export const navigateToRoot = (navigate: any): void => {
+  const token = localStorage.getItem('token')
+  if (token != null) navigate('/')
+}
+
+export const getUserData = (): UserData => {
+  const userData: any = localStorage.getItem('userData')
+  return JSON.parse(userData)
+}
+
+export const getUserId = (): string => {
+  const userData = getUserData()
+  return userData._id
 }
