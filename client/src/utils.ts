@@ -68,14 +68,22 @@ export const getAvatar = (createdBy: string, bot: string): string => {
   return createdBy === BOT ? bot : ''
 }
 
-export const navigateToRoot = (navigate: any): void => {
-  const token = localStorage.getItem('token')
-  if (token != null) navigate('/')
-}
-
-export const getUserData = (): UserData => {
+export const getUserData = (): {
+  _id: string
+  token: string
+} => {
   const userData: any = localStorage.getItem('userData')
   return JSON.parse(userData)
+}
+
+export const getToken = (): string => {
+  const userData = getUserData()
+  return userData?.token
+}
+
+export const navigateToRoot = (navigate: any): void => {
+  const token = getToken()
+  if (token != null) navigate('/')
 }
 
 export const getUserId = (): string => {

@@ -17,11 +17,15 @@ const getKanbanBoardsList = asyncHandler(async (req, res) => {
     const user = await User.findOne({ _id: _id })
     const passCodesList = user.passCodes
 
-    console.log(passCodesList)
-    const boards = await Board.find({ passCode: { $all: passCodesList }})
-    console.log(boards)
-    const list = getBoardsList(boards)
-    res.json(list)
+    try {
+        const boards = await Board.find({ 'passCode': { $in: passCodesList }})
+
+        const list = getBoardsList(boards)
+
+        res.json(list)
+    } catch (error) {
+        console.error(error)
+    }
 })
 
 const editCard = asyncHandler(async (req, res) => {
@@ -36,11 +40,11 @@ const editCard = asyncHandler(async (req, res) => {
 })
 
 const addNewBoard = asyncHandler(async (req, res) => {
-    const { boardName } = req.body
+    const { boardName, userId } = req.body
     const passCode = generatePassCode()
     const colorStyle = randomcolor()
 
-    const newBoard = getNewBoardObject(boardName, passCode, colorStyle)
+    const newBoard = getNewBoardObject(boardName, passCode, colorStyle, userId)
 
     try {
         await Board.create(newBoard)
@@ -63,9 +67,14 @@ const deleteBoard = asyncHandler(async (req, res) => {
 })
 
 const addCard = asyncHandler(async (req, res) => {
-    const {card,  boardId } = req.body
+    const { values } = req.body
+    const boardId = values.boardId
+    delete values.boardId
+    const card = values
+
     const board = await Board.findOne({ _id: boardId})
     const newCard = await Card.create(card)
+
     const newCards = board.cards.concat(newCard)
     await Board.updateMany({ _id: boardId}, {cards: newCards})
 

@@ -24,7 +24,7 @@ const DrawerList = (): ReactJSXElement => {
   const navigate = useNavigate()
 
   const boardsList = useSelector((state: Board) => state.kanban.boardsList)
-  const logIn = useSelector((state) => state.user.logIn)
+  const logIn = useSelector((state: any) => state.user.logIn)
 
   useEffect(() => {
     if (logIn === false) navigate('/log-in')
@@ -34,14 +34,17 @@ const DrawerList = (): ReactJSXElement => {
     void dispatch(changeEnvironmentAction(passCode))
   }
 
-  const logOutHandler = () => {
+  const logOutHandler = (): void => {
     void dispatch(userLogOutAction())
   }
 
   return (
         <div>
             <Toolbar />
-            <Divider />
+            <Divider sx={{
+              borderColor: 'rgba(145, 158, 171, 0.24)',
+              borderStyle: 'dashed'
+            }} />
                 <List>
                     {links.map((el, index) => (
                         <ListItem sx={{
@@ -64,11 +67,21 @@ const DrawerList = (): ReactJSXElement => {
                 </List>
                 <Typography
                     onClick={logOutHandler}
-                    sx={{ color: 'red', padding: '8px 16px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                    sx={{
+                      color: 'red',
+                      padding: '8px 16px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      mb: '1rem'
+                    }}>
                     <LogoutRoundedIcon sx={{ mr: '32px' }} />
                     Log out
                 </Typography>
-            <Divider />
+            <Divider sx={{
+              borderColor: 'rgba(145, 158, 171, 0.24)',
+              borderStyle: 'dashed'
+            }} />
             <List>
                 {boardsList.map(el => (
                     <ListItem key={el.environmentName}>

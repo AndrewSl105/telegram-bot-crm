@@ -27,14 +27,8 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (user) {
         res.status(201).json({
-            userData: {
-                _id: user._id,
-                userName: user.userName,
-                email: user.email,
-                passCodes: user.passCodes,
-                role: 'user'
-            },
-            token: generateToken(user._id)
+                token: generateToken(user._id),
+                _id: user._id
         })
     } else {
         res.status(400)
@@ -49,15 +43,9 @@ const logIn = asyncHandler(async (req, res) => {
 
     if (user && (bcrypt.compare(user.password, password))) {
         res.json({
-            userData: {
-                _id: user._id,
-                userName: user.userName,
-                email: user.email,
-                passCodes: user.passCodes,
-                role: 'user'
-            },
-            token: generateToken(user._id)
-        })
+                token: generateToken(user._id),
+                _id: user._id
+            })
     } else {
         res.status(401)
         throw new Error('Invalid email or password')
@@ -71,7 +59,7 @@ const addPassCode = asyncHandler(async (req, res) => {
     const user = await User.findOne({ _id:  newId})
     const board = await Board.findOne({ passCode: passCode })
 
-    if (board) {
+    if (board && !user.passCodes.includes(passCode)) {
         const newUserPassCodes = user.passCodes
         newUserPassCodes.push(passCode)
 
@@ -79,11 +67,28 @@ const addPassCode = asyncHandler(async (req, res) => {
             passCodes: newUserPassCodes
         })
 
+        console.log(newUserPassCodes)
+
     } else {
         res.status(401)
         throw new Error('Board doesn\'t exists!')
     }
 })
 
+const getProfile = asyncHandler(async (req, res) => {
+    const { _id } = req.query
 
-export { registerUser, logIn, addPassCode }
+    const user = await User.findById(_id)
+
+    res.json({
+        userProfile: {
+            userName: user.userName,
+            passCodes: user.passCodes,
+            role: user.role
+        }})
+
+    console.log(user)
+})
+
+
+export { registerUser, logIn, addPassCode, getProfile }

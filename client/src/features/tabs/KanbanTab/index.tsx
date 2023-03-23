@@ -43,6 +43,9 @@ const KanbanTab = (): React.ReactElement => {
         <DragDropContext onDragEnd={onDragEnd}>
           <Box sx={styles}>
             {
+
+            }
+            {
               kanban.loading
                 ? (
                       <Box sx={{ width: '100%', position: 'absolute', top: '0px', left: '0' }}>

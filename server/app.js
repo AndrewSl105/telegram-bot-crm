@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import connectDB from "./config/db.js";
 import {editCard, getKanbanData, getKanbanBoardsList, addNewBoard, deleteBoard, addCard} from "./controllers/kanban.js";
 import cors from "cors";
-import {registerUser, logIn, addPassCode} from "./controllers/user.js";
+import {registerUser, logIn, addPassCode, getProfile} from "./controllers/user.js";
 import {protect} from "./middleware/authMiddleware.js";
 
 dotenv.config()
@@ -33,6 +33,7 @@ app.use('/api/kanban', kanbanRoutes)
 userRoutes.route('/sign-up').post(registerUser)
 userRoutes.route('/log-in').post(logIn)
 userRoutes.route('/add-passcode').post(addPassCode)
+userRoutes.route('/profile').get(getProfile)
 
 app.use('/api/user', userRoutes)
 

@@ -14,7 +14,7 @@ export const generatePassCode = () => {
     return `PASS${numbers}`
 }
 
-export const getNewBoardObject = (boardName, passCode, colorStyle) => {
+export const getNewBoardObject = (boardName, passCode, colorStyle, userId) => {
     return (
         {
             environmentName: boardName,
@@ -41,7 +41,8 @@ export const getNewBoardObject = (boardName, passCode, colorStyle) => {
                     items: []
                 }
             ],
-            cards: []
+            cards: [],
+            createdBy: userId
         }
     )
 }

@@ -1,6 +1,5 @@
 import { type Action, type Dispatch } from 'redux'
-import type * as React from 'react'
-import { type CardInterface, type ColumnInterface, type newCardState } from './state'
+import { type CardInterface, type ColumnInterface } from './state'
 
 export interface BoardListItem {
   _id: string
@@ -32,11 +31,9 @@ export interface Board {
 }
 
 export interface AddCardFormProps {
-  cardState: newCardState
   boardsList: BoardListItem[]
   boardId: string
-  setCardState: any
-  setBoardId: any
+  getFieldProps: any
 }
 
 export interface DialogProps {
@@ -53,14 +50,4 @@ export interface BoardItemProps {
   }
   title: string
   onChangeBoard: any
-}
-
-export interface RegularInputProps {
-  action: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
-  label: string
-  name: string
-  value: string | number
-  autoFocus: boolean
-  multiline: boolean
-  rows: number
 }

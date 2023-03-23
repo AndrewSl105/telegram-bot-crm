@@ -3,6 +3,8 @@ import axios from 'axios'
 import { showNotification } from './notistack'
 import { DEFAULT, ERROR, SUCCESS } from '../../constants'
 import { USER_CREATED, USER_LOGGED_IN, USER_LOGGED_OUT } from '../../constants/user'
+import { getKanbanBoardsListAction, kanbanBoardSlice } from './kanban'
+import { getToken, getUserId } from '../../utils'
 
 export interface UserData {
   userName: string
@@ -15,12 +17,22 @@ export interface UserState {
   loading: boolean
   logIn: boolean | null
   error: string
+  profile: {
+    _Id: string
+    passCodes: string[]
+    userName: string
+  }
 }
 
 const initialState: UserState = {
   loading: false,
   logIn: null,
-  error: ''
+  error: '',
+  profile: {
+    _Id: '',
+    passCodes: [],
+    userName: ''
+  }
 }
 
 export const userSlice = createSlice({
@@ -28,14 +40,12 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     signUpSuccess (state, action) {
-      localStorage.setItem('token', JSON.stringify(action.payload.token))
-      localStorage.setItem('userData', JSON.stringify(action.payload.userData))
+      localStorage.setItem('userData', JSON.stringify(action.payload))
       state.logIn = true
     },
     logInSuccess (state, action) {
       state.logIn = true
-      localStorage.setItem('token', JSON.stringify(action.payload.token))
-      localStorage.setItem('userData', JSON.stringify(action.payload.userData))
+      localStorage.setItem('userData', JSON.stringify(action.payload))
     },
     logOut (state) {
       localStorage.clear()
@@ -44,6 +54,9 @@ export const userSlice = createSlice({
     addPassCodeSuccess (state, action) {
       const passCode = action.payload
       console.log(passCode)
+    },
+    getProfile (state, action) {
+      state.profile = action.payload.userProfile
     },
     getError (state, action) {
       state.error = action.payload
@@ -57,7 +70,6 @@ export function userSignUpAction (userData: {
   password: string
 }) {
   return async (dispatch: any) => {
-    console.log(userData)
     let response
     try {
       response = await axios.post('http://localhost:5000/api/user/sign-up', {
@@ -104,6 +116,24 @@ export function addPassCodeAction (passCode: string, _id: string | null) {
         _id
       })
       dispatch(userSlice.actions.addPassCodeSuccess(response.data))
+      dispatch(getKanbanBoardsListAction())
+    } catch (error) {
+      dispatch(userSlice.actions.getError(error))
+      dispatch(showNotification({ text: error, variant: ERROR }))
+    }
+  }
+}
+
+export function getProfileAction (_id: string) {
+  return async (dispatch: any) => {
+    let response
+    try {
+      response = await axios.get('http://localhost:5000/api/user/profile', {
+        params: {
+          _id
+        }
+      })
+      dispatch(userSlice.actions.getProfile(response.data))
     } catch (error) {
       dispatch(userSlice.actions.getError(error))
       dispatch(showNotification({ text: error, variant: ERROR }))

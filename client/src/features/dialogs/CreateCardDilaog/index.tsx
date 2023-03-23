@@ -6,26 +6,32 @@ import {
   DialogContent,
   DialogTitle
 } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { memo, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { addCardAction, getKanbanBoardsListAction } from '../../../redux/slices/kanban'
 import { hide } from '../../../redux/slices/dialog'
 import { useAppDispatch } from '../../../hook'
 import AddCardForm from './components/AddCardForm'
-import { getInitialState, getNewCardObject } from './utils'
+import { getInitialState } from './utils'
 import { type Board, type DialogProps } from '../../../interfaces/props'
+import { useFormik } from 'formik'
 
-export default function CreateCardDialog (props: DialogProps): React.ReactElement {
+const CreateCardDialog = memo(function CreateCardDialog (props: DialogProps): React.ReactElement {
   const dispatch = useAppDispatch()
 
   const boardsList = useSelector((state: Board) => state.kanban.boardsList)
 
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: getInitialState(),
+    onSubmit: (values): any => {
+      void dispatch(addCardAction(values))
+    }
+  })
+
   useEffect(() => {
     void dispatch(getKanbanBoardsListAction())
   }, [dispatch])
-
-  const [cardState, setCardState] = useState(getInitialState())
-  const [boardId, setBoardId] = React.useState<string>('')
 
   const handleClose = (e: React.MouseEvent): void => {
     e.preventDefault()
@@ -34,8 +40,7 @@ export default function CreateCardDialog (props: DialogProps): React.ReactElemen
   }
 
   const addCardHandler = (): void => {
-    const card = getNewCardObject(cardState)
-    void dispatch(addCardAction(card, boardId))
+    void dispatch(addCardAction(formik.values))
     props.dispatch(hide())
   }
 
@@ -48,25 +53,24 @@ export default function CreateCardDialog (props: DialogProps): React.ReactElemen
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-
             <DialogTitle id="alert-dialog-title">
                 Create new card
             </DialogTitle>
             <DialogContent>
                 <AddCardForm
-                    cardState={cardState}
-                    setBoardId={setBoardId}
-                    boardId={boardId}
-                    setCardState={setCardState}
+                    boardId={formik.values.boardId}
+                    getFieldProps={formik.getFieldProps}
                     boardsList={boardsList}
                 />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>CLOSE</Button>
-                <Button onClick={addCardHandler} color="success" autoFocus>
+                <Button type="submit" onClick={addCardHandler} color="success" autoFocus>
                     Create
                 </Button>
             </DialogActions>
         </Dialog>
   )
-};
+})
+
+export default CreateCardDialog
