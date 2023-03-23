@@ -3,3 +3,5 @@ export const USERNAME_SIZE_LIMIT = 'The userName should contain less than 27 cha
 export const REQUIRED = 'The field cannot be empty'
 export const PASSWORD_MATCH = 'Passwords must match'
 export const EMAIL_INCORRECT = 'The email is incorrect!'
+export const PHONE_NUMBER_INVALID = 'Phone number is not valid!'
+export const TITLE_SIZE = 'The title should contain no more than 48 characters'

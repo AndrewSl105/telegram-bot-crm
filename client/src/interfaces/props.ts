@@ -1,5 +1,6 @@
 import { type Action, type Dispatch } from 'redux'
 import { type CardInterface, type ColumnInterface } from './state'
+import {FormikErrors} from "formik";
 
 export interface BoardListItem {
   _id: string
@@ -34,6 +35,7 @@ export interface AddCardFormProps {
   boardsList: BoardListItem[]
   boardId: string
   getFieldProps: any
+  errors: FormikErrors<any>
 }
 
 export interface DialogProps {

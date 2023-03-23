@@ -15,6 +15,7 @@ import AddCardForm from './components/AddCardForm'
 import { getInitialState } from './utils'
 import { type Board, type DialogProps } from '../../../interfaces/props'
 import { useFormik } from 'formik'
+import { cardSchema } from './validation'
 
 const CreateCardDialog = memo(function CreateCardDialog (props: DialogProps): React.ReactElement {
   const dispatch = useAppDispatch()
@@ -23,6 +24,7 @@ const CreateCardDialog = memo(function CreateCardDialog (props: DialogProps): Re
 
   const formik = useFormik({
     enableReinitialize: true,
+    validationSchema: cardSchema,
     initialValues: getInitialState(),
     onSubmit: (values): any => {
       void dispatch(addCardAction(values))
@@ -44,6 +46,10 @@ const CreateCardDialog = memo(function CreateCardDialog (props: DialogProps): Re
     props.dispatch(hide())
   }
 
+  const { errors } = formik
+
+  console.log(errors)
+
   return (
         <Dialog
             open={props.open}
@@ -61,6 +67,7 @@ const CreateCardDialog = memo(function CreateCardDialog (props: DialogProps): Re
                     boardId={formik.values.boardId}
                     getFieldProps={formik.getFieldProps}
                     boardsList={boardsList}
+                    errors={errors}
                 />
             </DialogContent>
             <DialogActions>

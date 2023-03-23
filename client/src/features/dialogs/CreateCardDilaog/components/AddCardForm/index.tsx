@@ -14,7 +14,7 @@ import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 import { type AddCardFormProps } from '../../../../../interfaces/props'
 
 const AddCardForm = (props: AddCardFormProps): ReactJSXElement => {
-  const { boardsList, getFieldProps, boardId } = props
+  const { boardsList, getFieldProps, boardId, errors } = props
 
   return (
         <Box display='flex' flexDirection='row'>
@@ -23,13 +23,16 @@ const AddCardForm = (props: AddCardFormProps): ReactJSXElement => {
                     {...getFieldProps('title')}
                     label="Card Name"
                     name='title'
+                    error={errors.title}
+                    helperText={errors.title}
                     autoFocus
                 />
                 <RegularInput
                     {...getFieldProps('description')}
                     label="Card description"
                     name='description'
-                    autoFocus
+                    error={errors.description}
+                    helperText={errors.description}
                     multiline
                     rows={4}
                 />
@@ -38,11 +41,14 @@ const AddCardForm = (props: AddCardFormProps): ReactJSXElement => {
                     <Select
                         {...getFieldProps('boardId')}
                         fullWidth
+                        error={errors.boardId}
+                        helperText={errors.boardId}
                         labelId="demo-multiple-checkbox-label"
                         input={<OutlinedInput sx={{
                           '.MuiButtonBase-root': {
                             display: 'none'
-                          }
+                          },
+                          height: '56px'
                         }
                         } label="Board" />}
                     >
@@ -60,6 +66,8 @@ const AddCardForm = (props: AddCardFormProps): ReactJSXElement => {
                     {...getFieldProps('phoneNumber')}
                     label="Phone Number"
                     name='phoneNumber'
+                    error={errors.phoneNumber}
+                    helperText={errors.phoneNumber}
                 />
                 <RegularInput
                     {...getFieldProps('userName')}
