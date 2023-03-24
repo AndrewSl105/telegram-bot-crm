@@ -24,17 +24,17 @@ kanbanRoutes.use(protect)
 
 kanbanRoutes.route('/').get(getKanbanData).post(editCard)
 kanbanRoutes.route('/getList').get(getKanbanBoardsList)
-kanbanRoutes.route('/addBoard').post(addNewBoard)
-kanbanRoutes.route('/deleteBoard').delete(deleteBoard)
-kanbanRoutes.route('/addCard').post(addCard)
+kanbanRoutes.route('/add-board').post(addNewBoard)
+kanbanRoutes.route('/delete-board').delete(deleteBoard)
+kanbanRoutes.route('/add-card').post(addCard)
 
 app.use('/api/kanban', kanbanRoutes)
 
 userRoutes.route('/sign-up').post(registerUser)
 userRoutes.route('/log-in').post(logIn)
-userRoutes.route('/add-passcode').post(addPassCode)
-userRoutes.route('/profile').get(getProfile)
-userRoutes.route('/my-team').get(getMyTeam)
+userRoutes.route('/add-passcode').post(protect, addPassCode)
+userRoutes.route('/profile').get(protect, getProfile)
+userRoutes.route('/my-team').get(protect, getMyTeam)
 
 app.use('/api/user', userRoutes)
 

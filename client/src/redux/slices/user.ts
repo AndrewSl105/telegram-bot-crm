@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 import { showNotification } from './notistack'
 import { DEFAULT, ERROR, SUCCESS } from '../../constants'
 import { USER_CREATED, USER_LOGGED_IN, USER_LOGGED_OUT } from '../../constants/user'
-import { getKanbanBoardsListAction, kanbanBoardSlice } from './kanban'
-import { getToken, getUserId } from '../../utils'
+import { getKanbanBoardsListAction } from './kanban'
+import { Api } from '../../Api/api'
 
 export interface UserData {
   userName: string
@@ -52,8 +51,6 @@ export const userSlice = createSlice({
       state.logIn = false
     },
     addPassCodeSuccess (state, action) {
-      const passCode = action.payload
-      console.log(passCode)
     },
     getProfile (state, action) {
       state.profile = action.payload.userProfile
@@ -72,10 +69,8 @@ export function userSignUpAction (userData: {
   return async (dispatch: any) => {
     let response
     try {
-      response = await axios.post('http://localhost:5000/api/user/sign-up', {
-        userData
-      })
-      dispatch(userSlice.actions.signUpSuccess(response.data))
+      response = Api.signUp(userData)
+      dispatch(userSlice.actions.signUpSuccess((await response).data))
       dispatch(showNotification({ text: USER_CREATED, variant: SUCCESS }))
     } catch (error) {
       dispatch(userSlice.actions.getError(error))
@@ -88,10 +83,8 @@ export function userLogInAction (userData: { email: string, password: string }) 
   return async (dispatch: any) => {
     let response
     try {
-      response = await axios.post('http://localhost:5000/api/user/log-in', {
-        userData
-      })
-      dispatch(userSlice.actions.logInSuccess(response.data))
+      response = Api.logIn(userData)
+      dispatch(userSlice.actions.logInSuccess((await response).data))
       dispatch(showNotification({ text: USER_LOGGED_IN, variant: SUCCESS }))
     } catch (error) {
       dispatch(userSlice.actions.getError(error))
@@ -111,11 +104,8 @@ export function addPassCodeAction (passCode: string, _id: string | null) {
   return async (dispatch: any) => {
     let response
     try {
-      response = await axios.post('http://localhost:5000/api/user/add-passcode', {
-        passCode,
-        _id
-      })
-      dispatch(userSlice.actions.addPassCodeSuccess(response.data))
+      response = Api.post('user/add-passcode', { passCode, _id })
+      dispatch(userSlice.actions.addPassCodeSuccess((await response).data))
       dispatch(getKanbanBoardsListAction())
     } catch (error) {
       dispatch(userSlice.actions.getError(error))
@@ -128,12 +118,8 @@ export function getProfileAction (_id: string) {
   return async (dispatch: any) => {
     let response
     try {
-      response = await axios.get('http://localhost:5000/api/user/profile', {
-        params: {
-          _id
-        }
-      })
-      dispatch(userSlice.actions.getProfile(response.data))
+      response = Api.get('user/profile', _id)
+      dispatch(userSlice.actions.getProfile((await response).data))
     } catch (error) {
       dispatch(userSlice.actions.getError(error))
       dispatch(showNotification({ text: error, variant: ERROR }))
@@ -145,12 +131,8 @@ export function getMyTeamAction (_id: string) {
   return async (dispatch: any) => {
     let response
     try {
-      response = await axios.get('http://localhost:5000/api/user/profile', {
-        params: {
-          _id
-        }
-      })
-      dispatch(userSlice.actions.getProfile(response.data))
+      response = response = Api.get('user/my-team', _id)
+      dispatch(userSlice.actions.getProfile((await response).data))
     } catch (error) {
       dispatch(userSlice.actions.getError(error))
       dispatch(showNotification({ text: error, variant: ERROR }))

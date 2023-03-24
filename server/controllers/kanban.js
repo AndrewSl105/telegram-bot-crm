@@ -19,6 +19,7 @@ const getKanbanData = asyncHandler(async (req, res) => {
 })
 
 const getKanbanBoardsList = asyncHandler(async (req, res) => {
+    console.log(true)
     const { userId } = req.query
     const _id = userId.replace(/['"]+/g, '')
     const user = await User.findOne({ _id: _id })

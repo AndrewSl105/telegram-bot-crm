@@ -5,7 +5,7 @@ import Board from "../models/board.js";
 import bcrypt from "bcryptjs";
 
 const registerUser = asyncHandler(async (req, res) => {
-    const { userName, email, password, passCodes } = req.body.userData
+    const { userName, email, password, passCodes } = req.body
 
     const userExists = await User.findOne({ email })
 
@@ -37,7 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
 })
 
 const logIn = asyncHandler(async (req, res) => {
-    const { email, password } = req.body.userData
+    const { email, password } = req.body
 
     const user = await User.findOne({ email })
 
