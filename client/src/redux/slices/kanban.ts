@@ -13,6 +13,7 @@ import {
 } from '../../constants'
 import { type CardInterface } from '../../interfaces/state'
 import { type BoardListItem } from '../../interfaces/props'
+import { userSlice } from './user'
 
 interface mainKanbanState {
   loading: boolean
@@ -29,7 +30,7 @@ const initialState: mainKanbanState = {
   error: '',
   card: {},
   boardsList: [],
-  passCode: 'PASS850627'
+  passCode: ''
 }
 
 export const kanbanBoardSlice = createSlice({
@@ -92,12 +93,14 @@ export function getBoardAction () {
     dispatch(kanbanBoardSlice.actions.startLoading(state))
     let response
     const token = getToken()
-    console.log(state().user.profile.passCodes)
     const passCode = state().kanban.passCode
+    const userId = getUserId()
+
     try {
       response = await axios.get('http://localhost:5000/api/kanban', {
         params: {
-          passCode
+          passCode,
+          userId
         },
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         headers: { Authorization: `Bearer ${token}` }
@@ -135,8 +138,6 @@ export function getKanbanBoardsListAction () {
     let response
     const token = getToken()
     const userId = getUserId()
-
-    console.log(token, userId)
 
     try {
       response = await axios.get('http://localhost:5000/api/kanban/getList', {

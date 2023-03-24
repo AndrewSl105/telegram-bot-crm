@@ -90,5 +90,11 @@ const getProfile = asyncHandler(async (req, res) => {
     console.log(user)
 })
 
+const getMyTeam = asyncHandler(async (req, res) => {
+    const { _id } = req.query
 
-export { registerUser, logIn, addPassCode, getProfile }
+
+})
+
+
+export { registerUser, logIn, addPassCode, getProfile, getMyTeam }

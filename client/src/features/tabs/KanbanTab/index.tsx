@@ -13,6 +13,7 @@ import { type ColumnInterface } from '../../../interfaces/state'
 
 const KanbanTab = (): React.ReactElement => {
   const kanban = useSelector((state: Board) => state.kanban)
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {

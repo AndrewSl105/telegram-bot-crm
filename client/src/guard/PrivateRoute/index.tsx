@@ -6,13 +6,10 @@ const PrivateRoutes = (): any => {
   const location = useLocation()
   const token = getToken()
 
-  if (token === undefined) {
-    return null // or loading indicator/spinner/etc
-  }
-
-  return (token != null)
-    ? <DashBoard />
-    : <Navigate to="/log-in" replace state={{ from: location }} />
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  return (token === undefined || null)
+    ? <Navigate to="/log-in" replace state={{ from: location }} />
+    : <DashBoard />
 }
 
 export default PrivateRoutes

@@ -9,8 +9,6 @@ import { useEffect } from 'react'
 import { getKanbanBoardsListAction } from '../../redux/slices/kanban'
 import { useAppDispatch } from '../../hook'
 import DrawerList from './components/Drawer'
-import { getProfileAction } from '../../redux/slices/user'
-import { getUserId } from '../../utils'
 
 const drawerWidth = 270
 
@@ -22,11 +20,9 @@ const DashBoard = (props: Props): ReactJSXElement => {
   const { window } = props
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const dispatch = useAppDispatch()
-  const _id = getUserId()
 
   useEffect(() => {
     void dispatch(getKanbanBoardsListAction())
-    void dispatch(getProfileAction(_id))
   }, [dispatch])
 
   const handleDrawerToggle = (): void => {

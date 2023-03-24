@@ -6,8 +6,15 @@ import Card from "../models/card.js";
 import User from "../models/user.js";
 
 const getKanbanData = asyncHandler(async (req, res) => {
-    const { passCode } = req.query
-    const board = await Board.findOne({passCode: passCode})
+    const { passCode, userId } = req.query
+    let code
+    if (!passCode) {
+        const user = await User.findOne({_id: userId})
+        code = user.passCodes[0]
+    } else {
+        code = passCode
+    }
+    const board = await Board.findOne({passCode: code})
     res.json(board)
 })
 

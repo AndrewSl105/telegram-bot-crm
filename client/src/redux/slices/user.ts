@@ -141,4 +141,21 @@ export function getProfileAction (_id: string) {
   }
 }
 
+export function getMyTeamAction (_id: string) {
+  return async (dispatch: any) => {
+    let response
+    try {
+      response = await axios.get('http://localhost:5000/api/user/profile', {
+        params: {
+          _id
+        }
+      })
+      dispatch(userSlice.actions.getProfile(response.data))
+    } catch (error) {
+      dispatch(userSlice.actions.getError(error))
+      dispatch(showNotification({ text: error, variant: ERROR }))
+    }
+  }
+}
+
 export default userSlice.reducer
