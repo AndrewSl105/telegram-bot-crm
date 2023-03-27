@@ -13,6 +13,7 @@ import {
 import { type CardInterface } from '../../interfaces/state'
 import { type BoardListItem } from '../../interfaces/props'
 import { Api } from '../../Api/api'
+import { type AppDispatch, type RootState } from '../store'
 
 export interface mainKanbanState {
   loading: boolean
@@ -100,7 +101,7 @@ export const { getCardById, changeEnvironment } = kanbanBoardSlice.actions
 export default kanbanBoardSlice.reducer
 
 export function getBoardAction () {
-  return async (dispatch: any, state: any) => {
+  return async (dispatch: AppDispatch, state: () => RootState) => {
     dispatch(kanbanBoardSlice.actions.startLoading())
     let response
     const passCode = state().kanban.passCode
@@ -118,7 +119,7 @@ export function getBoardAction () {
 }
 
 export function editCardAction (newCard: CardInterface, boardId: string) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     let response
 
     try {
@@ -132,7 +133,7 @@ export function editCardAction (newCard: CardInterface, boardId: string) {
 }
 
 export function getKanbanBoardsListAction () {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     let response
     const userId = getUserId()
 
@@ -147,20 +148,20 @@ export function getKanbanBoardsListAction () {
 }
 
 export function changeEnvironmentAction (passCode: string) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(changeEnvironment(passCode))
-    dispatch(getBoardAction())
+    void dispatch(getBoardAction())
   }
 }
 
 export function onDragAction (result: any) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(kanbanBoardSlice.actions.onDrag(result))
   }
 }
 
 export function createNewBoardAction (boardName: string) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(kanbanBoardSlice.actions.startLoading())
     const userId = getUserId()
     let response
@@ -179,7 +180,7 @@ export function createNewBoardAction (boardName: string) {
 }
 
 export function deleteBoardAction (boardId: string) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(kanbanBoardSlice.actions.startLoading())
     let response
     const userId = getUserId()
@@ -198,7 +199,7 @@ export function deleteBoardAction (boardId: string) {
 }
 
 export function addCardAction (values: Record<string, string>) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(kanbanBoardSlice.actions.startLoading())
     let response
 

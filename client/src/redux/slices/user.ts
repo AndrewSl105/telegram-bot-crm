@@ -5,6 +5,7 @@ import { USER_CREATED, USER_LOGGED_IN, USER_LOGGED_OUT } from '../../constants/u
 import { getKanbanBoardsListAction } from './kanban'
 import { Api } from '../../Api/api'
 import { getUserId } from '../../utils'
+import { type AppDispatch } from '../store'
 
 export interface UserData {
   userName: string
@@ -67,14 +68,13 @@ export function userSignUpAction (userData: {
   email: string
   password: string
 }) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     let response
     try {
       response = Api.signUp(userData)
       dispatch(userSlice.actions.signUpSuccess((await response).data))
       dispatch(showNotification({ text: USER_CREATED, variant: SUCCESS }))
     } catch (error: any) {
-      console.log(error.message)
       dispatch(userSlice.actions.getError(error.message))
       dispatch(showNotification({ text: error.message, variant: ERROR }))
     }
@@ -82,7 +82,7 @@ export function userSignUpAction (userData: {
 }
 
 export function userLogInAction (userData: { email: string, password: string }) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     let response
     try {
       response = Api.logIn(userData)
@@ -96,21 +96,21 @@ export function userLogInAction (userData: { email: string, password: string }) 
 }
 
 export function userLogOutAction () {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(userSlice.actions.logOut())
     dispatch(showNotification({ text: USER_LOGGED_OUT, variant: DEFAULT }))
   }
 }
 
 export function addPassCodeAction (passCode: string) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     const _id = getUserId()
 
     let response
     try {
       response = Api.post('user/add-passcode', { passCode, _id })
       dispatch(userSlice.actions.addPassCodeSuccess((await response).data))
-      dispatch(getKanbanBoardsListAction())
+      void dispatch(getKanbanBoardsListAction())
     } catch (error: any) {
       dispatch(userSlice.actions.getError(error.message))
       dispatch(showNotification({ text: error.message, variant: ERROR }))
@@ -119,7 +119,7 @@ export function addPassCodeAction (passCode: string) {
 }
 
 export function getProfileAction (_id: string) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     let response
     try {
       response = Api.get('user/profile', { _id })
@@ -132,13 +132,12 @@ export function getProfileAction (_id: string) {
 }
 
 export function getMyTeamAction (_id: string) {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     let response
     try {
       response = response = Api.get('user/my-team', { _id })
       dispatch(userSlice.actions.getProfile((await response).data))
     } catch (error: any) {
-      console.log(error)
       dispatch(userSlice.actions.getError(error.message))
       dispatch(showNotification({ text: error.message, variant: ERROR }))
     }
