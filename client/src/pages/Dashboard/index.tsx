@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 import { memo, useEffect } from 'react'
-import { getKanbanBoardsListAction } from '../../redux/slices/kanban'
+import { changeEnvironmentAction, getKanbanBoardsListAction } from '../../redux/slices/kanban'
 import { useAppDispatch } from '../../hook'
 import DrawerList from './components/Drawer'
 import { useSelector } from 'react-redux'
@@ -24,6 +24,14 @@ const DashBoard = memo(function DashBoard (props: Props): ReactJSXElement {
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const dispatch = useAppDispatch()
   const kanban = useSelector((state: Board) => state.kanban)
+
+  useEffect(() => {
+    if (kanban.passCode === '' && kanban.boardListLoaded) {
+      const defaultPassCode = kanban.boardsList[0]?.passCode
+      console.log(true)
+      void dispatch(changeEnvironmentAction(defaultPassCode))
+    }
+  }, [kanban.boardListLoaded, dispatch, kanban.passCode])
 
   const boardBackGround = kanban.board.style?.color
   let backGroundRgba

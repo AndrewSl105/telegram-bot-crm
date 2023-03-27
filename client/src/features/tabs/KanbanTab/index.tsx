@@ -21,13 +21,6 @@ const KanbanTab = (): React.ReactElement => {
 
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    if (kanban.passCode === '' && kanban.boardListLoaded) {
-      const defaultPassCode = kanban.boardsList[0]?.passCode
-      void dispatch(changeEnvironmentAction(defaultPassCode))
-    }
-  }, [kanban.boardListLoaded, dispatch, kanban.passCode])
-
   const onDragEnd = (result: any): void => {
     const { draggableId } = result
     const destinationColumnId = result.destination.droppableId

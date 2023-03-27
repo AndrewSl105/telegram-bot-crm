@@ -1,6 +1,6 @@
 import { type Action, type Dispatch } from 'redux'
 import { type CardInterface, type ColumnInterface } from './state'
-import {FormikErrors} from "formik";
+import { type FormikErrors } from 'formik'
 
 export interface BoardListItem {
   _id: string

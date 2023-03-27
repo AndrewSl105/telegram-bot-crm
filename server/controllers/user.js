@@ -3,6 +3,8 @@ import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 import Board from "../models/board.js";
 import bcrypt from "bcryptjs";
+import jwt_decode from "jwt-decode";
+import user from "../models/user.js";
 
 const registerUser = asyncHandler(async (req, res) => {
     const { userName, email, password, passCodes } = req.body
@@ -88,8 +90,22 @@ const getProfile = asyncHandler(async (req, res) => {
 })
 
 const getMyTeam = asyncHandler(async (req, res) => {
-    const { _id } = req.query
-    const users = User
+    const { passCode } = req.query
+    const token = req.headers.authorization.split(' ')[1]
+    const decoded = jwt_decode(token)
+    const users = await User.find({passCodes: passCode})
+    const usersList = users.filter(el => el._id.toString() !== decoded._id)
+    const teamList = usersList.map(el => {
+        return (
+            {
+                userName: el.userName,
+                email: el.email,
+            }
+        )
+    })
+
+
+   res.json({teamList})
 
 })
 

@@ -5,7 +5,7 @@ import { USER_CREATED, USER_LOGGED_IN, USER_LOGGED_OUT } from '../../constants/u
 import { getKanbanBoardsListAction } from './kanban'
 import { Api } from '../../Api/api'
 import { getUserId } from '../../utils'
-import { type AppDispatch } from '../store'
+import { type AppDispatch, type RootState } from '../store'
 
 export interface UserData {
   userName: string
@@ -23,6 +23,7 @@ export interface UserState {
     passCodes: string[]
     userName: string
   }
+  teamList: []
 }
 
 const initialState: UserState = {
@@ -33,7 +34,8 @@ const initialState: UserState = {
     _Id: '',
     passCodes: [],
     userName: ''
-  }
+  },
+  teamList: []
 }
 
 export const userSlice = createSlice({
@@ -53,6 +55,9 @@ export const userSlice = createSlice({
       state.logIn = false
     },
     addPassCodeSuccess (state, action) {
+    },
+    getTeamList (state, action) {
+      state.teamList = action.payload.teamList
     },
     getProfile (state, action) {
       state.profile = action.payload.userProfile
@@ -131,12 +136,12 @@ export function getProfileAction (_id: string) {
   }
 }
 
-export function getMyTeamAction (_id: string) {
-  return async (dispatch: AppDispatch) => {
+export function getMyTeamAction (passCode: string) {
+  return async (dispatch: AppDispatch, state: () => RootState) => {
     let response
     try {
-      response = response = Api.get('user/my-team', { _id })
-      dispatch(userSlice.actions.getProfile((await response).data))
+      response = response = Api.get('user/my-team', { passCode })
+      dispatch(userSlice.actions.getTeamList((await response).data))
     } catch (error: any) {
       dispatch(userSlice.actions.getError(error.message))
       dispatch(showNotification({ text: error.message, variant: ERROR }))

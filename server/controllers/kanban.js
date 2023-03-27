@@ -75,7 +75,7 @@ const deleteBoard = asyncHandler(async (req, res) => {
     const user = await User.findById(userId)
     const newPassCodes = user.passCodes
     newPassCodes.pop(board.passCode)
-    console.log(newPassCodes)
+
     await User.updateOne({_id: userId}, {passCodes: newPassCodes})
 
     await Board.findOneAndRemove({_id: boardId})
