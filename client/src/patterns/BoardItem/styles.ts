@@ -1,5 +1,4 @@
 export const styles = {
-  width: '100%',
   display: 'flex',
   alignItems: 'center',
   padding: '0.5rem',

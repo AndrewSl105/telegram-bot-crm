@@ -53,5 +53,5 @@ export interface BoardItemProps {
     color: string
   }
   title: string
-  onChangeBoard: any
+  passCode: string
 }

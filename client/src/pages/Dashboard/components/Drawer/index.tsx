@@ -30,10 +30,6 @@ const DrawerList = (): ReactJSXElement => {
     if (logIn === false) navigate('/log-in')
   }, [logIn])
 
-  const changeEnvironmentHandler = (passCode: string): void => {
-    void dispatch(changeEnvironmentAction(passCode))
-  }
-
   const logOutHandler = (): void => {
     void dispatch(userLogOutAction())
   }
@@ -89,7 +85,8 @@ const DrawerList = (): ReactJSXElement => {
                             _id={el._id}
                             style={el.style}
                             title={el.environmentName}
-                            onChangeBoard={() => { changeEnvironmentHandler(el.passCode) }} />
+                            passCode={el.passCode}
+                            />
                     </ListItem>
                 ))}
             </List>

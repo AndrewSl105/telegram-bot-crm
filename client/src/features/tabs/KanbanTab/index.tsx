@@ -43,10 +43,10 @@ const KanbanTab = (): React.ReactElement => {
   return (
       <Box>
         <DragDropContext onDragEnd={onDragEnd}>
+          {
+              kanban.boardsList === undefined && !kanban.loading && <NoBoardPage />
+          }
           <Box sx={styles}>
-            {
-                kanban.passCode === '' && !kanban.loading && <NoBoardPage />
-            }
             {
               kanban.loading
                 ? (

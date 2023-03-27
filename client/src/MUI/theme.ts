@@ -6,6 +6,11 @@ export const theme = createTheme({
       'Public Sans, sans-serif'
     ].join(',')
   },
+  palette: {
+    primary: {
+      main: '#10a37f'
+    }
+  },
   breakpoints: {
     values: {
       xs: 0,
