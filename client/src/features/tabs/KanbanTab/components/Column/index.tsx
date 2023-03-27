@@ -2,12 +2,12 @@ import { Box, Typography } from '@mui/material'
 import { styles } from './styles'
 import * as React from 'react'
 import BoardCard from '../Card'
-import { Droppable } from 'react-beautiful-dnd'
 import { type ColumnInterface } from '../../../../../interfaces/state'
+import { StrictModeDroppable } from './StrictModeDroppable'
 
 const Column = (props: ColumnInterface): React.ReactElement => {
   return (
-        <Droppable droppableId={props._id}>
+        <StrictModeDroppable droppableId={props._id}>
             {
                 (provided) => {
                   return (
@@ -35,11 +35,12 @@ const Column = (props: ColumnInterface): React.ReactElement => {
                                     />
                                 })}
                             </Box>
+                            {provided.placeholder}
                         </Box>
                   )
                 }
             }
-        </Droppable>
+        </StrictModeDroppable>
   )
 }
 

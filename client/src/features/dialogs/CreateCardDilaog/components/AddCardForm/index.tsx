@@ -44,12 +44,13 @@ const AddCardForm = (props: AddCardFormProps): ReactJSXElement => {
                         error={errors.boardId}
                         helperText={errors.boardId}
                         labelId="demo-multiple-checkbox-label"
-                        input={<OutlinedInput sx={{
-                          '.MuiButtonBase-root': {
-                            display: 'none'
-                          },
-                          height: '56px'
-                        }
+                        input={<OutlinedInput
+                            sx={{
+                              '.MuiButtonBase-root': {
+                                display: 'none'
+                              },
+                              height: '56px'
+                            }
                         } label="Board" />}
                     >
                         {boardsList.map((el) => (

@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react'
 import { Box, LinearProgress } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { editCardAction, getBoardAction, onDragAction } from '../../../redux/slices/kanban'
+import {
+  changeEnvironmentAction,
+  editCardAction,
+  onDragAction
+} from '../../../redux/slices/kanban'
 import Column from './components/Column'
 import { useAppDispatch } from '../../../hook'
 import { DragDropContext } from 'react-beautiful-dnd'
@@ -10,6 +14,7 @@ import { getDestinationColumn, updateCardStatusOnly } from '../../../utils'
 import { styles } from './styles'
 import { type Board } from '../../../interfaces/props'
 import { type ColumnInterface } from '../../../interfaces/state'
+import NoBoardPage from '../../common/NoBoardPage'
 
 const KanbanTab = (): React.ReactElement => {
   const kanban = useSelector((state: Board) => state.kanban)
@@ -17,8 +22,11 @@ const KanbanTab = (): React.ReactElement => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    void dispatch(getBoardAction())
-  }, [dispatch])
+    if (kanban.passCode === '' && kanban.boardListLoaded) {
+      const defaultPassCode = kanban.boardsList[0]?.passCode
+      void dispatch(changeEnvironmentAction(defaultPassCode))
+    }
+  }, [kanban.boardListLoaded, dispatch, kanban.passCode])
 
   const onDragEnd = (result: any): void => {
     const { draggableId } = result
@@ -44,7 +52,7 @@ const KanbanTab = (): React.ReactElement => {
         <DragDropContext onDragEnd={onDragEnd}>
           <Box sx={styles}>
             {
-
+                kanban.passCode === '' && !kanban.loading && <NoBoardPage />
             }
             {
               kanban.loading
@@ -56,7 +64,7 @@ const KanbanTab = (): React.ReactElement => {
                 : null
             }
             {
-              kanban.board !== undefined && !kanban.loading
+              !kanban.loading && kanban.passCode !== undefined
                 ? (
                     kanban.board.columns?.map((column: ColumnInterface) => {
                       return <Column

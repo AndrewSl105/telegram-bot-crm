@@ -9,6 +9,9 @@ import { useEffect } from 'react'
 import { getKanbanBoardsListAction } from '../../redux/slices/kanban'
 import { useAppDispatch } from '../../hook'
 import DrawerList from './components/Drawer'
+import { useSelector } from 'react-redux'
+import { type Board } from '../../interfaces/props'
+import hexToRgba from 'hex-to-rgba'
 
 const drawerWidth = 270
 
@@ -20,10 +23,19 @@ const DashBoard = (props: Props): ReactJSXElement => {
   const { window } = props
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const dispatch = useAppDispatch()
+  const kanban = useSelector((state: Board) => state.kanban)
+
+  const boardBackGround = kanban.board.style?.color
+  let backGroundRgba
+
+  if (boardBackGround !== undefined) {
+    backGroundRgba = hexToRgba(boardBackGround, 0.05)
+  }
 
   useEffect(() => {
     void dispatch(getKanbanBoardsListAction())
   }, [dispatch])
+
 
   const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen)
@@ -70,7 +82,13 @@ const DashBoard = (props: Props): ReactJSXElement => {
             </Box>
             <Box
                 component="main"
-                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, mt: '1rem' }}
+                sx={{
+                  flexGrow: 1,
+                  p: 3,
+                  width: { sm: `calc(100% - ${drawerWidth}px)` },
+                  mt: '1rem',
+                  background: backGroundRgba
+                }}
             >
                 <Outlet />
             </Box>

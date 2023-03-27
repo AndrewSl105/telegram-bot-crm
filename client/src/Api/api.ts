@@ -1,25 +1,24 @@
 import axios from 'axios'
 import { getToken } from '../utils'
-const token = getToken()
 
 export const Api = {
-  get: async (patch: string, params: any) => await axios.get(`http://localhost:5000/api/${patch}`, {
+  get: async (path: string, params: any) => await axios.get(`http://localhost:5000/api/${path}`, {
     params: {
       ...params
     },
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${getToken()}` }
   }),
-  post: async (patch: string, data: any) => await axios.post(`http://localhost:5000/api/${patch}`, {
+  post: async (path: string, data: any) => await axios.post(`http://localhost:5000/api/${path}`, {
     ...data
   }, {
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${getToken()}` }
   }),
-  delete: async (patch: string, data: any) =>
-    await axios.delete(`http://localhost:5000/api/kanban/${patch}`, {
+  delete: async (path: string, data: any) =>
+    await axios.delete(`http://localhost:5000/api/kanban/${path}`, {
       data: {
         ...data
       },
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${getToken()}` }
     }),
   logIn: async (data: any) => await axios.post('http://localhost:5000/api/user/log-in', {
     ...data

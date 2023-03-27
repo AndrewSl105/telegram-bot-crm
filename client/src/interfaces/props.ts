@@ -28,6 +28,8 @@ export interface Board {
     boardsList: BoardListItem[]
     loading: boolean
     card: CardInterface
+    passCode: string
+    boardListLoaded: boolean
   }
 }
 

@@ -18,7 +18,8 @@ const Index = (): ReactElement => {
   useEffect(() => {
     if (notistack.show) {
       enqueueSnackbar(notistack.text, {
-        variant: notistack.variant
+        variant: notistack.variant,
+        autoHideDuration: 1500
       })
       dispatch(hideNotification())
     }

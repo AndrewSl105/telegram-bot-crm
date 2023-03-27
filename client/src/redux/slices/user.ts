@@ -4,6 +4,7 @@ import { DEFAULT, ERROR, SUCCESS } from '../../constants'
 import { USER_CREATED, USER_LOGGED_IN, USER_LOGGED_OUT } from '../../constants/user'
 import { getKanbanBoardsListAction } from './kanban'
 import { Api } from '../../Api/api'
+import { getUserId } from '../../utils'
 
 export interface UserData {
   userName: string
@@ -72,9 +73,10 @@ export function userSignUpAction (userData: {
       response = Api.signUp(userData)
       dispatch(userSlice.actions.signUpSuccess((await response).data))
       dispatch(showNotification({ text: USER_CREATED, variant: SUCCESS }))
-    } catch (error) {
-      dispatch(userSlice.actions.getError(error))
-      dispatch(showNotification({ text: error, variant: ERROR }))
+    } catch (error: any) {
+      console.log(error.message)
+      dispatch(userSlice.actions.getError(error.message))
+      dispatch(showNotification({ text: error.message, variant: ERROR }))
     }
   }
 }
@@ -86,9 +88,9 @@ export function userLogInAction (userData: { email: string, password: string }) 
       response = Api.logIn(userData)
       dispatch(userSlice.actions.logInSuccess((await response).data))
       dispatch(showNotification({ text: USER_LOGGED_IN, variant: SUCCESS }))
-    } catch (error) {
-      dispatch(userSlice.actions.getError(error))
-      dispatch(showNotification({ text: error, variant: ERROR }))
+    } catch (error: any) {
+      dispatch(userSlice.actions.getError(error.message))
+      dispatch(showNotification({ text: error.message, variant: ERROR }))
     }
   }
 }
@@ -100,16 +102,18 @@ export function userLogOutAction () {
   }
 }
 
-export function addPassCodeAction (passCode: string, _id: string | null) {
+export function addPassCodeAction (passCode: string) {
   return async (dispatch: any) => {
+    const _id = getUserId()
+
     let response
     try {
       response = Api.post('user/add-passcode', { passCode, _id })
       dispatch(userSlice.actions.addPassCodeSuccess((await response).data))
       dispatch(getKanbanBoardsListAction())
-    } catch (error) {
-      dispatch(userSlice.actions.getError(error))
-      dispatch(showNotification({ text: error, variant: ERROR }))
+    } catch (error: any) {
+      dispatch(userSlice.actions.getError(error.message))
+      dispatch(showNotification({ text: error.message, variant: ERROR }))
     }
   }
 }
@@ -118,11 +122,11 @@ export function getProfileAction (_id: string) {
   return async (dispatch: any) => {
     let response
     try {
-      response = Api.get('user/profile', _id)
+      response = Api.get('user/profile', { _id })
       dispatch(userSlice.actions.getProfile((await response).data))
-    } catch (error) {
-      dispatch(userSlice.actions.getError(error))
-      dispatch(showNotification({ text: error, variant: ERROR }))
+    } catch (error: any) {
+      dispatch(userSlice.actions.getError(error.message))
+      dispatch(showNotification({ text: error.message, variant: ERROR }))
     }
   }
 }
@@ -131,11 +135,12 @@ export function getMyTeamAction (_id: string) {
   return async (dispatch: any) => {
     let response
     try {
-      response = response = Api.get('user/my-team', _id)
+      response = response = Api.get('user/my-team', { _id })
       dispatch(userSlice.actions.getProfile((await response).data))
-    } catch (error) {
-      dispatch(userSlice.actions.getError(error))
-      dispatch(showNotification({ text: error, variant: ERROR }))
+    } catch (error: any) {
+      console.log(error)
+      dispatch(userSlice.actions.getError(error.message))
+      dispatch(showNotification({ text: error.message, variant: ERROR }))
     }
   }
 }

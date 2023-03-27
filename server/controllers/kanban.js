@@ -6,27 +6,20 @@ import Card from "../models/card.js";
 import User from "../models/user.js";
 
 const getKanbanData = asyncHandler(async (req, res) => {
-    const { passCode, userId } = req.query
-    let code
-    if (!passCode) {
-        const user = await User.findOne({_id: userId})
-        code = user.passCodes[0]
-    } else {
-        code = passCode
-    }
-    const board = await Board.findOne({passCode: code})
+    const { passCode } = req.query
+
+    const board = await Board.findOne({passCode: passCode})
     res.json(board)
 })
 
 const getKanbanBoardsList = asyncHandler(async (req, res) => {
-    console.log(true)
     const { userId } = req.query
     const _id = userId.replace(/['"]+/g, '')
     const user = await User.findOne({ _id: _id })
     const passCodesList = user.passCodes
 
     try {
-        const boards = await Board.find({ 'passCode': { $in: passCodesList }})
+        const boards = await Board.find({ passCode: { $in: passCodesList }})
 
         const list = getBoardsList(boards)
 
@@ -55,8 +48,16 @@ const addNewBoard = asyncHandler(async (req, res) => {
     const newBoard = getNewBoardObject(boardName, passCode, colorStyle, userId)
 
     try {
+        const user = await User.findOne({ _id: userId})
+        const newPassCodes = user.passCodes
+
         await Board.create(newBoard)
         const board = await Board.findOne({ environmentName: boardName })
+        newPassCodes.push(board.passCode)
+
+        await User.updateOne({_id: user._id}, {
+            passCodes: newPassCodes
+        })
         const boardListItem = getBoardListItem(board)
 
         res.json(boardListItem)
@@ -67,7 +68,15 @@ const addNewBoard = asyncHandler(async (req, res) => {
 })
 
 const deleteBoard = asyncHandler(async (req, res) => {
-    const { boardId } = req.body
+    const { boardId, userId } = req.body
+
+    const board = await  Board.findById(boardId)
+
+    const user = await User.findById(userId)
+    const newPassCodes = user.passCodes
+    newPassCodes.pop(board.passCode)
+    console.log(newPassCodes)
+    await User.updateOne({_id: userId}, {passCodes: newPassCodes})
 
     await Board.findOneAndRemove({_id: boardId})
 

@@ -3,7 +3,7 @@ import { buildBoard, getUserId, updateColumns } from '../../utils'
 import { showNotification } from './notistack'
 import {
   BOARD_CREATED,
-  BOARD_DELETED,
+  BOARD_DELETED, BOARD_LOADED,
   CARD_ADDED_SUCCESS,
   CARD_UPDATE_SUCCESS,
   DEFAULT,
@@ -14,13 +14,14 @@ import { type CardInterface } from '../../interfaces/state'
 import { type BoardListItem } from '../../interfaces/props'
 import { Api } from '../../Api/api'
 
-interface mainKanbanState {
+export interface mainKanbanState {
   loading: boolean
   board: any
   error: string
   card: CardInterface | unknown
   boardsList: BoardListItem[]
   passCode: string
+  boardListLoaded: boolean
 }
 
 const initialState: mainKanbanState = {
@@ -29,7 +30,8 @@ const initialState: mainKanbanState = {
   error: '',
   card: {},
   boardsList: [],
-  passCode: ''
+  passCode: '',
+  boardListLoaded: false
 }
 
 export const kanbanBoardSlice = createSlice({
@@ -68,6 +70,13 @@ export const kanbanBoardSlice = createSlice({
       const boardId = action.payload
       const list = state.boardsList
       state.boardsList = list.filter(el => el._id !== boardId)
+      if (state.board._id === boardId) {
+        if (state.boardsList.length === 0) {
+          state.passCode = ''
+        } else {
+          state.passCode = state.boardsList[0].passCode
+        }
+      }
     },
     onDrag (state, action) {
       const { draggableId, source, destination } = action.payload
@@ -77,6 +86,9 @@ export const kanbanBoardSlice = createSlice({
     },
     getKanbanBoardsList (state, action) {
       state.boardsList = action.payload
+    },
+    boardListLoaded (state) {
+      state.boardListLoaded = true
     },
     changeEnvironment (state, action) {
       state.passCode = action.payload
@@ -89,7 +101,7 @@ export default kanbanBoardSlice.reducer
 
 export function getBoardAction () {
   return async (dispatch: any, state: any) => {
-    dispatch(kanbanBoardSlice.actions.startLoading(state))
+    dispatch(kanbanBoardSlice.actions.startLoading())
     let response
     const passCode = state().kanban.passCode
     const userId = getUserId()
@@ -97,10 +109,10 @@ export function getBoardAction () {
     try {
       response = Api.get('kanban', { passCode, userId })
       dispatch(kanbanBoardSlice.actions.getBoard((await response).data))
-      dispatch(kanbanBoardSlice.actions.endLoading(state))
-    } catch (error) {
-      dispatch(kanbanBoardSlice.actions.getError(error))
-      console.log(error)
+      dispatch(kanbanBoardSlice.actions.endLoading())
+      dispatch(showNotification({ text: BOARD_LOADED, variant: SUCCESS }))
+    } catch (error: any) {
+      dispatch(kanbanBoardSlice.actions.getError(error.message))
     }
   }
 }
@@ -113,8 +125,8 @@ export function editCardAction (newCard: CardInterface, boardId: string) {
       response = Api.post('kanban', { newCard, boardId })
       dispatch(kanbanBoardSlice.actions.editCardSuccess((await response).data))
       dispatch(showNotification({ text: CARD_UPDATE_SUCCESS, variant: SUCCESS }))
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      console.log(error.message)
     }
   }
 }
@@ -127,8 +139,9 @@ export function getKanbanBoardsListAction () {
     try {
       response = Api.get('kanban/getList', { userId })
       dispatch(kanbanBoardSlice.actions.getKanbanBoardsList((await response).data))
-    } catch (error) {
-      console.log(error)
+      dispatch(kanbanBoardSlice.actions.boardListLoaded())
+    } catch (error: any) {
+      console.log(error.message)
     }
   }
 }
@@ -147,8 +160,8 @@ export function onDragAction (result: any) {
 }
 
 export function createNewBoardAction (boardName: string) {
-  return async (dispatch: any, state: any) => {
-    dispatch(kanbanBoardSlice.actions.startLoading(state))
+  return async (dispatch: any) => {
+    dispatch(kanbanBoardSlice.actions.startLoading())
     const userId = getUserId()
     let response
 
@@ -156,50 +169,48 @@ export function createNewBoardAction (boardName: string) {
       response = Api.post('kanban/add-board', { boardName, userId })
 
       dispatch(kanbanBoardSlice.actions.addToBoardList((await response).data))
-      dispatch(kanbanBoardSlice.actions.endLoading(state))
+      dispatch(kanbanBoardSlice.actions.endLoading())
       dispatch(showNotification({ text: BOARD_CREATED, variant: SUCCESS }))
-    } catch (error) {
-      dispatch(kanbanBoardSlice.actions.getError(error))
-      dispatch(showNotification({ text: error, variant: ERROR }))
-      console.log(error)
+    } catch (error: any) {
+      dispatch(kanbanBoardSlice.actions.getError(error.message))
+      dispatch(showNotification({ text: error.message, variant: ERROR }))
     }
   }
 }
 
 export function deleteBoardAction (boardId: string) {
-  return async (dispatch: any, state: any) => {
-    dispatch(kanbanBoardSlice.actions.startLoading(state))
+  return async (dispatch: any) => {
+    dispatch(kanbanBoardSlice.actions.startLoading())
     let response
+    const userId = getUserId()
 
     try {
-      response = Api.delete('kanban/delete-board', { boardId })
+      response = Api.delete('delete-board', { boardId, userId })
 
       dispatch(kanbanBoardSlice.actions.deleteFromBoardList((await response).data))
-      dispatch(kanbanBoardSlice.actions.endLoading(state))
+      dispatch(kanbanBoardSlice.actions.endLoading())
       dispatch(showNotification({ text: BOARD_DELETED, variant: DEFAULT }))
-    } catch (error) {
-      dispatch(kanbanBoardSlice.actions.getError(error))
-      dispatch(showNotification({ text: error, variant: ERROR }))
-      console.log(error)
+    } catch (error: any) {
+      dispatch(kanbanBoardSlice.actions.getError(error.message))
+      dispatch(showNotification({ text: error.message, variant: ERROR }))
     }
   }
 }
 
 export function addCardAction (values: Record<string, string>) {
-  return async (dispatch: any, state: any) => {
-    dispatch(kanbanBoardSlice.actions.startLoading(state))
+  return async (dispatch: any) => {
+    dispatch(kanbanBoardSlice.actions.startLoading())
     let response
 
     try {
       response = Api.post('kanban/add-card', { values })
 
       dispatch(kanbanBoardSlice.actions.addCard((await response).data))
-      dispatch(kanbanBoardSlice.actions.endLoading(state))
+      dispatch(kanbanBoardSlice.actions.endLoading())
       dispatch(showNotification({ text: CARD_ADDED_SUCCESS, variant: SUCCESS }))
-    } catch (error) {
-      dispatch(kanbanBoardSlice.actions.getError(error))
-      dispatch(showNotification({ text: error, variant: ERROR }))
-      console.log(error)
+    } catch (error: any) {
+      dispatch(kanbanBoardSlice.actions.getError(error.message))
+      dispatch(showNotification({ text: error.message, variant: ERROR }))
     }
   }
 }

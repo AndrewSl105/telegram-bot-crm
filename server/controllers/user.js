@@ -67,8 +67,6 @@ const addPassCode = asyncHandler(async (req, res) => {
             passCodes: newUserPassCodes
         })
 
-        console.log(newUserPassCodes)
-
     } else {
         res.status(401)
         throw new Error('Board doesn\'t exists!')
@@ -87,12 +85,11 @@ const getProfile = asyncHandler(async (req, res) => {
             role: user.role
         }})
 
-    console.log(user)
 })
 
 const getMyTeam = asyncHandler(async (req, res) => {
     const { _id } = req.query
-
+    const users = User
 
 })
 

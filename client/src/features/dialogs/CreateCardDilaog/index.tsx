@@ -48,8 +48,6 @@ const CreateCardDialog = memo(function CreateCardDialog (props: DialogProps): Re
 
   const { errors } = formik
 
-    console.log(formik.values)
-
   return (
         <Dialog
             open={props.open}

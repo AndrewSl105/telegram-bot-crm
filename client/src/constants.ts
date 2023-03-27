@@ -22,5 +22,6 @@ export const CARD_UPDATE_SUCCESS = 'Card successfully updated!'
 export const CARD_ADDED_SUCCESS = 'Card successfully added!'
 export const BOARD_CREATED = 'Board successfully created!'
 export const BOARD_DELETED = 'Board successfully deleted!'
+export const BOARD_LOADED = 'Board successfully loaded!'
 
 export const BOT = 'bot'
