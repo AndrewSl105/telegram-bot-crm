@@ -8,11 +8,12 @@ export const Api = {
     },
     headers: { Authorization: `Bearer ${getToken()}` }
   }),
-  post: async (path: string, data: any) => await axios.post(`http://localhost:5000/api/${path}`, {
-    ...data
-  }, {
-    headers: { Authorization: `Bearer ${getToken()}` }
-  }),
+  post: async (path: string, data: any) =>
+    await axios.post(`http://localhost:5000/api/${path}`, {
+      ...data
+    }, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    }),
   delete: async (path: string, data: any) =>
     await axios.delete(`http://localhost:5000/api/kanban/${path}`, {
       data: {
