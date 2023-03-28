@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getToken } from '../utils'
 
-const api = 'https://teleboard.herokuapp.com/api'
+const api = 'https://teleboard.herokuapp.com/api/'
 
 export const Api = {
   get: async (path: string, params: any) => await axios.get(`${api}${path}`, {
