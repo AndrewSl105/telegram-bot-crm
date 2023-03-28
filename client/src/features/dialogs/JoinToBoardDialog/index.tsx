@@ -31,7 +31,7 @@ export default function JoinToBoardDialog (props: DialogProps): React.ReactEleme
 
   const joinToBoardHandler = (): void => {
     const _id = getUserId()
-    void dispatch(addPassCodeAction(boardPassCode, _id))
+    void dispatch(addPassCodeAction(boardPassCode))
     props.dispatch(hide())
   }
 

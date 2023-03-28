@@ -3,6 +3,8 @@ export const CREATE_BOARD_DIALOG: string = 'CREATE_BOARD_DIALOG'
 export const CREATE_CARD_DIALOG: string = 'CREATE_CARD_DIALOG'
 export const JOIN_TO_BOARD_DIALOG: string = 'JOIN_TO_BOARD_DIALOG'
 
+export const EDIT_BOARD_DIALOG: string = 'EDIT_BOARD_DIALOG'
+
 export const DEFAULT = 'default'
 export const SUCCESS = 'success'
 export const ERROR = 'error'

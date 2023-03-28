@@ -28,7 +28,6 @@ const DashBoard = memo(function DashBoard (props: Props): ReactJSXElement {
   useEffect(() => {
     if (kanban.passCode === '' && kanban.boardListLoaded) {
       const defaultPassCode = kanban.boardsList[0]?.passCode
-      console.log(true)
       void dispatch(changeEnvironmentAction(defaultPassCode))
     }
   }, [kanban.boardListLoaded, dispatch, kanban.passCode])
