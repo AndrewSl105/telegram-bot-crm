@@ -78,7 +78,7 @@ const DrawerList = (): ReactJSXElement => {
               borderStyle: 'dashed'
             }} />
             <List>
-                {boardsList.map(el => (
+                {boardsList?.map(el => (
                     <ListItem key={el.environmentName}>
                         <BoardItem
                             _id={el._id}
