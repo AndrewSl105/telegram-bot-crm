@@ -22,6 +22,10 @@ const userRoutes = express.Router()
 
 kanbanRoutes.use(protect)
 
+app.get('/', (req, res) => {
+    res.send('Server is running!')
+})
+
 kanbanRoutes.route('/').get(getKanbanData).post(editCard)
 kanbanRoutes.route('/getList').get(getKanbanBoardsList)
 kanbanRoutes.route('/add-board').post(addNewBoard)
