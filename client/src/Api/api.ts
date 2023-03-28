@@ -23,10 +23,10 @@ export const Api = {
       },
       headers: { Authorization: `Bearer ${getToken()}` }
     }),
-  logIn: async (data: any) => await axios.post(`${api}/user/log-in`, {
+  logIn: async (data: any) => await axios.post(`${api}user/log-in`, {
     ...data
   }),
-  signUp: async (data: any) => await axios.post(`${api}/user/sign-up`, {
+  signUp: async (data: any) => await axios.post(`${api}user/sign-up`, {
     ...data
   })
 }
