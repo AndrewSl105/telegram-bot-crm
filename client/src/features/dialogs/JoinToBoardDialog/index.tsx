@@ -12,7 +12,6 @@ import { useAppDispatch } from '../../../hook'
 import { useState } from 'react'
 import { type DialogProps } from '../../../interfaces/props'
 import { addPassCodeAction } from '../../../redux/slices/user'
-import { getUserId } from '../../../utils'
 
 export default function JoinToBoardDialog (props: DialogProps): React.ReactElement {
   const dispatch = useAppDispatch()
@@ -30,7 +29,6 @@ export default function JoinToBoardDialog (props: DialogProps): React.ReactEleme
   }
 
   const joinToBoardHandler = (): void => {
-    const _id = getUserId()
     void dispatch(addPassCodeAction(boardPassCode))
     props.dispatch(hide())
   }

@@ -5,6 +5,7 @@ import {editCard, getKanbanData, getKanbanBoardsList, addNewBoard, deleteBoard, 
 import cors from "cors";
 import {registerUser, logIn, addPassCode, getProfile, getMyTeam} from "./controllers/user.js";
 import {protect} from "./middleware/authMiddleware.js";
+import * as path from "path";
 
 dotenv.config()
 
@@ -22,9 +23,20 @@ const userRoutes = express.Router()
 
 kanbanRoutes.use(protect)
 
-app.get('/', (req, res) => {
-    res.send('Server is running!')
-})
+
+const __dirname = path.resolve()
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '/client/build')))
+
+    app.get('*', (req, res) =>
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    )
+} else {
+    app.get('/', (req, res) => {
+        res.send('API is running....')
+    })
+}
 
 kanbanRoutes.route('/').get(getKanbanData).post(editCard)
 kanbanRoutes.route('/getList').get(getKanbanBoardsList)

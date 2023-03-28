@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Box, LinearProgress } from '@mui/material'
 import { useSelector } from 'react-redux'
 import {
-  changeEnvironmentAction,
   editCardAction,
   onDragAction
 } from '../../../redux/slices/kanban'

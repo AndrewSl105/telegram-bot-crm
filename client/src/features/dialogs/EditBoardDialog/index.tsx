@@ -12,7 +12,6 @@ import { hide } from '../../../redux/slices/dialog'
 import { useAppDispatch } from '../../../hook'
 import { type DialogProps } from '../../../interfaces/props'
 import { useSelector } from 'react-redux'
-import { type DialogState } from '../../../interfaces/state'
 import FileCopyRoundedIcon from '@mui/icons-material/FileCopyRounded'
 import { showNotification } from '../../../redux/slices/notistack'
 import { ERROR, SUCCESS } from '../../../constants'
@@ -31,12 +30,14 @@ export default function EditBoardDialog (props: DialogProps): React.ReactElement
     props.dispatch(hide())
   }
 
-  const copyPassCodeHandler = async (): Promise<any> => {
+  const copyPassCodeHandler = async (): Promise<void> => {
     try {
       await navigator.clipboard.writeText(passCode)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       dispatch(showNotification({ text: `PassCode: ${passCode} copy to clipboard!`, variant: SUCCESS }))
     } catch (err: unknown) {
       console.error('Failed to copy: ', err)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       dispatch(showNotification({ text: `Failed to copy: ${err}`, variant: ERROR }))
     }
   }

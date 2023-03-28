@@ -7,7 +7,6 @@ import {
   type DestinationInterface,
   type SourceInterface
 } from './interfaces/state'
-import { type UserData } from './redux/slices/user'
 
 export const buildBoard = (board: BoardInterface): BoardInterface => {
   const newBoard = board

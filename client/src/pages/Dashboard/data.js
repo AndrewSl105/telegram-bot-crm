@@ -22,5 +22,5 @@ export const links = [
     title: 'Administration',
     path: 'admin-board',
     icon: <AdminPanelSettingsRoundedIcon />
-  },
+  }
 ]
