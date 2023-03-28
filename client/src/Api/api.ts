@@ -1,30 +1,32 @@
 import axios from 'axios'
 import { getToken } from '../utils'
 
+const api = 'https://teleboard.herokuapp.com/api'
+
 export const Api = {
-  get: async (path: string, params: any) => await axios.get(`http://localhost:5000/api/${path}`, {
+  get: async (path: string, params: any) => await axios.get(`${api}${path}`, {
     params: {
       ...params
     },
     headers: { Authorization: `Bearer ${getToken()}` }
   }),
   post: async (path: string, data: any) =>
-    await axios.post(`http://localhost:5000/api/${path}`, {
+    await axios.post(`${api}${path}`, {
       ...data
     }, {
       headers: { Authorization: `Bearer ${getToken()}` }
     }),
   delete: async (path: string, data: any) =>
-    await axios.delete(`http://localhost:5000/api/kanban/${path}`, {
+    await axios.delete(`${api}${path}`, {
       data: {
         ...data
       },
       headers: { Authorization: `Bearer ${getToken()}` }
     }),
-  logIn: async (data: any) => await axios.post('http://localhost:5000/api/user/log-in', {
+  logIn: async (data: any) => await axios.post(`${api}/user/log-in`, {
     ...data
   }),
-  signUp: async (data: any) => await axios.post('http://localhost:5000/api/user/sign-up', {
+  signUp: async (data: any) => await axios.post(`${api}/user/sign-up`, {
     ...data
   })
 }
