@@ -23,21 +23,6 @@ const userRoutes = express.Router()
 
 kanbanRoutes.use(protect)
 
-
-const __dirname = path.resolve()
-
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '/client/build')))
-
-    app.get('*', (req, res) =>
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-    )
-} else {
-    app.get('/', (req, res) => {
-        res.send('API is running....')
-    })
-}
-
 kanbanRoutes.route('/').get(getKanbanData).post(editCard)
 kanbanRoutes.route('/getList').get(getKanbanBoardsList)
 kanbanRoutes.route('/add-board').post(addNewBoard)
@@ -53,6 +38,23 @@ userRoutes.route('/profile').get(protect, getProfile)
 userRoutes.route('/my-team').get(protect, getMyTeam)
 
 app.use('/api/user', userRoutes)
+
+
+const __dirname = path.resolve()
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '/client/build')))
+
+    console.log(path.resolve(__dirname, 'client', 'build', 'index.html'))
+
+    app.get('*', (req, res) =>
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    )
+} else {
+    app.get('/', (req, res) => {
+        res.send('API is running....')
+    })
+}
 
 app.listen(
     process.env.DEFAULT_PORT || PORT,

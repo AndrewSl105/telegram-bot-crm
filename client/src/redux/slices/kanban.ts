@@ -20,7 +20,7 @@ export interface mainKanbanState {
   board: any
   error: string
   card: CardInterface | unknown
-  boardsList: BoardListItem[]
+  boardsList: BoardListItem[] | []
   passCode: string
   boardListLoaded: boolean
 }

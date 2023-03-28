@@ -5,7 +5,7 @@ import {
   Outlet
 } from 'react-router-dom'
 import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
-import { memo, useEffect } from 'react'
+import { useEffect } from 'react'
 import { changeEnvironmentAction, getKanbanBoardsListAction } from '../../redux/slices/kanban'
 import { useAppDispatch } from '../../hook'
 import DrawerList from './components/Drawer'
@@ -19,7 +19,7 @@ interface Props {
   window?: () => Window
 }
 
-const DashBoard = memo(function DashBoard (props: Props): ReactJSXElement {
+function DashBoard (props: Props): ReactJSXElement {
   const { window } = props
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const dispatch = useAppDispatch()
@@ -100,6 +100,6 @@ const DashBoard = memo(function DashBoard (props: Props): ReactJSXElement {
             </Box>
         </Box>
   )
-})
+}
 
 export default DashBoard
