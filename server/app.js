@@ -14,6 +14,8 @@ connectDB()
 const app = express();
 
 const PORT = 5000;
+var port_number = server.listen(process.env.DEFAULT_PORT || PORT);
+
 app.use(cors())
 
 app.use(express.json())
@@ -57,7 +59,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.listen(
-    process.env.DEFAULT_PORT || PORT,
+    port_number,
     console.log("server is running")
 )
 
