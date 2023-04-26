@@ -15,10 +15,20 @@ import { useSelector } from 'react-redux'
 import FileCopyRoundedIcon from '@mui/icons-material/FileCopyRounded'
 import { showNotification } from '../../../redux/slices/notistack'
 import { ERROR, SUCCESS } from '../../../constants'
+import { useFormik } from 'formik'
+import { editBoardAction } from '../../../redux/slices/kanban'
 
 export default function EditBoardDialog (props: DialogProps): React.ReactElement {
   const dispatch = useAppDispatch()
-  const passCode = useSelector((state: any) => state.dialogSlice.dialogProps)
+  const dialogProps = useSelector((state: any) => state.dialogSlice.dialogProps)
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      environmentName: dialogProps.title
+    },
+    onSubmit: (): any => {}
+  })
 
   const handleClose = (e: React.MouseEvent): void => {
     e.preventDefault()
@@ -26,20 +36,23 @@ export default function EditBoardDialog (props: DialogProps): React.ReactElement
     props.dispatch(hide())
   }
 
-  const addBoardHandler = (): void => {
-    props.dispatch(hide())
-  }
-
   const copyPassCodeHandler = async (): Promise<void> => {
     try {
-      await navigator.clipboard.writeText(passCode)
+      await navigator.clipboard.writeText(dialogProps.passCode)
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      dispatch(showNotification({ text: `PassCode: ${passCode} copy to clipboard!`, variant: SUCCESS }))
+      dispatch(showNotification({ text: `PassCode: ${dialogProps.passCode} copy to clipboard!`, variant: SUCCESS }))
     } catch (err: unknown) {
       console.error('Failed to copy: ', err)
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       dispatch(showNotification({ text: `Failed to copy: ${err}`, variant: ERROR }))
     }
+  }
+
+  const { getFieldProps, dirty, values } = formik
+
+  const onEditHandler = (): void => {
+    void dispatch(editBoardAction(values.environmentName, dialogProps._id))
+    props.dispatch(hide())
   }
 
   return (
@@ -57,7 +70,7 @@ export default function EditBoardDialog (props: DialogProps): React.ReactElement
             <DialogContent>
                 <TextField
                     margin="dense"
-                    value={passCode}
+                    value={dialogProps.passCode}
                     fullWidth
                     id="outlined-basic"
                     label="PassCode"
@@ -71,6 +84,7 @@ export default function EditBoardDialog (props: DialogProps): React.ReactElement
                     }}
                 />
                 <TextField
+                    {...getFieldProps('environmentName')}
                     autoFocus
                     margin="dense"
                     fullWidth
@@ -81,7 +95,7 @@ export default function EditBoardDialog (props: DialogProps): React.ReactElement
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>CLOSE</Button>
-                <Button onClick={addBoardHandler} color="success" autoFocus>
+                <Button disabled={!dirty} onClick={onEditHandler} color="success" autoFocus>
                     Update
                 </Button>
             </DialogActions>

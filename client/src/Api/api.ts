@@ -1,7 +1,9 @@
 import axios from 'axios'
 import { getToken } from '../utils'
 
-const api = 'https://teleboard.herokuapp.com/api/'
+const api = process.env.NODE_ENV === 'production'
+  ? 'https://teleboard.herokuapp.com/api/'
+  : 'http://localhost:5000/api/'
 
 export const Api = {
   get: async (path: string, params: any) => await axios.get(`${api}${path}`, {
@@ -21,6 +23,12 @@ export const Api = {
       data: {
         ...data
       },
+      headers: { Authorization: `Bearer ${getToken()}` }
+    }),
+  put: async (path: string, data: any) =>
+    await axios.put(`${api}${path}`, {
+      ...data
+    }, {
       headers: { Authorization: `Bearer ${getToken()}` }
     }),
   logIn: async (data: any) => await axios.post(`${api}user/log-in`, {

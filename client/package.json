@@ -1,8 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "homepage": ".",
-  "proxy": "https://teleboard.herokuapp.com",
+  "proxy": "http://127.0.0.1:5000/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",

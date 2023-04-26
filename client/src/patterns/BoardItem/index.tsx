@@ -29,7 +29,7 @@ const BoardItem = (props: BoardItemProps): ReactJSXElement => {
   const openEditDialogHandler = (): void => {
     dispatch(show({
       type: EDIT_BOARD_DIALOG,
-      props: props.passCode
+      props
     }))
   }
 

@@ -1,7 +1,10 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from "./config/db.js";
-import {editCard, getKanbanData, getKanbanBoardsList, addNewBoard, deleteBoard, addCard} from "./controllers/kanban.js";
+import {
+    editCard, getKanbanData, getKanbanBoardsList,
+    addNewBoard, deleteBoard, addCard, editBoard
+} from "./controllers/kanban.js";
 import cors from "cors";
 import {registerUser, logIn, addPassCode, getProfile, getMyTeam} from "./controllers/user.js";
 import {protect} from "./middleware/authMiddleware.js";
@@ -27,6 +30,7 @@ kanbanRoutes.route('/getList').get(getKanbanBoardsList)
 kanbanRoutes.route('/add-board').post(addNewBoard)
 kanbanRoutes.route('/delete-board').delete(deleteBoard)
 kanbanRoutes.route('/add-card').post(addCard)
+kanbanRoutes.route('/edit-board').put(editBoard)
 
 app.use('/api/kanban', kanbanRoutes)
 
@@ -38,13 +42,10 @@ userRoutes.route('/my-team').get(protect, getMyTeam)
 
 app.use('/api/user', userRoutes)
 
-
 const __dirname = path.resolve()
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '/client/build')))
-
-    console.log(path.resolve(__dirname, 'client', 'build', 'index.html'))
 
     app.get('*', (req, res) =>
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))

@@ -102,5 +102,18 @@ const addCard = asyncHandler(async (req, res) => {
 
 })
 
+const editBoard = asyncHandler(async (req, res) => {
+    const { boardId, boardName } = req.body
+    const board = await Board.findOneAndUpdate({ _id: boardId }, {
+        environmentName: boardName
+    })
 
-export { getKanbanData, editCard, getKanbanBoardsList, addNewBoard, deleteBoard, addCard}
+    res.json({
+        environmentName: board.environmentName,
+        _id: board._id
+    })
+
+})
+
+
+export { getKanbanData, editCard, getKanbanBoardsList, addNewBoard, deleteBoard, addCard, editBoard}

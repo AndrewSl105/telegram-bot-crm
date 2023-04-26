@@ -1,9 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice, current} from '@reduxjs/toolkit'
 import { buildBoard, getUserId, updateColumns } from '../../utils'
 import { showNotification } from './notistack'
 import {
   BOARD_CREATED,
-  BOARD_DELETED, BOARD_LOADED,
+  BOARD_DELETED, BOARD_EDIT, BOARD_LOADED,
   CARD_ADDED_SUCCESS,
   CARD_UPDATE_SUCCESS,
   DEFAULT,
@@ -14,6 +14,7 @@ import { type CardInterface } from '../../interfaces/state'
 import { type BoardListItem } from '../../interfaces/props'
 import { Api } from '../../Api/api'
 import { type AppDispatch, type RootState } from '../store'
+import produce from 'immer'
 
 export interface mainKanbanState {
   loading: boolean
@@ -78,6 +79,15 @@ export const kanbanBoardSlice = createSlice({
           state.passCode = state.boardsList[0].passCode
         }
       }
+    },
+    editBoardSuccess (state, action) {
+      const { environmentName, _id } = action.payload
+      const newBoardList = state.boardsList
+
+      newBoardList.filter(el => el._id !== _id)
+
+      // state.boardsList = state.boardsList.map(el => el._id === _id ? { ...el, environmentName } : el)
+      // console.log(state.boardsList)
     },
     onDrag (state, action) {
       const { draggableId, source, destination } = action.payload
@@ -191,6 +201,23 @@ export function deleteBoardAction (boardId: string) {
       dispatch(kanbanBoardSlice.actions.deleteFromBoardList((await response).data))
       dispatch(kanbanBoardSlice.actions.endLoading())
       dispatch(showNotification({ text: BOARD_DELETED, variant: DEFAULT }))
+    } catch (error: any) {
+      dispatch(kanbanBoardSlice.actions.getError(error.message))
+      dispatch(showNotification({ text: error.message, variant: ERROR }))
+    }
+  }
+}
+
+export function editBoardAction (boardName: string, boardId: string) {
+  return async (dispatch: AppDispatch) => {
+    dispatch(kanbanBoardSlice.actions.startLoading())
+    let response
+    try {
+      response = Api.put('kanban/edit-board', { boardId, boardName })
+
+      dispatch(kanbanBoardSlice.actions.editBoardSuccess((await response).data))
+      dispatch(kanbanBoardSlice.actions.endLoading())
+      dispatch(showNotification({ text: BOARD_EDIT, variant: SUCCESS }))
     } catch (error: any) {
       dispatch(kanbanBoardSlice.actions.getError(error.message))
       dispatch(showNotification({ text: error.message, variant: ERROR }))

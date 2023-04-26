@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogTitle
 } from '@mui/material'
-import { memo, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { addCardAction, getKanbanBoardsListAction } from '../../../redux/slices/kanban'
 import { hide } from '../../../redux/slices/dialog'
@@ -17,7 +17,7 @@ import { type Board, type DialogProps } from '../../../interfaces/props'
 import { useFormik } from 'formik'
 import { cardSchema } from './validation'
 
-const CreateCardDialog = memo(function CreateCardDialog (props: DialogProps): React.ReactElement {
+function CreateCardDialog (props: DialogProps): React.ReactElement {
   const dispatch = useAppDispatch()
 
   const boardsList = useSelector((state: Board) => state.kanban.boardsList)
@@ -76,6 +76,6 @@ const CreateCardDialog = memo(function CreateCardDialog (props: DialogProps): Re
             </DialogActions>
         </Dialog>
   )
-})
+}
 
 export default CreateCardDialog
