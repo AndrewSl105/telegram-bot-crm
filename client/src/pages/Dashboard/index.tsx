@@ -31,7 +31,7 @@ function DashBoard (props: Props): ReactJSXElement {
       const defaultPassCode = kanban.boardsList[0]?.passCode
       void dispatch(changeEnvironmentAction(defaultPassCode))
     }
-  }, [kanban.boardListLoaded, dispatch, kanban.passCode, kanban.boardAdded])
+  }, [kanban.boardListLoaded, dispatch, kanban.passCode, kanban.boardAdded, kanban.boardsList])
 
   const boardBackGround = kanban.board.style?.color
   let backGroundRgba

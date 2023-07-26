@@ -125,9 +125,10 @@ export function addPassCodeAction (passCode: string) {
   }
 }
 
-export function getProfileAction (_id: string) {
+export function getProfileAction () {
   return async (dispatch: AppDispatch) => {
     let response
+    const _id = getUserId()
     try {
       response = Api.get('user/profile', { _id })
       dispatch(userSlice.actions.getProfile((await response).data))

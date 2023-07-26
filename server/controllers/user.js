@@ -84,7 +84,8 @@ const getProfile = asyncHandler(async (req, res) => {
         userProfile: {
             userName: user.userName,
             passCodes: user.passCodes,
-            role: user.role
+            role: user.role,
+            avatarUrl: user.avatarUrl
         }})
 
 })

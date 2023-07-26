@@ -77,12 +77,9 @@ export const kanbanBoardSlice = createSlice({
       const list = state.boardsList
       state.boardsList = list.filter(el => el._id !== boardId)
       if (state.board._id === boardId) {
+        state.boardListLoaded = true
         state.board = []
-        if (state.boardsList.length === 0) {
-          state.passCode = ''
-        } else {
-          state.passCode = state.boardsList[0].passCode
-        }
+        state.passCode = ''
       }
     },
     editBoardSuccess (state, action) {
