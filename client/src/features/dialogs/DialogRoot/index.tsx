@@ -2,7 +2,7 @@ import { type ReactElement } from 'react'
 import {
   CREATE_BOARD_DIALOG,
   CREATE_CARD_DIALOG,
-  EDIT_BOARD_DIALOG,
+  EDIT_BOARD_DIALOG, EDIT_CARD_DIALOG,
   JOIN_TO_BOARD_DIALOG,
   TASK_DIALOG
 } from '../../../constants'
@@ -12,13 +12,15 @@ import CreateBoardDialog from '../CreateBoardDialog'
 import CreateCardDialog from '../CreateCardDilaog'
 import JoinToBoardDialog from '../JoinToBoardDialog'
 import EditBoardDialog from '../EditBoardDialog'
+import EditCardDialog from '../EditCardDialog'
 
 const DIALOG_COMPONENTS = {
   [TASK_DIALOG]: CardDialog,
   [CREATE_BOARD_DIALOG]: CreateBoardDialog,
   [CREATE_CARD_DIALOG]: CreateCardDialog,
   [JOIN_TO_BOARD_DIALOG]: JoinToBoardDialog,
-  [EDIT_BOARD_DIALOG]: EditBoardDialog
+  [EDIT_BOARD_DIALOG]: EditBoardDialog,
+  [EDIT_CARD_DIALOG]: EditCardDialog
 }
 
 export interface Dialog {

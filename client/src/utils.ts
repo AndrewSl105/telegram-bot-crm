@@ -7,7 +7,6 @@ import {
   type DestinationInterface,
   type SourceInterface
 } from './interfaces/state'
-
 export const buildBoard = (board: BoardInterface): BoardInterface => {
   const newBoard = board
   const columns = newBoard.columns

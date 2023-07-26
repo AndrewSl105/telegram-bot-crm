@@ -1,4 +1,4 @@
-import {createSlice, current} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { buildBoard, getUserId, updateColumns } from '../../utils'
 import { showNotification } from './notistack'
 import {
@@ -14,7 +14,6 @@ import { type CardInterface } from '../../interfaces/state'
 import { type BoardListItem } from '../../interfaces/props'
 import { Api } from '../../Api/api'
 import { type AppDispatch, type RootState } from '../store'
-import produce from 'immer'
 
 export interface mainKanbanState {
   loading: boolean
@@ -81,7 +80,7 @@ export const kanbanBoardSlice = createSlice({
       }
     },
     editBoardSuccess (state, action) {
-      const { environmentName, _id } = action.payload
+      const { _id } = action.payload
       const newBoardList = state.boardsList
 
       newBoardList.filter(el => el._id !== _id)

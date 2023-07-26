@@ -1,6 +1,7 @@
 export const TASK_DIALOG: string = 'TASK_DIALOG'
 export const CREATE_BOARD_DIALOG: string = 'CREATE_BOARD_DIALOG'
 export const CREATE_CARD_DIALOG: string = 'CREATE_CARD_DIALOG'
+export const EDIT_CARD_DIALOG: string = 'EDIT_CARD_DIALOG'
 export const JOIN_TO_BOARD_DIALOG: string = 'JOIN_TO_BOARD_DIALOG'
 
 export const EDIT_BOARD_DIALOG: string = 'EDIT_BOARD_DIALOG'

@@ -8,7 +8,7 @@ import { Draggable } from 'react-beautiful-dnd'
 import { styles } from './styles'
 import { useDispatch } from 'react-redux'
 import { show } from '../../../../../redux/slices/dialog'
-import { CREATE_CARD_DIALOG } from '../../../../../constants'
+import { EDIT_CARD_DIALOG } from '../../../../../constants'
 import bot from '../../../../../media/images/bot.png'
 import { getAvatar } from '../../../../../utils'
 import { type CardInterface } from '../../../../../interfaces/state'
@@ -20,11 +20,11 @@ const BoardCard = (props: CardInterface): React.ReactElement => {
 
   const dispatch = useDispatch()
 
-  const showTaskModal = (): void => {
+  const showTaskModal = (e: any): void => {
     dispatch(show({
-      type: CREATE_CARD_DIALOG,
+      type: EDIT_CARD_DIALOG,
       props: {
-        props,
+        _id,
         EDIT
       }
     }))
