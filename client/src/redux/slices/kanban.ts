@@ -169,6 +169,7 @@ export function changeEnvironmentAction (passCode: string) {
   return async (dispatch: AppDispatch) => {
     dispatch(changeEnvironment(passCode))
     void dispatch(getBoardAction())
+    if (passCode === undefined) dispatch(kanbanBoardSlice.actions.endLoading())
   }
 }
 

@@ -6,9 +6,9 @@ import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import { Draggable } from 'react-beautiful-dnd'
 import { styles } from './styles'
-import { useDispatch } from 'react-redux'
-import { show } from '../../../../../redux/slices/dialog'
-import { EDIT_CARD_DIALOG } from '../../../../../constants'
+// import { useDispatch } from 'react-redux'
+// import { show } from '../../../../../redux/slices/dialog'
+// import { EDIT_CARD_DIALOG } from '../../../../../constants'
 import bot from '../../../../../media/images/bot.png'
 import { getAvatar } from '../../../../../utils'
 import { type CardInterface } from '../../../../../interfaces/state'
@@ -18,17 +18,17 @@ export const EDIT = true
 const BoardCard = (props: CardInterface): React.ReactElement => {
   const { title, description, assignee, estimate, _id, index, createdBy } = props
 
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
-  const showTaskModal = (e: any): void => {
-    dispatch(show({
-      type: EDIT_CARD_DIALOG,
-      props: {
-        _id,
-        EDIT
-      }
-    }))
-  }
+  // const showTaskModal = (e: any): void => {
+  //   dispatch(show({
+  //     type: EDIT_CARD_DIALOG,
+  //     props: {
+  //       _id,
+  //       EDIT
+  //     }
+  //   }))
+  // }
 
   const avatarSrc = getAvatar(createdBy, bot)
 

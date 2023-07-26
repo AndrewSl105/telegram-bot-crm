@@ -43,7 +43,7 @@ const KanbanTab = (): React.ReactElement => {
       <Box>
         <DragDropContext onDragEnd={onDragEnd}>
           {
-              kanban.boardsList.length === 0 && <NoBoardPage />
+              kanban.boardsList.length === 0 && !kanban.loading && <NoBoardPage />
           }
           <Box sx={styles}>
             {
