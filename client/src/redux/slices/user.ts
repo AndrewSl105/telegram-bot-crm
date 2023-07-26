@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { showNotification } from './notistack'
 import { DEFAULT, ERROR, SUCCESS } from '../../constants'
 import { USER_CREATED, USER_LOGGED_IN, USER_LOGGED_OUT } from '../../constants/user'
-import { getKanbanBoardsListAction } from './kanban'
+import {getKanbanBoardsListAction, kanbanBoardSlice} from './kanban'
 import { Api } from '../../Api/api'
 import { getUserId } from '../../utils'
 import { type AppDispatch, type RootState } from '../store'
@@ -80,6 +80,7 @@ export function userSignUpAction (userData: {
       dispatch(userSlice.actions.signUpSuccess((await response).data))
       dispatch(showNotification({ text: USER_CREATED, variant: SUCCESS }))
     } catch (error: any) {
+      console.log(error)
       dispatch(userSlice.actions.getError(error.message))
       dispatch(showNotification({ text: error.message, variant: ERROR }))
     }
@@ -103,6 +104,7 @@ export function userLogInAction (userData: { email: string, password: string }) 
 export function userLogOutAction () {
   return async (dispatch: AppDispatch) => {
     dispatch(userSlice.actions.logOut())
+    dispatch(kanbanBoardSlice.actions.clearBoardState())
     dispatch(showNotification({ text: USER_LOGGED_OUT, variant: DEFAULT }))
   }
 }

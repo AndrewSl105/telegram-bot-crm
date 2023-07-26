@@ -43,11 +43,11 @@ const KanbanTab = (): React.ReactElement => {
       <Box>
         <DragDropContext onDragEnd={onDragEnd}>
           {
-              kanban.boardsList === undefined && !kanban.loading && <NoBoardPage />
+              kanban.boardsList.length === 0 && <NoBoardPage />
           }
           <Box sx={styles}>
             {
-              kanban.loading
+              kanban.loading && kanban.boardsList.length > 0
                 ? (
                       <Box sx={{ width: '100%', position: 'absolute', top: '0px', left: '0' }}>
                         <LinearProgress />

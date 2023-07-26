@@ -23,6 +23,7 @@ export interface mainKanbanState {
   boardsList: BoardListItem[] | []
   passCode: string
   boardListLoaded: boolean
+  boardAdded: boolean
 }
 
 const initialState: mainKanbanState = {
@@ -32,7 +33,8 @@ const initialState: mainKanbanState = {
   card: {},
   boardsList: [],
   passCode: '',
-  boardListLoaded: false
+  boardListLoaded: false,
+  boardAdded: false
 }
 
 export const kanbanBoardSlice = createSlice({
@@ -45,6 +47,8 @@ export const kanbanBoardSlice = createSlice({
     startLoading (state) {
       state.error = ''
       state.loading = true
+      state.boardListLoaded = false
+      state.boardAdded = false
     },
     endLoading (state) {
       state.loading = false
@@ -66,12 +70,14 @@ export const kanbanBoardSlice = createSlice({
       const list = state.boardsList
       const item = action.payload
       state.boardsList = list.concat(item)
+      if (item) state.boardAdded = true
     },
     deleteFromBoardList (state, action) {
       const boardId = action.payload
       const list = state.boardsList
       state.boardsList = list.filter(el => el._id !== boardId)
       if (state.board._id === boardId) {
+        state.board = []
         if (state.boardsList.length === 0) {
           state.passCode = ''
         } else {
@@ -80,13 +86,12 @@ export const kanbanBoardSlice = createSlice({
       }
     },
     editBoardSuccess (state, action) {
-      const { _id } = action.payload
-      const newBoardList = state.boardsList
+      const { _id, environmentName } = action.payload
+      // const newBoardList = state.boardsList
 
-      newBoardList.filter(el => el._id !== _id)
+      // const list = newBoardList.filter(el => el._id !== _id)
 
-      // state.boardsList = state.boardsList.map(el => el._id === _id ? { ...el, environmentName } : el)
-      // console.log(state.boardsList)
+      state.boardsList = state.boardsList.map(el => el._id === _id ? { ...el, environmentName } : el)
     },
     onDrag (state, action) {
       const { draggableId, source, destination } = action.payload
@@ -102,6 +107,11 @@ export const kanbanBoardSlice = createSlice({
     },
     changeEnvironment (state, action) {
       state.passCode = action.payload
+    },
+    clearBoardState (state) {
+      state.board = []
+      state.boardsList = []
+      state.passCode = ''
     }
   }
 })
@@ -143,13 +153,15 @@ export function editCardAction (newCard: CardInterface, boardId: string) {
 
 export function getKanbanBoardsListAction () {
   return async (dispatch: AppDispatch) => {
+    dispatch(kanbanBoardSlice.actions.startLoading())
     let response
     const userId = getUserId()
 
     try {
       response = Api.get('kanban/getList', { userId })
-      dispatch(kanbanBoardSlice.actions.getKanbanBoardsList((await response).data))
-      dispatch(kanbanBoardSlice.actions.boardListLoaded())
+      const data = (await response).data
+      dispatch(kanbanBoardSlice.actions.getKanbanBoardsList(data))
+      if (data) dispatch(kanbanBoardSlice.actions.boardListLoaded())
     } catch (error: any) {
       console.log(error.message)
     }
@@ -177,8 +189,9 @@ export function createNewBoardAction (boardName: string) {
 
     try {
       response = Api.post('kanban/add-board', { boardName, userId })
+      const newBoard = (await response).data
 
-      dispatch(kanbanBoardSlice.actions.addToBoardList((await response).data))
+      dispatch(kanbanBoardSlice.actions.addToBoardList(newBoard))
       dispatch(kanbanBoardSlice.actions.endLoading())
       dispatch(showNotification({ text: BOARD_CREATED, variant: SUCCESS }))
     } catch (error: any) {
@@ -195,7 +208,7 @@ export function deleteBoardAction (boardId: string) {
     const userId = getUserId()
 
     try {
-      response = Api.delete('delete-board', { boardId, userId })
+      response = Api.delete('kanban/delete-board', { boardId, userId })
 
       dispatch(kanbanBoardSlice.actions.deleteFromBoardList((await response).data))
       dispatch(kanbanBoardSlice.actions.endLoading())

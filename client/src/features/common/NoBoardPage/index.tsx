@@ -2,8 +2,8 @@ import { Box, Button, Typography } from '@mui/material'
 import { type ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 import { useAppDispatch } from '../../../hook'
 import { show } from '../../../redux/slices/dialog'
-import GppMaybeRoundedIcon from '@mui/icons-material/GppMaybeRounded'
 import { CREATE_BOARD_DIALOG, JOIN_TO_BOARD_DIALOG } from '../../../constants'
+import rac from '../../../media/images/rac.png'
 
 const NoBoardPage = (): ReactJSXElement => {
   const dispatch = useAppDispatch()
@@ -22,22 +22,22 @@ const NoBoardPage = (): ReactJSXElement => {
 
   return (
         <Box sx={{ textAlign: 'center', mt: '4rem' }}>
-            <Typography variant="h4">
-                Oops... you are not added to any boards
-            </Typography>
             <Box sx={{
-              svg: {
-                width: '20rem',
-                height: '20rem'
+              mb: '1rem',
+              img: {
+                mr: '4rem'
               }
             }}>
-                <GppMaybeRoundedIcon color="error" />
+                <img src={rac} width="350px" alt="rac"/>
             </Box>
+            <Typography variant="h5">
+                Oops... you are not added to any boards
+            </Typography>
             <Box marginTop="2rem">
-                <Button sx={{ mr: '1rem' }} variant="contained" onClick={openJoinDialogHandler}>
+                <Button sx={{ mr: '1rem' }} variant="outlined" onClick={openJoinDialogHandler}>
                     Join to Board
                 </Button>
-                <Button variant="contained" onClick={openCreateDialogHandler}>
+                <Button variant="outlined" onClick={openCreateDialogHandler}>
                     Create new
                 </Button>
             </Box>

@@ -26,11 +26,12 @@ function DashBoard (props: Props): ReactJSXElement {
   const kanban = useSelector((state: Board) => state.kanban)
 
   useEffect(() => {
-    if (kanban.passCode === '' && kanban.boardListLoaded) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if ((!kanban.passCode && kanban.boardListLoaded) || kanban.boardAdded) {
       const defaultPassCode = kanban.boardsList[0]?.passCode
       void dispatch(changeEnvironmentAction(defaultPassCode))
     }
-  }, [kanban.boardListLoaded, dispatch, kanban.passCode])
+  }, [kanban.boardListLoaded, dispatch, kanban.passCode, kanban.boardAdded])
 
   const boardBackGround = kanban.board.style?.color
   let backGroundRgba

@@ -34,13 +34,20 @@ const BoardItem = (props: BoardItemProps): ReactJSXElement => {
   }
 
   return (
-      <Box display="flex" width="100%">
+      <Box sx={{
+        p: '0.3rem',
+        borderRadius: '2px',
+        ':hover': {
+          backgroundColor: 'rgba(0, 0, 0, 0.04)'
+        }
+      }} display="flex" width="100%">
         <Box sx={{
           ...styles,
           background: props.style.color,
           width: boardColor === props.style.color ? '100%' : '50%'
         }}
-             onClick={changeEnvironmentHandler}>
+             onClick={changeEnvironmentHandler}
+        >
             <Link to='/'>
                 {props.title}
             </Link>

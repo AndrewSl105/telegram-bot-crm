@@ -40,7 +40,7 @@ const BoardCard = (props: CardInterface): React.ReactElement => {
                       <Card
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...provided.dragHandleProps} onClick={showTaskModal} sx={styles.main}>
+                          {...provided.dragHandleProps} sx={styles.main}>
                           <CardHeader
                               avatar={
                                   <Avatar sx={{ bgcolor: 'gray' }} src={avatarSrc} aria-label="recipe">
