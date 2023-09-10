@@ -18,7 +18,7 @@ const App = (): React.ReactElement => {
               <SnackbarProvider anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'right'
-              }} maxSnack={4}>
+              }} maxSnack={2}>
                   <RouterProvider router={ router } />
                   <DialogRoot />
                   <NotistackRoot />

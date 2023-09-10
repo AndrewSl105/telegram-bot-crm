@@ -27,11 +27,18 @@ function DashBoard (props: Props): ReactJSXElement {
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if ((!kanban.passCode && kanban.boardListLoaded) || kanban.boardAdded) {
+    if ((!kanban.passCode && kanban.boardListLoaded) || kanban.boardAdded || kanban.cardDeleted) {
       const defaultPassCode = kanban.boardsList[0]?.passCode
       void dispatch(changeEnvironmentAction(defaultPassCode))
     }
-  }, [kanban.boardListLoaded, dispatch, kanban.passCode, kanban.boardAdded, kanban.boardsList])
+  }, [
+    kanban.boardListLoaded,
+    dispatch,
+    kanban.passCode,
+    kanban.boardAdded,
+    kanban.boardsList,
+    kanban.board.cards
+  ])
 
   const boardBackGround = kanban.board.style?.color
   let backGroundRgba

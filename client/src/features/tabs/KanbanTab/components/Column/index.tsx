@@ -32,6 +32,9 @@ const Column = (props: ColumnInterface): React.ReactElement => {
                                         status={item.status}
                                         index={index}
                                         createdBy={item.createdBy}
+                                        till={item.till}
+                                        phone_number={item.phone_number}
+                                        user={item.user}
                                     />
                                 })}
                             </Box>

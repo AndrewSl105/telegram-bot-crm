@@ -16,11 +16,11 @@ const CardSchema = mongoose.Schema(
         status: {
             type: String,
         },
-        userName: String,
+        user: String,
         assignee: {
             type: String,
         },
-        phoneNumber: {
+        phone_number: {
             type: String,
         },
         till: {

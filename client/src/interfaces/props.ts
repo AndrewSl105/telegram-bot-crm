@@ -31,6 +31,7 @@ export interface Board {
     passCode: string
     boardListLoaded: boolean
     boardAdded: boolean
+    cardDeleted: boolean
   }
 }
 

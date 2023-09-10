@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import connectDB from "./config/db.js";
 import {
     editCard, getKanbanData, getKanbanBoardsList,
-    addNewBoard, deleteBoard, addCard, editBoard
+    addNewBoard, deleteBoard, addCard, editBoard, deleteCard
 } from "./controllers/kanban.js";
 import cors from "cors";
 import {registerUser, logIn, addPassCode, getProfile, getMyTeam} from "./controllers/user.js";
@@ -31,6 +31,8 @@ kanbanRoutes.route('/add-board').post(addNewBoard)
 kanbanRoutes.route('/delete-board').delete(deleteBoard)
 kanbanRoutes.route('/add-card').post(addCard)
 kanbanRoutes.route('/edit-board').put(editBoard)
+kanbanRoutes.route('/delete-card').delete(deleteCard)
+
 
 app.use('/api/kanban', kanbanRoutes)
 
@@ -38,7 +40,7 @@ userRoutes.route('/sign-up').post(registerUser)
 userRoutes.route('/log-in').post(logIn)
 userRoutes.route('/add-passcode').post(protect, addPassCode)
 userRoutes.route('/profile').get(protect, getProfile)
-userRoutes.route('/my-team').get(protect, getMyTeam)
+userRoutes.route('/my-team').delete(protect, getMyTeam)
 
 app.use('/api/user', userRoutes)
 

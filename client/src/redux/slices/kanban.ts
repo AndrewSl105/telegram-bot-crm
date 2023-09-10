@@ -24,6 +24,7 @@ export interface mainKanbanState {
   passCode: string
   boardListLoaded: boolean
   boardAdded: boolean
+  cardDeleted: boolean
 }
 
 const initialState: mainKanbanState = {
@@ -34,7 +35,8 @@ const initialState: mainKanbanState = {
   boardsList: [],
   passCode: '',
   boardListLoaded: false,
-  boardAdded: false
+  boardAdded: false,
+  cardDeleted: false
 }
 
 export const kanbanBoardSlice = createSlice({
@@ -49,6 +51,7 @@ export const kanbanBoardSlice = createSlice({
       state.loading = true
       state.boardListLoaded = false
       state.boardAdded = false
+      state.cardDeleted = false
     },
     endLoading (state) {
       state.loading = false
@@ -64,7 +67,11 @@ export const kanbanBoardSlice = createSlice({
 
     },
     addCard (state, action) {
-
+      const { newCard } = action.payload
+      const cards = state.board.cards
+      const newCards = cards.concat(newCard)
+      state.board.cards = newCards
+      state.cardDeleted = true
     },
     addToBoardList (state, action) {
       const list = state.boardsList
@@ -109,6 +116,11 @@ export const kanbanBoardSlice = createSlice({
       state.board = []
       state.boardsList = []
       state.passCode = ''
+    },
+    deleteCard (state, action) {
+      const { newCards } = action.payload
+      state.board.cards = newCards
+      state.cardDeleted = true
     }
   }
 })
@@ -244,6 +256,24 @@ export function addCardAction (values: Record<string, string>) {
       response = Api.post('kanban/add-card', { values })
 
       dispatch(kanbanBoardSlice.actions.addCard((await response).data))
+      dispatch(kanbanBoardSlice.actions.endLoading())
+      dispatch(showNotification({ text: CARD_ADDED_SUCCESS, variant: SUCCESS }))
+    } catch (error: any) {
+      dispatch(kanbanBoardSlice.actions.getError(error.message))
+      dispatch(showNotification({ text: error.message, variant: ERROR }))
+    }
+  }
+}
+
+export function deleteCardAction (cardId: string, passCode: string) {
+  return async (dispatch: AppDispatch) => {
+    dispatch(kanbanBoardSlice.actions.startLoading())
+    let response
+
+    try {
+      response = Api.delete('kanban/delete-card', { cardId, passCode })
+
+      dispatch(kanbanBoardSlice.actions.deleteCard((await response).data))
       dispatch(kanbanBoardSlice.actions.endLoading())
       dispatch(showNotification({ text: CARD_ADDED_SUCCESS, variant: SUCCESS }))
     } catch (error: any) {

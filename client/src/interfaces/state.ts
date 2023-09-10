@@ -8,6 +8,9 @@ export interface CardInterface {
   status: string
   index: number
   createdBy: string
+  phone_number: string
+  till: string
+  user: string
 }
 
 export interface ColumnInterface {

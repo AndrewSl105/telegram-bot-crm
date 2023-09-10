@@ -115,5 +115,21 @@ const editBoard = asyncHandler(async (req, res) => {
 
 })
 
+const deleteCard = asyncHandler(async (req, res) => {
+    const { cardId,  passCode } = req.body
 
-export { getKanbanData, editCard, getKanbanBoardsList, addNewBoard, deleteBoard, addCard, editBoard}
+    const board = await Board.findOne( { passCode: passCode} )
+    const cards = board.cards
+    const newCards = cards.filter(card => card._id.toString() !== cardId)
+
+    await Board.updateOne({ passCode: passCode }, {
+        cards: newCards
+    })
+
+    res.json({
+        newCards: newCards
+    })
+})
+
+
+export { getKanbanData, editCard, getKanbanBoardsList, addNewBoard, deleteBoard, addCard, editBoard, deleteCard}
