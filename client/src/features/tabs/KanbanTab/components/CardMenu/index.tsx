@@ -13,6 +13,7 @@ import { deleteCardAction } from '../../../../../redux/slices/kanban'
 import { useSelector } from 'react-redux'
 import { type Board } from '../../../../../interfaces/props'
 
+
 const WRITE_USER = 'WRITE_USER'
 const CHANGE_PRIOR = 'CHANGE_PRIOR'
 const DELETE_CARD = 'DELETE_CARD'
@@ -20,7 +21,7 @@ const DELETE_CARD = 'DELETE_CARD'
 const options = [
   {
     icon: <RateReviewRoundedIcon sx={{ color: '#1b55c4' }} />,
-    label: 'Write to user in Telegram',
+    label: 'Write user in Telegram',
     key: WRITE_USER
   },
   {

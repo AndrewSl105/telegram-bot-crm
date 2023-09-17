@@ -6,20 +6,18 @@ import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import { Draggable } from 'react-beautiful-dnd'
 import { styles } from './styles'
-// import { useDispatch } from 'react-redux'
-// import { show } from '../../../../../redux/slices/dialog'
-// import { EDIT_CARD_DIALOG } from '../../../../../constants'
 import bot from '../../../../../media/images/bot.png'
 import { getAvatar } from '../../../../../utils'
 import { type CardInterface } from '../../../../../interfaces/state'
 import CardMenu from '../CardMenu'
-import { IconButton, InputAdornment, TextField } from '@mui/material'
+import { IconButton, InputAdornment, Link, TextField } from '@mui/material'
 import FileCopyRoundedIcon from '@mui/icons-material/FileCopyRounded'
 import { showNotification } from '../../../../../redux/slices/notistack'
 import { ERROR, SUCCESS } from '../../../../../constants'
 import { useAppDispatch } from '../../../../../hook'
 import PermPhoneMsgRoundedIcon from '@mui/icons-material/PermPhoneMsgRounded'
-
+import Box from '@mui/material/Box'
+import RateReviewRoundedIcon from '@mui/icons-material/RateReviewRounded'
 export const EDIT = true
 
 const BoardCard = (props: CardInterface): React.ReactElement => {
@@ -33,27 +31,15 @@ const BoardCard = (props: CardInterface): React.ReactElement => {
     createdBy,
     user,
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    phone_number,
+    phoneNumber,
     till
   } = props
 
   const dispatch = useAppDispatch()
 
-  // const dispatch = useDispatch()
-
-  // const showTaskModal = (e: any): void => {
-  //   dispatch(show({
-  //     type: EDIT_CARD_DIALOG,
-  //     props: {
-  //       _id,
-  //       EDIT
-  //     }
-  //   }))
-  // }
-
   const copyPassCodeHandler = async (): Promise<void> => {
     try {
-      await navigator.clipboard.writeText(phone_number)
+      await navigator.clipboard.writeText(phoneNumber)
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       dispatch(showNotification({ text: 'Phone number copy to clipboard!', variant: SUCCESS }))
     } catch (err: unknown) {
@@ -64,7 +50,6 @@ const BoardCard = (props: CardInterface): React.ReactElement => {
   }
 
   const avatarSrc = getAvatar(createdBy, bot)
-  console.log(props)
 
   return (
       <Draggable key={_id} draggableId={_id} index={index}>
@@ -92,10 +77,14 @@ const BoardCard = (props: CardInterface): React.ReactElement => {
                               <Typography sx={styles.description} variant="body2" color="text.secondary2">
                                   {description}
                               </Typography>
-                              <Typography sx={{ ...styles.description, borderTop: '1px dashed rgba(145, 158, 171, 0.24)' }} variant="body2" color="text.secondary2">
+                              <Typography
+                                  sx={{ ...styles.description, borderTop: '1px dashed rgba(145, 158, 171, 0.24)' }}
+                                  variant="body2"
+                                  color="text.secondary2"
+                              >
                                 <TextField
                                     margin="dense"
-                                    value={phone_number}
+                                    value={phoneNumber}
                                     fullWidth
                                     id="outlined-basic"
                                     label="Phone Number"
@@ -119,6 +108,20 @@ const BoardCard = (props: CardInterface): React.ReactElement => {
                                     }}
                                 />
                               </Typography>
+                            <Box alignItems="center" display="flex" justifyContent="center">
+                              <Link
+                                  sx={{
+                                    textDecoration: 'none',
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                  }}
+                                  href={`tg://resolve?domain=${user}`}>
+                                <Typography sx={{ mr: '4px' }}>
+                                  Write user in Telegram
+                                </Typography>
+                                <RateReviewRoundedIcon color="primary" />
+                              </Link>
+                            </Box>
                           </CardContent>
                           <CardMenu _id={_id} user={user} />
                       </Card>

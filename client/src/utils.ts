@@ -7,6 +7,7 @@ import {
   type DestinationInterface,
   type SourceInterface
 } from './interfaces/state'
+import { date } from 'yup'
 
 export const buildBoard = (board: BoardInterface): BoardInterface => ({
   ...board,

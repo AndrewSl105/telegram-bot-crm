@@ -20,7 +20,7 @@ const CardSchema = mongoose.Schema(
         assignee: {
             type: String,
         },
-        phone_number: {
+        phoneNumber: {
             type: String,
         },
         till: {
