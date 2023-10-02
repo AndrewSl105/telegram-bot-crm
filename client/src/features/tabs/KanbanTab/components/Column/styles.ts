@@ -1,3 +1,5 @@
+import { theme } from '../../../../../MUI/theme'
+
 export const styles = {
   main: {
     width: '100%',
@@ -6,11 +8,13 @@ export const styles = {
     border: '1px dashed rgba(145, 158, 171, 0.24)',
     borderRadius: '8px',
     alignItems: 'center',
-    marginLeft: '16px',
-    marginRight: '16px',
+    margin: '0 16px 0 16px',
     fontFamily: 'Public Sans, sans-serif !important',
     background: 'rgb(249, 250, 251)',
-    transition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'
+    transition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 4px'
+    }
   },
   titleCont: {
     width: '100%',

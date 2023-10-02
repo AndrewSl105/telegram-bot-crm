@@ -31,7 +31,7 @@ const BoardCard = (props: CardInterface): React.ReactElement => {
     createdBy,
     user,
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    phoneNumber,
+    phone_number,
     till
   } = props
 
@@ -39,7 +39,7 @@ const BoardCard = (props: CardInterface): React.ReactElement => {
 
   const copyPassCodeHandler = async (): Promise<void> => {
     try {
-      await navigator.clipboard.writeText(phoneNumber)
+      await navigator.clipboard.writeText(phone_number)
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       dispatch(showNotification({ text: 'Phone number copy to clipboard!', variant: SUCCESS }))
     } catch (err: unknown) {
@@ -82,31 +82,35 @@ const BoardCard = (props: CardInterface): React.ReactElement => {
                                   variant="body2"
                                   color="text.secondary2"
                               >
-                                <TextField
-                                    margin="dense"
-                                    value={phoneNumber}
-                                    fullWidth
-                                    id="outlined-basic"
-                                    label="Phone Number"
-                                    variant="outlined"
-                                    size='small'
-                                    disabled={true}
-                                    InputProps={{
-                                      startAdornment: (
-                                          <InputAdornment position="start">
-                                            <PermPhoneMsgRoundedIcon sx={{
-                                              width: '18px'
-                                            }} />
-                                          </InputAdornment>
-                                      ),
-                                      endAdornment:
-                                          <IconButton sx={{ p: '5px' }} onClick={copyPassCodeHandler}>
-                                            <FileCopyRoundedIcon sx={{
-                                              width: '18px'
-                                            }} />
-                                          </IconButton>
-                                    }}
-                                />
+                                {
+                                  phone_number && (
+                                        <TextField
+                                            margin="dense"
+                                            value={phone_number}
+                                            fullWidth
+                                            id="outlined-basic"
+                                            label="Phone Number"
+                                            variant="outlined"
+                                            size='small'
+                                            disabled={true}
+                                            InputProps={{
+                                              startAdornment: (
+                                                  <InputAdornment position="start">
+                                                    <PermPhoneMsgRoundedIcon sx={{
+                                                      width: '18px'
+                                                    }} />
+                                                  </InputAdornment>
+                                              ),
+                                              endAdornment:
+                                                  <IconButton sx={{ p: '5px' }} onClick={copyPassCodeHandler}>
+                                                    <FileCopyRoundedIcon sx={{
+                                                      width: '18px'
+                                                    }} />
+                                                  </IconButton>
+                                            }}
+                                        />
+                                  )
+                                }
                               </Typography>
                             <Box alignItems="center" display="flex" justifyContent="center">
                               <Link

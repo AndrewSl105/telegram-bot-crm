@@ -8,7 +8,7 @@ export interface CardInterface {
   status: string
   index: number
   createdBy: string
-  phoneNumber: string
+  phone_number: string
   till: string
   user: string
 }

@@ -12,6 +12,7 @@ import DrawerList from './components/Drawer'
 import { useSelector } from 'react-redux'
 import { type Board } from '../../interfaces/props'
 import hexToRgba from 'hex-to-rgba'
+import { theme } from '../../MUI/theme'
 
 const drawerWidth = 270
 
@@ -101,7 +102,10 @@ function DashBoard (props: Props): ReactJSXElement {
                   p: 3,
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                   mt: '1rem',
-                  background: backGroundRgba
+                  background: backGroundRgba,
+                  [theme.breakpoints.down('sm')]: {
+                    p: 1
+                  }
                 }}
             >
                 <Outlet />

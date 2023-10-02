@@ -1,3 +1,5 @@
+import { theme } from '../../../../../MUI/theme'
+
 export const styles = {
   main: {
     marginTop: '0.5rem',
@@ -10,6 +12,15 @@ export const styles = {
     background: 'white',
     ':hover': {
       boxShadow: 'rgba(145, 158, 171, 0.16) 0px 20px 40px -4px'
+    },
+    '.MuiCardHeader-subheader': {
+      whiteSpace: 'nowrap',
+      width: 220,
+      textOverflow: 'ellipsis',
+      overflow: 'hidden'
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 'initial'
     }
   },
   title: {
